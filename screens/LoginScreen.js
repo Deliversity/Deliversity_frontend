@@ -31,10 +31,13 @@ const LoginScreen = () => {
             autoCapitalize="none"
           />
         </View>
-        <View style={styles.button}>
-          <Button
-              title="로그인"
-          />
+        <View style={styles.buttonArea}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonTitle}>로그인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonTitle}>회원가입</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -95,9 +98,21 @@ const styles = StyleSheet.create({
     color: '#FF0000',
     fontSize: 14,
   },
+  buttonArea: {
+    width: '100%',
+    height: 40,
+    marginTop: 10,
+  },
   button: {
+    backgroundColor: "#009387",
+    width: "100%",
+    height: "100%",
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10
+  },
+  buttonTitle: {
+    color: 'white',
   },
   signIn: {
     width: '100%',

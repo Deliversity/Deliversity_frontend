@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, Button, StyleSheet, StatusBar, Image} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
@@ -10,7 +10,10 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-      <Text style={{color: colors.text}}>Home Screen</Text>
+      <Image
+        source={require('../assets/logo.jpg')}
+        style={{width: 300, height: 200, marginRight: 10}}
+      />
     </View>
   );
 };
@@ -22,5 +25,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });

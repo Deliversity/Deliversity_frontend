@@ -10,7 +10,7 @@ const LoginScreenStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Home" activeColor="#fff">
+  <Tab.Navigator initialRouteName="Login" activeColor="#fff">
     <Tab.Screen
       name="Home"
       component={HomeStackScreen}
@@ -20,7 +20,7 @@ const MainTabScreen = () => (
       }}
     />
     <Tab.Screen
-      name="Notifications"
+      name="Login"
       component={LoginStackScreen}
       options={{
         tabBarLabel: 'Login',
@@ -33,36 +33,12 @@ const MainTabScreen = () => (
 export default MainTabScreen;
 
 const HomeStackScreen = ({navigation}) => (
-  <HomeStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#009387',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
-    <HomeStack.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{
-        title: 'Overview',
-      }}
-    />
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Home" component={HomeScreen} />
   </HomeStack.Navigator>
 );
 const LoginStackScreen = ({navigation}) => (
-  <LoginScreenStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#1f65ff',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
+  <LoginScreenStack.Navigator>
     <LoginScreenStack.Screen name="Login" component={LoginScreen} />
   </LoginScreenStack.Navigator>
 );

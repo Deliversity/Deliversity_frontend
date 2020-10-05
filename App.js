@@ -20,19 +20,15 @@ import {
 
 const Stack = createStackNavigator();
 
-const HomeScreen = () => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>HomeScreen</Text>
-    </View>
-  );
-};
-
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Deliversity" component={MainTabScreen} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="u"
+          component={MainTabScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
