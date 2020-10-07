@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 const HomeStack = createStackNavigator();
 const LoginScreenStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,7 +17,10 @@ const MainTabScreen = () => (
       component={HomeStackScreen}
       options={{
         tabBarLabel: 'Home',
-        tabBarColor: '#009387',
+        tabBarColor: '#ff7f50',
+        tabBarIcon: ({color}) => (
+          <Icon name="home" color={'#e9967a'} size={26} />
+        ),
       }}
     />
     <Tab.Screen
@@ -24,7 +28,10 @@ const MainTabScreen = () => (
       component={LoginStackScreen}
       options={{
         tabBarLabel: 'Login',
-        tabBarColor: '#1f65ff',
+        tabBarColor: '#ff7f50',
+        tabBarIcon: ({color}) => (
+          <Icon name="face" color={'#e9967a'} size={26} />
+        ),
       }}
     />
   </Tab.Navigator>
@@ -34,11 +41,19 @@ export default MainTabScreen;
 
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={HomeScreen} />
+    <HomeStack.Screen
+      options={{headerShown: false}}
+      name="Home"
+      component={HomeScreen}
+    />
   </HomeStack.Navigator>
 );
 const LoginStackScreen = ({navigation}) => (
   <LoginScreenStack.Navigator>
-    <LoginScreenStack.Screen name="Login" component={LoginScreen} />
+    <LoginScreenStack.Screen
+      options={{headerShown: false}}
+      name="Login"
+      component={LoginScreen}
+    />
   </LoginScreenStack.Navigator>
 );

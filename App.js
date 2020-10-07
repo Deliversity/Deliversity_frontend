@@ -8,7 +8,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import MainTabScreen from './screens/MainTabScreen';
+import MainTabScreen from './src/screens/MainTabScreen';
 import {
   SafeAreaView,
   StyleSheet,
