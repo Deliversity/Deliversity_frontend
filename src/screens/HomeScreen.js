@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   header: {
     flex: 3,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingBottom: 5,

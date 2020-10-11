@@ -1,23 +1,33 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {requestLogin} from '../store/actions/action';
+import {connect} from 'react-redux';
+import kakaoLogin from '../../assets/kakao_login.png';
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      id: '',
+      pw: '',
     };
   }
   onClickLogin = async () => {
     const data = {
-      email: this.state.email,
-      password: this.state.password,
+      id: this.state.id,
+      pw: this.state.pw,
     };
     console.log(data);
-    data.email = '';
-    data.password = '';
+    await this.props.requestLogin(data);
   };
+  onClickOAuth = async () => {};
   render() {
     return (
       <View style={styles.container}>
@@ -25,13 +35,13 @@ class LoginScreen extends Component {
           <Text style={styles.text_header}>welcome!</Text>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.text_footer}>Email</Text>
+          <Text style={styles.text_footer}>ID</Text>
           <View style={styles.action}>
             <TextInput
-              placeholder="Your Email"
+              placeholder="Your ID"
               style={styles.textInput}
-              value={this.state.email}
-              onChangeText={(text) => this.setState({email: text})}
+              value={this.state.id}
+              onChangeText={(text) => this.setState({id: text})}
             />
           </View>
           <Text style={styles.text_footer}>Password</Text>
@@ -40,8 +50,8 @@ class LoginScreen extends Component {
               placeholder="Your password"
               style={styles.textInput}
               secureTextEntry={true}
-              value={this.state.password}
-              onChangeText={(text) => this.setState({password: text})}
+              value={this.state.pw}
+              onChangeText={(text) => this.setState({pw: text})}
             />
           </View>
           <View style={styles.buttonArea}>
@@ -55,14 +65,29 @@ class LoginScreen extends Component {
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonTitle}>회원가입</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonOAuth}
+              onPress={() => {
+                this.onClickOAuth();
+              }}>
+              <Image
+                source={require('../../assets/kakao_login.png')}
+                style={{width: 200, height: 50}}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
     );
   }
 }
-
-export default LoginScreen;
+const mapStateToProps = (state) => ({
+  token: state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  requestLogin: (data) => dispatch(requestLogin(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +115,7 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: '#ff7f50',
-    fontSize: 18,
+    fontSize: 15,
   },
   action: {
     flexDirection: 'row',
@@ -124,6 +149,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+  },
+  buttonOAuth: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
   },
   buttonTitle: {
     color: 'white',
