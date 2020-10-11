@@ -1,22 +1,29 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {requestSignin} from '../store/actions/action';
+import {connect} from 'react-redux';
+const mapStateToProps = (state) => ({
+  token: state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  requestSignin: (data) => dispatch(requestSignin(data)),
+});
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      id: '',
+      pw: '',
     };
   }
   onClickLogin = async () => {
     const data = {
-      email: this.state.email,
-      password: this.state.password,
+      id: this.state.id,
+      pw: this.state.pw,
     };
     console.log(data);
-    data.email = '';
-    data.password = '';
+    await this.props.requestSignin(data);
   };
   render() {
     return (
@@ -25,13 +32,13 @@ class LoginScreen extends Component {
           <Text style={styles.text_header}>welcome!</Text>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.text_footer}>Email</Text>
+          <Text style={styles.text_footer}>ID</Text>
           <View style={styles.action}>
             <TextInput
-              placeholder="Your Email"
+              placeholder="Your ID"
               style={styles.textInput}
-              value={this.state.email}
-              onChangeText={(text) => this.setState({email: text})}
+              value={this.state.id}
+              onChangeText={(text) => this.setState({id: text})}
             />
           </View>
           <Text style={styles.text_footer}>Password</Text>
@@ -40,8 +47,8 @@ class LoginScreen extends Component {
               placeholder="Your password"
               style={styles.textInput}
               secureTextEntry={true}
-              value={this.state.password}
-              onChangeText={(text) => this.setState({password: text})}
+              value={this.state.pw}
+              onChangeText={(text) => this.setState({pw: text})}
             />
           </View>
           <View style={styles.buttonArea}>
@@ -62,7 +69,7 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +97,7 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: '#ff7f50',
-    fontSize: 18,
+    fontSize: 15,
   },
   action: {
     flexDirection: 'row',
