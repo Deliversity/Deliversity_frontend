@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -6,54 +6,60 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-const HomeStack = createStackNavigator();
-const LoginScreenStack = createStackNavigator();
+import {getUserStorage, storeData} from '../store/actions/action';
+import {connect} from 'react-redux';
+import {NavigationContainer} from '@react-navigation/native';
+
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Login" activeColor="#fff">
-    <Tab.Screen
-      name="Home"
-      component={HomeStackScreen}
-      options={{
-        tabBarLabel: 'Home',
-        tabBarColor: '#ff7f50',
-        tabBarIcon: ({color}) => (
-          <Icon name="home" color={'#e9967a'} size={26} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Login"
-      component={LoginStackScreen}
-      options={{
-        tabBarLabel: 'Login',
-        tabBarColor: '#ff7f50',
-        tabBarIcon: ({color}) => (
-          <Icon name="face" color={'#e9967a'} size={26} />
-        ),
-      }}
-    />
-  </Tab.Navigator>
-);
+const mapStateToProps = (state) => ({
+  token: state.authentication.token,
+});
 
-export default MainTabScreen;
+const mapDispatchToProps = (dispatch) => ({
+  storeData: (data) => dispatch(storeData(data)),
+});
+class MainTabScreen extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <Stack.Navigator>
+        {this.props.token === null ? (
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Login"
+            component={LoginScreen}
+          />
+        ) : (
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="TabStack"
+            component={TabStack}
+          />
+        )}
+      </Stack.Navigator>
+    );
+  }
+}
 
-const HomeStackScreen = ({navigation}) => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen
-      options={{headerShown: false}}
-      name="Home"
-      component={HomeScreen}
-    />
-  </HomeStack.Navigator>
-);
-const LoginStackScreen = ({navigation}) => (
-  <LoginScreenStack.Navigator>
-    <LoginScreenStack.Screen
-      options={{headerShown: false}}
-      name="Login"
-      component={LoginScreen}
-    />
-  </LoginScreenStack.Navigator>
-);
+function TabStack() {
+  return (
+    <Tab.Navigator activeColor="#fff">
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="home" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MainTabScreen);

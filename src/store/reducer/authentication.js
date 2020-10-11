@@ -1,9 +1,4 @@
-import {
-  AUTH_SIGNIN,
-  AUTH_SIGNIN_SUCCESS,
-  AUTH_SIGNIN_FAILURE,
-  AUTH_SIGNOUT,
-} from '../actions/type';
+import {LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from '../actions/type';
 
 const initialState = {
   signIn: {
@@ -13,34 +8,36 @@ const initialState = {
 };
 const authentication = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_SIGNIN:
+    case LOGIN:
       return {
         ...state,
         signIn: {
           status: 'WAITING',
         },
+        token: action.token,
       };
-    case AUTH_SIGNIN_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         signIn: {
           status: 'SUCCESS',
         },
+        token: action.token,
       };
-    case AUTH_SIGNIN_FAILURE:
+    case LOGIN_FAILURE:
       return {
         ...state,
         signIn: {
           status: 'FAILURE',
         },
       };
-    case AUTH_SIGNOUT:
+    case LOGOUT:
       return {
         ...initialState,
       };
     default:
       return state;
   }
-}
+};
 
 export default authentication;

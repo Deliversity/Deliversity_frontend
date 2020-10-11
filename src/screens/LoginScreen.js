@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {requestSignin} from '../store/actions/action';
+import {requestLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
-const mapStateToProps = (state) => ({
-  token: state,
-});
-const mapDispatchToProps = (dispatch) => ({
-  requestSignin: (data) => dispatch(requestSignin(data)),
-});
+import kakaoLogin from '../../assets/kakao_login.png';
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -23,8 +25,9 @@ class LoginScreen extends Component {
       pw: this.state.pw,
     };
     console.log(data);
-    await this.props.requestSignin(data);
+    await this.props.requestLogin(data);
   };
+  onClickOAuth = async () => {};
   render() {
     return (
       <View style={styles.container}>
@@ -62,13 +65,28 @@ class LoginScreen extends Component {
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonTitle}>회원가입</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonOAuth}
+              onPress={() => {
+                this.onClickOAuth();
+              }}>
+              <Image
+                source={require('../../assets/kakao_login.png')}
+                style={{width: 200, height: 50}}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
     );
   }
 }
-
+const mapStateToProps = (state) => ({
+  token: state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  requestLogin: (data) => dispatch(requestLogin(data)),
+});
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
@@ -131,6 +149,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+  },
+  buttonOAuth: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
   },
   buttonTitle: {
     color: 'white',
