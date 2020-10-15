@@ -24,9 +24,9 @@ export const requestLogin = (data) => {
     return axios
       .post('/api/v1/auth/login', data)
       .then((response) => {
-        setUserStorage('userToken', response.data.token);
-        axios.defaults.headers.common.Authorization = response.data.token;
-        alert(response.data.admin + '님 반갑습니다.');
+        setUserStorage('userToken', response.data.data.token);
+        axios.defaults.headers.common.Authorization = response.data.data.token;
+        alert(response.data.data.admin + '님 반갑습니다.');
         dispatch(loginSuccess());
       })
       .catch((error) => {

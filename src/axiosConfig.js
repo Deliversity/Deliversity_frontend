@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://jenkins.skyhyun.ml',
+  baseURL: 'https://deliversity.co.kr',
 });
 
 export default axiosInstance;

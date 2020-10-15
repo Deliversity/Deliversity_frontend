@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
+import SignupScreen from './SignupScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -31,7 +32,7 @@ class MainTabScreen extends Component {
           <Stack.Screen
             options={{headerShown: false}}
             name="Login"
-            component={LoginScreen}
+            component={AuthStack}
           />
         ) : (
           <Stack.Screen
@@ -44,7 +45,22 @@ class MainTabScreen extends Component {
     );
   }
 }
-
+function AuthStack() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Signup"
+        component={SignupScreen}
+      />
+    </Stack.Navigator>
+  );
+}
 function TabStack() {
   return (
     <Tab.Navigator activeColor="#fff">
