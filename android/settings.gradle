@@ -3,4 +3,6 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-seoul-kakao-login'
+project(':react-native-seoul-kakao-login').projectDir = new File(rootProject.projectDir,     '../node_modules/@react-native-seoul/kakao-login/android')
 include ':app'
