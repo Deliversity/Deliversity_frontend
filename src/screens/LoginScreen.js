@@ -19,7 +19,7 @@ import {
 } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 GoogleSignin.configure({
-  webClientId: GOOGLE_KEY
+  webClientId: GOOGLE_KEY,
 });
 class LoginScreen extends Component {
   constructor(props) {
@@ -110,12 +110,12 @@ class LoginScreen extends Component {
             </TouchableOpacity>
             <View style={styles.buttonOAuth}>
               <GoogleSigninButton
-                  style={{width: 200, height: 50}}
-                  size={GoogleSigninButton.Size.Wide}
-                  color={GoogleSigninButton.Color.Dark}
-                  onPress={() => {
-                    this.onGoogleButtonPress();
-                  }}
+                style={{width: 200, height: 50}}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={() => {
+                  this.onGoogleButtonPress();
+                }}
               />
             </View>
           </View>
