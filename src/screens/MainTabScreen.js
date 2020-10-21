@@ -7,6 +7,7 @@ import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import SignupScreen from './SignupScreen';
 import StoreScreen from './StoreScreen';
+import MyPageScreen from "./MyPageScreen";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -69,7 +70,7 @@ function AuthStack() {
 }
 function HomeStack() {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
         options={{headerShown: false}}
         name="Home"
@@ -94,6 +95,17 @@ function TabStack() {
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          tabBarLabel: 'me',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="face" color={'#e9967a'} size={26} />
           ),
         }}
       />
