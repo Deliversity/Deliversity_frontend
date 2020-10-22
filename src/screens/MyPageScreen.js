@@ -8,6 +8,7 @@ class MyPageScreen extends Component {
     super(props);
   }
   onClickLogout = async () => {
+    alert('로그아웃 되었습니다.');
     await this.props.requestLogout();
   };
   render() {

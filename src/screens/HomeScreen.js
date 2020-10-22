@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Store from './StoreScreen';
+import ChangeButton from '../components/ChangeButton';
 type Props = {};
 export default class App extends Component<Props> {
   onClickCategory = async (data) => {
@@ -12,6 +13,9 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.submitBtn}>
+          <ChangeButton />
+        </View>
         <View style={styles.header}>
           <Image
             source={require('../../assets/logo.png')}
@@ -164,5 +168,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
+  },
+  submitBtn: {
+    alignSelf: 'flex-end',
   },
 });
