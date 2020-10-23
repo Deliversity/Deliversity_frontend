@@ -10,7 +10,6 @@ import {
 import {TextInput} from 'react-native-paper';
 import {requestLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
-import Signup from './SignupScreen';
 import kakaoLogin from '../../assets/kakao_login.png';
 class LoginScreen extends Component {
   constructor(props) {

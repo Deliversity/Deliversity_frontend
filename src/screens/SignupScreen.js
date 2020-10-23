@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+
 import {Image, Text, TouchableOpacity, View, StyleSheet, ScrollView} from 'react-native';
-import {TextInput, RadioButton} from 'react-native-paper';
-import {requestSign} from '../store/actions/signact'
+import {TextInput, RadioButton, Button} from 'react-native-paper';
+import {requestSign, requestPhone, requestNum, requestEmail} from '../store/actions/signact';
+import {connect} from 'react-redux';
+import axios from 'axios';
 class Signup extends Component {
   
   static navigationOptions = {
@@ -22,7 +25,32 @@ class Signup extends Component {
     };
   }
 
+  onClickSMS= async()=>{
+    const data={
+      phone:this.state.phone
+    };
+    console.log(data);
+    await this.props.requestPhone(data);
+  }
+
+  onClickNum= async()=>{
+    const data={
+      phone:this.state.phone,
+      verify: this.state.verify
+    };
+    console.log(data);
+    await this.props.requestNum(data);
+  }
+
+  onClickEmail= async()=>{
+    const data={
+      email:this.state.email,
+    };
+    await this.props.requestEmail(data);
+  }
+
   onClickSign = async () => {
+    try{
     const data = {
       id: this.state.id,
       pw: this.state.pw,
@@ -30,11 +58,15 @@ class Signup extends Component {
       email: this.state.email,
       nickName: this.state.nickName,
       gender: this.state.gender,
-      age: this.state.gender,
+      age: this.state.age,
       phone: this.state.phone,
     };
     console.log(data);
     await this.props.requestSign(data);
+    this.props.navigation.goBack(null);
+  } catch(e){
+    alert('error'+e);
+  }
   };
 
 
@@ -45,6 +77,45 @@ class Signup extends Component {
           <Text style={styles.text_header}>Signup!</Text>
         </View>
         <View style={styles.footer}>
+        <Text style={styles.text_footer}>Phone</Text>
+          <View style={styles.action}>
+          <TextInput
+              placeholder="phone"
+              style={styles.textInput}
+              value={this.state.phone}
+              onChangeText={(text) => this.setState({phone: text})}
+            />
+            </View>
+            <View style={styles.buttonArea}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onClickSMS();
+              }}>
+              <Text style={styles.buttonTitle}>인증 번호 받기</Text>
+            </TouchableOpacity>
+            </View>
+
+          <Text style={styles.text_footer}>번호 입력</Text>
+          <View style={styles.action}>
+          <TextInput
+              placeholder="num"
+              style={styles.textInput}
+              value={this.state.num}
+              onChangeText={(text) => this.setState({verify: text})}
+            />
+          </View>
+
+          <View style={styles.buttonArea}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onClickNum();
+              }}>
+              <Text style={styles.buttonTitle}>인증하기</Text>
+            </TouchableOpacity>
+            </View>
+
           <Text style={styles.text_footer}>ID</Text>
           <View style={styles.action}>
           <TextInput
@@ -85,6 +156,16 @@ class Signup extends Component {
             />
           </View>
 
+          <View style={styles.buttonArea}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onClickEmail();
+              }}>
+              <Text style={styles.buttonTitle}>인증 링크받기</Text>
+            </TouchableOpacity>
+            </View>
+
           <Text style={styles.text_footer}>NickName</Text>
           <View style={styles.action}>
           <TextInput
@@ -119,16 +200,6 @@ class Signup extends Component {
               onChangeText={(text) => this.setState({age: text})}
             />
           </View>
-
-          <Text style={styles.text_footer}>Phone</Text>
-          <View style={styles.action}>
-          <TextInput
-              placeholder="phone"
-              style={styles.textInput}
-              value={this.state.phone}
-              onChangeText={(text) => this.setState({phone: text})}
-            />
-          </View>
         </View>
         <View style={styles.buttonArea}>
         <TouchableOpacity
@@ -136,15 +207,23 @@ class Signup extends Component {
               onPress={() => {
                 this.onClickSign();
               }}>
-              <Text style={styles.buttonTitle}>회원가입</Text>
+              <Text style={styles.buttonMini}>회원가입</Text>
               </TouchableOpacity>
         </View>
       </ScrollView>
     );
   }
 }
-
-export default Signup;
+const mapStateToProps = (state) => ({
+  token: state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  requestSign: (data) => dispatch(requestSign(data)),
+  requestPhone:(data)=>dispatch(requestPhone(data)),
+  requestNum: (data)=> dispatch(requestNum(data)),
+  requestEmail: (data)=>dispatch(requestEmail(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
 
 const styles = StyleSheet.create({
   container: {
@@ -202,7 +281,7 @@ const styles = StyleSheet.create({
   buttonArea: {
     width: '100%',
     height: 40,
-    marginTop: 10,
+    marginTop: 5,
   },
   button: {
     backgroundColor: '#8fbc8f',
@@ -221,6 +300,10 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     color: 'white',
+  },
+  buttonMini:{
+    color: 'white',
+    height: '70%',
   },
   signIn: {
     width: '100%',

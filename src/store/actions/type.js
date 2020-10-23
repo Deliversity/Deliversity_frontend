@@ -7,3 +7,7 @@ export const STORE_DATA = 'STORE_DATA';
 export const SIGN = 'SIGN';
 export const SIGN_SUCCESS = 'SIGN_SUCCESS';
 export const SIGN_FAIL = 'SIGN_FAIL';
+
+export const PHONE='PHONE';
+export const PHONE_SUCCESS='PHONE_SUCCESS';
+export const PHONE_FAIL='PHONE_FAIL';

@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {SIGN, SIGN_SUCCESS, SIGN_FAIL} from './type';
-
+import {SIGN, SIGN_SUCCESS, SIGN_FAIL, PHONE_SUCCESS, PHONE_FAIL} from './type';
 import axios from '../../axiosConfig';
 export const setUserStorage = async (key, data) => {
   try {
@@ -24,13 +23,12 @@ export const requestSign = (data) => {
     return axios
       .post('/api/v1/auth/signup', data)
       .then((response) => {
-        setUserStorage('userToken', response.data.data.token);
-        axios.defaults.headers.common.Authorization = response.data.data.token;
-        alert(response.data.data.admin + '님. 환영합니다.');
+        alert(response.data.data.User + '님. 환영합니다.');
         dispatch(signSuccess());
+        dispatch(storeUserData(response.data));
       })
       .catch((error) => {
-        alert('SIGN Failed : ' + error);
+        alert('SIGN Failed : '   + error);
         dispatch(signFailure(error));
       });
   };
@@ -49,9 +47,47 @@ export const signFailure = (error) => {
   };
 };
 
-export const storeData = (response) => {
+export const storeUserData = (response) => {
   return {
-    type: STORE_DATA,
+    type: SIGN,
     response,
   };
 };
+
+export const requestPhone=(data)=>{
+  return ()=>{
+    return axios.post('/api/v1/auth/sms', data)
+    .then(()=>{
+      alert("send phone num");
+    })
+    .catch((error) => {
+      alert('PHONE NUM Failed : ' + error);
+    });
+  }
+}
+
+
+export const requestNum=(data)=>{
+  return ()=>{
+    return axios.post('/api/v1/auth/sms/verification', data)
+    .then(()=>{
+      alert('Success');
+    })
+    .catch((error) => {
+      alert('PHONE NUM Failed : ' + error);
+    });
+  }
+}
+
+export const requestEmail=(data)=>{
+  return ()=>{
+    console.log(data);
+    return axios.post('/api/v1/auth/email', data)
+    .then(()=>{
+      alert('Success');
+    })
+    .catch((error) => {
+      alert('sendEmail Failed : ' + error);
+    });
+  }
+}
