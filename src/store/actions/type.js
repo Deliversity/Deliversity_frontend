@@ -4,10 +4,6 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT = 'LOGOUT';
 export const STORE_DATA = 'STORE_DATA';
 
-export const SIGN = 'SIGN';
-export const SIGN_SUCCESS = 'SIGN_SUCCESS';
-export const SIGN_FAIL = 'SIGN_FAIL';
-
-export const PHONE='PHONE';
-export const PHONE_SUCCESS='PHONE_SUCCESS';
-export const PHONE_FAIL='PHONE_FAIL';
+export const SIGNUP = 'SIGNUP';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAIL = 'SIGNUP_FAIL';
