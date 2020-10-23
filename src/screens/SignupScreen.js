@@ -253,6 +253,11 @@ const styles = StyleSheet.create({
     color: '#ff7f50',
     fontSize: 15,
   },
+  text_footer2:{
+    color: '#ff7f50',
+    fontSize: 15,
+    margin: 0.5,
+  },
   text_opt:{
     flex: 0.5,
     color: 'black',
