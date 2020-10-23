@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, STORE_DATA} from './type';
+import {LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, STORE_DATA, SIGNUP, SIGNUP_FAIL, SIGNUP_SUCCESS} from './type';
 
 import axios from '../../axiosConfig';
 
@@ -46,6 +46,22 @@ export const requestLogin = (data) => {
       });
   };
 };
+
+export const requestSignup = (data) => {
+  return (dispatch) => {
+    return axios
+      .post('/api/v1/auth/signup', data)
+      .then((response) => {
+        alert(response.data.data.name + '님. 환영합니다.');
+        dispatch(signupSuccess());
+      })
+      .catch((error) => {
+        alert('SIGN Failed : ' + error);
+        dispatch(signupFailure(error));
+      });
+  };
+};
+
 export const requestLogout = (data) => {
   return (dispatch) => {
     removeUserStorage('userToken');
@@ -75,5 +91,18 @@ export const storeData = (response) => {
 export const logout = () => {
   return {
     type: LOGOUT,
+  };
+};
+
+export const signupSuccess = () => {
+  return {
+    type: SIGNUP_SUCCESS,
+  };
+};
+
+export const signupFailure = (error) => {
+  return {
+    type: SIGNUP_FAIL,
+    error,
   };
 };
