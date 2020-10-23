@@ -10,7 +10,17 @@ import {
 import {TextInput} from 'react-native-paper';
 import {requestLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
-import kakaoLogin from '../../assets/kakao_login.png';
+import Signup from './SignupScreen';
+import {GOOGLE_KEY} from '../../env/development';
+import KakaoLogins from '@react-native-seoul/kakao-login';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+} from '@react-native-community/google-signin';
+import auth from '@react-native-firebase/auth';
+GoogleSignin.configure({
+  webClientId: GOOGLE_KEY,
+});
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
