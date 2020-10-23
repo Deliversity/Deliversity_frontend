@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, STORE_DATA} from './type';
 
 import axios from '../../axiosConfig';
+
 export const setUserStorage = async (key, data) => {
   try {
     await AsyncStorage.setItem(key, data);
@@ -15,10 +16,20 @@ export const getUserStorage = async (key) => {
     if (userData === null) {
       return false;
     }
+    axios.defaults.headers.common.Authorization = userData;
   } catch (e) {
     alert('error: ' + e);
   }
 };
+
+export const removeUserStorage = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    alert('err : ', e);
+  }
+};
+
 export const requestLogin = (data) => {
   return (dispatch) => {
     return axios
@@ -35,7 +46,12 @@ export const requestLogin = (data) => {
       });
   };
 };
-
+export const requestLogout = (data) => {
+  return (dispatch) => {
+    removeUserStorage('userToken');
+    dispatch(logout());
+  };
+};
 export const loginSuccess = () => {
   return {
     type: LOGIN_SUCCESS,
@@ -53,5 +69,11 @@ export const storeData = (response) => {
   return {
     type: STORE_DATA,
     response,
+  };
+};
+
+export const logout = () => {
+  return {
+    type: LOGOUT,
   };
 };

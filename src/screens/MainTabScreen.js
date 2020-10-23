@@ -6,11 +6,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import SignupScreen from './SignupScreen';
+import StoreScreen from './StoreScreen';
+import MyPageScreen from './MyPageScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -37,8 +38,8 @@ class MainTabScreen extends Component {
         ) : (
           <Stack.Screen
             options={{headerShown: false}}
-            name="TabStack"
-            component={TabStack}
+            name="ConsumerStack"
+            component={ConsumerStack}
           />
         )}
       </Stack.Navigator>
@@ -58,20 +59,52 @@ function AuthStack() {
         name="Signup"
         component={SignupScreen}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Store"
+        component={StoreScreen}
+      />
     </Stack.Navigator>
   );
 }
-function TabStack() {
+function HomeStack() {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Home"
+        component={HomeScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Store"
+        component={StoreScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+function ConsumerStack() {
   return (
     <Tab.Navigator activeColor="#fff">
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          tabBarLabel: 'me',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="face" color={'#e9967a'} size={26} />
           ),
         }}
       />

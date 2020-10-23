@@ -1,11 +1,21 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Store from './StoreScreen';
+import ChangeButton from '../components/ChangeButton';
 type Props = {};
 export default class App extends Component<Props> {
+  onClickCategory = async (data) => {
+    this.props.navigation.navigate('Store', {
+      category: data,
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.submitBtn}>
+          <ChangeButton />
+        </View>
         <View style={styles.header}>
           <Image
             source={require('../../assets/logo.png')}
@@ -17,50 +27,80 @@ export default class App extends Component<Props> {
           <View style={styles.content}>
             <View style={styles.elem}>
               <View style={styles.userInfo}>
-                <View style={styles.profile}>
-                  <Icon
-                    name="local-convenience-store"
-                    color={'#000000'}
-                    size={50}
-                  />
-                  <Text style={styles.name}>편의점</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('편의점');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon
+                      name="local-convenience-store"
+                      color={'#000000'}
+                      size={50}
+                    />
+                    <Text style={styles.name}>편의점</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.userInfo}>
-                <View style={styles.profile}>
-                  <Icon name="local-pharmacy" color={'#000000'} size={50} />
-                  <Text style={styles.name}>약국</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('약국');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon name="local-pharmacy" color={'#000000'} size={50} />
+                    <Text style={styles.name}>약국</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.userInfo}>
-                <View style={styles.profile}>
-                  <Icon
-                    name="local-laundry-service"
-                    color={'#000000'}
-                    size={50}
-                  />
-                  <Text style={styles.name}>세탁물</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('세탁소');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon
+                      name="local-laundry-service"
+                      color={'#000000'}
+                      size={50}
+                    />
+                    <Text style={styles.name}>세탁물</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
             <View style={styles.elem}>
               <View style={styles.userInfo}>
-                <View style={styles.profile}>
-                  <Icon name="local-restaurant" color={'#000000'} size={50} />
-                  <Text style={styles.name}>음식</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('음식점');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon name="local-restaurant" color={'#000000'} size={50} />
+                    <Text style={styles.name}>음식</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.userInfo}>
-                <View style={styles.profile}>
-                  <Icon name="local-printshop" color={'#000000'} size={50} />
-                  <Text style={styles.name}>문구점</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('문구점');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon name="local-printshop" color={'#000000'} size={50} />
+                    <Text style={styles.name}>문구점</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.userInfo}>
-                <View style={styles.profile}>
-                  <Icon name="add" color={'#ffff'} size={50} />
-                  <Text style={styles.name}>기타</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('기타');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon name="add" color={'#ffff'} size={50} />
+                    <Text style={styles.name}>기타</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -128,5 +168,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
+  },
+  submitBtn: {
+    alignSelf: 'flex-end',
   },
 });

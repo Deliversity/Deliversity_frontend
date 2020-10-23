@@ -34,6 +34,7 @@ const authentication = (state = initialState, action) => {
     case LOGOUT:
       return {
         ...initialState,
+        token: null,
       };
     default:
       return state;

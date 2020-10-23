@@ -37,7 +37,26 @@ class LoginScreen extends Component {
     console.log(data);
     await this.props.requestLogin(data);
   };
-  onClickOAuth = async () => {};
+  onGoogleButtonPress = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      this.setState({userInfo});
+      console.log(userInfo);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+  onKakaoButtonPress = async () => {
+    try {
+      let result = await KakaoLogins.login();
+      if (result) {
+        console.log(result);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -82,13 +101,23 @@ class LoginScreen extends Component {
             <TouchableOpacity
               style={styles.buttonOAuth}
               onPress={() => {
-                this.onClickOAuth();
+                this.onKakaoButtonPress();
               }}>
               <Image
                 source={require('../../assets/kakao_login.png')}
                 style={{width: 200, height: 50}}
               />
             </TouchableOpacity>
+            <View style={styles.buttonOAuth}>
+              <GoogleSigninButton
+                style={{width: 200, height: 50}}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={() => {
+                  this.onGoogleButtonPress();
+                }}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -169,7 +198,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 20,
   },
   buttonTitle: {
     color: 'white',
