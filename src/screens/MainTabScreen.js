@@ -8,6 +8,7 @@ import LoginScreen from './LoginScreen';
 import SignupScreen from './SignupScreen';
 import StoreScreen from './StoreScreen';
 import MyPageScreen from './MyPageScreen';
+import SeekDeliveryScreen from './SeekDeliveryScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -16,6 +17,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const mapStateToProps = (state) => ({
+  user: state.authentication.user,
   token: state.authentication.token,
 });
 
@@ -27,23 +29,39 @@ class MainTabScreen extends Component {
     super(props);
   }
   render() {
-    return (
-      <Stack.Navigator>
-        {this.props.token === null ? (
+    if (this.props.token === null) {
+      return (
+        <Stack.Navigator>
           <Stack.Screen
             options={{headerShown: false}}
             name="Login"
             component={AuthStack}
           />
-        ) : (
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="ConsumerStack"
-            component={ConsumerStack}
-          />
-        )}
-      </Stack.Navigator>
-    );
+        </Stack.Navigator>
+      );
+    } else {
+      if (this.props.user === '배달원') {
+        return (
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="CourierTab"
+              component={CourierTabStack}
+            />
+          </Stack.Navigator>
+        );
+      } else {
+        return (
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="ConsumerTab"
+              component={ConsumerTabStack}
+            />
+          </Stack.Navigator>
+        );
+      }
+    }
   }
 }
 function AuthStack() {
@@ -59,15 +77,10 @@ function AuthStack() {
         name="Signup"
         component={SignupScreen}
       />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Store"
-        component={StoreScreen}
-      />
     </Stack.Navigator>
   );
 }
-function HomeStack() {
+function ConsumerStack() {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -83,12 +96,51 @@ function HomeStack() {
     </Stack.Navigator>
   );
 }
-function ConsumerStack() {
+function CourierStack() {
+  return (
+    <Stack.Navigator initialRouteName="SeekDelivery">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="SeekDelivery"
+        component={SeekDeliveryScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+function CourierTabStack() {
+  return (
+    <Tab.Navigator activeColor="#fff">
+      <Tab.Screen
+        name="Courier"
+        component={CourierStack}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarColor: '#00fa9a',
+          tabBarIcon: ({color}) => (
+            <Icon name="home" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          tabBarLabel: 'me',
+          tabBarColor: '#00fa9a',
+          tabBarIcon: ({color}) => (
+            <Icon name="face-retouching-natural" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+function ConsumerTabStack() {
   return (
     <Tab.Navigator activeColor="#fff">
       <Tab.Screen
         name="Home"
-        component={HomeStack}
+        component={ConsumerStack}
         options={{
           tabBarLabel: 'Home',
           tabBarColor: '#ff7f50',

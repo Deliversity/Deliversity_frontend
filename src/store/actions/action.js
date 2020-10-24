@@ -8,6 +8,7 @@ import {
   SIGNUP,
   SIGNUP_FAIL,
   SIGNUP_SUCCESS,
+  USER_CHANGE,
 } from './type';
 
 import axios from '../../axiosConfig';
@@ -70,7 +71,12 @@ export const requestSignup = (data) => {
       });
   };
 };
-
+export const requestChangeUser = (user) => {
+  return {
+    type: USER_CHANGE,
+    data: user,
+  };
+};
 export const requestLogout = (data) => {
   return (dispatch) => {
     removeUserStorage('userToken');

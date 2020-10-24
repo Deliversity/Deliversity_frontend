@@ -116,12 +116,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#8fbc8f',
   },
   header: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingBottom: 5,
+    paddingBottom: 30,
   },
   text_header: {
     color: '#fff',

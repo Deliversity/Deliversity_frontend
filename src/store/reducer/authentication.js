@@ -1,9 +1,16 @@
-import {LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from '../actions/type';
+import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  USER_CHANGE,
+} from '../actions/type';
 
 const initialState = {
   signIn: {
     status: 'INIT',
   },
+  user: '사용자',
   token: null,
 };
 const authentication = (state = initialState, action) => {
@@ -35,6 +42,11 @@ const authentication = (state = initialState, action) => {
       return {
         ...initialState,
         token: null,
+      };
+    case USER_CHANGE:
+      return {
+        ...state,
+        user: action.data,
       };
     default:
       return state;

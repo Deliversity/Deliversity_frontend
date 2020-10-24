@@ -1,15 +1,37 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {requestChangeUser} from '../store/actions/action';
+import {connect} from 'react-redux';
 
 //배달원 혹은 사용자로 탭 전환하는 버튼
-export default function ChangeButton() {
-  return (
-    <View style={styles.profile}>
-      <Icon name="bubble-chart" color="#f4da6c" size={35} />
-      <Text style={styles.text_header}>사용자</Text>
-    </View>
-  );
+class ChangeButton extends Component {
+  constructor(props) {
+    super(props);
+  }
+  onClickChange = async () => {
+    // console.log(this.props.user);
+    const data = '';
+    if (this.props.user === '사용자') {
+      this.data = '배달원';
+    } else {
+      this.data = '사용자';
+    }
+    await this.props.requestChangeUser(this.data);
+  };
+  render() {
+    return (
+      <View style={styles.profile}>
+        <TouchableOpacity
+          onPress={() => {
+            this.onClickChange();
+          }}>
+          <Icon name="bubble-chart" color="#f4da6c" size={35} />
+          <Text style={styles.text_header}>{this.props.user}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 const styles = StyleSheet.create({
   profile: {
@@ -23,3 +45,10 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
 });
+const mapStateToProps = (state) => ({
+  user: state.authentication.user,
+});
+const mapDispatchToProps = (dispatch) => ({
+  requestChangeUser: (data) => dispatch(requestChangeUser(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeButton);
