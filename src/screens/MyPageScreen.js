@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
+import ImagePicker from 'react-native-image-picker';
+import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
+import {RNS3} from 'react-native-aws3/src/RNS3';
+
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +14,37 @@ class MyPageScreen extends Component {
     alert('로그아웃 되었습니다.');
     await this.props.requestLogout();
   };
+  onClickPicture = async () => {
+    ImagePicker.showImagePicker({}, (response) => {
+      const file = {
+        uri: response.uri,
+        name: response.fileName,
+        type: response.type,
+      };
+      console.log(file);
+      const config = {
+        keyPrefix: 'Identification/',
+        bucket: 'elasticbeanstalk-ap-northeast-2-306470822559',
+        region: 'ap-northeast-2',
+        accessKey: AWS_ACCESSKEY,
+        secretKey: AWS_SECRETKEY,
+        successActionStatus: 201,
+      };
+      RNS3.put(file, config)
+        .then((response) => {
+          console.log('response: ' + response);
+          console.log(response.body.postResponse.location);
+        })
+        .catch(function (error) {
+          console.log(
+            'There has been a problem with your fetch operation: ' +
+              error.message,
+          );
+          // ADD THIS THROW error
+          throw error;
+        });
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -18,6 +52,13 @@ class MyPageScreen extends Component {
           <Text style={styles.text_header}>MyPage</Text>
         </View>
         <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.center}
+            onPress={() => {
+              this.onClickPicture();
+            }}>
+            <Text style={styles.textSize}>📷 TAKE PICTURE</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               this.onClickLogout();
@@ -55,7 +96,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 20,
+    justifyContent: 'flex-end',
+  },
+  center: {
+    justifyContent: 'center',
+    marginBottom: 10,
   },
 });
 
