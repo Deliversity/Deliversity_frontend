@@ -55,3 +55,25 @@ export const storeData = (response) => {
     response,
   };
 };
+<<<<<<< Updated upstream
+=======
+
+export const logout = () => {
+  return {
+    type: LOGOUT,
+  };
+};
+
+export const signupSuccess = () => {
+  return {
+    type: SIGNUP_SUCCESS,
+  };
+};
+
+export const signupFailure = (error) => {
+  return {
+    type: SIGNUP_FAIL,
+    error,
+  };
+};
+>>>>>>> Stashed changes

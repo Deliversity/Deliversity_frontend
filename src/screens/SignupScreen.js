@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 
+<<<<<<< Updated upstream
 import {Image, Text, TouchableOpacity, View, StyleSheet, ScrollView} from 'react-native';
+=======
+import {Image, Text, TouchableOpacity, View, StyleSheet, ScrollView,
+Modal, Alert} from 'react-native';
+>>>>>>> Stashed changes
 import {TextInput, RadioButton, Button} from 'react-native-paper';
 import {requestSign, requestPhone, requestNum, requestEmail} from '../store/actions/signact';
 import {connect} from 'react-redux';
@@ -10,6 +15,10 @@ class Signup extends Component {
   static navigationOptions = {
     title: 'Signup',
   };
+<<<<<<< Updated upstream
+=======
+   
+>>>>>>> Stashed changes
   
   constructor(props) {
     super(props);
@@ -24,13 +33,33 @@ class Signup extends Component {
       phone: ''
     };
   }
+  state1 = {
+    modalVisible: false,
+  };
 
+<<<<<<< Updated upstream
   onClickSMS= async()=>{
     const data={
       phone:this.state.phone
     };
     console.log(data);
     await this.props.requestPhone(data);
+=======
+  setModalVisible = (visible) => {
+    this.state1.modalVisible=visible;
+    this.setState({ modalVisible: visible });
+  }
+  onClickSMS= async()=>{
+    const data={
+      phone: this.state.phone,
+    };
+    console.log(data);
+    await axios.post('api/v1/auth/sms', data).then(()=>{
+      alert("send message");
+    }).catch((err)=>{
+      alert("CAN'T send message : " + err);
+    })
+>>>>>>> Stashed changes
   }
 
   onClickNum= async()=>{
@@ -39,6 +68,7 @@ class Signup extends Component {
       verify: this.state.verify
     };
     console.log(data);
+<<<<<<< Updated upstream
     await this.props.requestNum(data);
   }
 
@@ -69,15 +99,99 @@ class Signup extends Component {
   }
   };
 
+=======
+    await axios.post('/api/v1/auth/sms/verification', data).then(()=>{
+      alert("Success");
+    }). catch((err)=>{
+      alert('This is not 인증번호: '+err);
+    })
+  }
+
+  checkEmail=async()=>{
+    await axios.get('/api/v1/auth/email/verification').then(()=>{
+      console.log("n");
+      alert("Success");
+    }).catch((err)=>{
+      alert("Fail to check Email");
+    })
+  }
+
+  onClickEmail= async()=>{
+    const data={
+      email:this.state.email,
+    };
+    await axios.post('/api/v1/auth/email', data).then(()=>{
+      alert('Success to send mail');
+      this.checkEmail();
+    }).catch((err)=>{
+      alert('sendEmail Failed: '+err);
+    });
+  }
+
+  onClickSign = async () => {
+    try{
+    const data = {
+      id: this.state.id,
+      pw: this.state.pw,
+      name: this.state.name,
+      email: this.state.email,
+      nickName: this.state.nickName,
+      gender: this.state.gender,
+      age: this.state.age,
+      phone: this.state.phone,
+    };
+    console.log(data);
+    await this.props.requestSignup(data);
+    this.props.navigation.goBack(null);
+  } catch(e){
+    alert('error'+e);
+  }
+  };
+>>>>>>> Stashed changes
 
   render() {
+    const {modalVisible}=this.state1;
+    console.log(modalVisible);
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text_header}>Signup!</Text>
         </View>
         <View style={styles.footer}>
+<<<<<<< Updated upstream
         <Text style={styles.text_footer}>Phone</Text>
+=======
+          <Text style={styles.text_footer}>ID</Text>
+          <View style={styles.action}>
+            <TextInput
+              placeholder="ID"
+              style={styles.textInput}
+              value={this.state.id}
+              onChangeText={(text) => this.setState({id: text})}
+            />
+          </View>
+
+          <Text style={styles.text_footer}>Password</Text>
+          <View style={styles.action}>
+            <TextInput
+              placeholder="PW"
+              style={styles.textInput}
+              value={this.state.pw}
+              onChangeText={(text) => this.setState({pw: text})}
+            />
+          </View>
+
+          <Text style={styles.text_footer}>Name</Text>
+          <View style={styles.action}>
+            <TextInput
+              placeholder="Name"
+              style={styles.textInput}
+              value={this.state.name}
+              onChangeText={(text) => this.setState({name: text})}
+            />
+          </View>
+          <Text style={styles.text_footer}>Phone</Text>
+>>>>>>> Stashed changes
           <View style={styles.action}>
           <TextInput
               placeholder="phone"
@@ -88,15 +202,27 @@ class Signup extends Component {
             </View>
             <View style={styles.buttonArea}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.button3}
               onPress={() => {
                 this.onClickSMS();
+                this.setModalVisible(true);
               }}>
               <Text style={styles.buttonTitle}>인증 번호 받기</Text>
             </TouchableOpacity>
             </View>
 
-          <Text style={styles.text_footer}>번호 입력</Text>
+          <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+          <Text style={styles.text_footer}>인증 번호 입력</Text>
           <View style={styles.action}>
           <TextInput
               placeholder="num"
@@ -106,14 +232,15 @@ class Signup extends Component {
             />
           </View>
 
-          <View style={styles.buttonArea}>
+          <View style={styles.buttonArea2}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.modalButton}
               onPress={() => {
                 this.onClickNum();
               }}>
               <Text style={styles.buttonTitle}>인증하기</Text>
             </TouchableOpacity>
+<<<<<<< Updated upstream
             </View>
 
           <Text style={styles.text_footer}>ID</Text>
@@ -144,8 +271,21 @@ class Signup extends Component {
               value={this.state.name}
               onChangeText={(text) => this.setState({name: text})}
             />
+=======
           </View>
-
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  this.setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.buttonTitle}>Hide Modal</Text>
+              </TouchableOpacity>
+            </View>
+>>>>>>> Stashed changes
+          </View>
+        </Modal>
+      </View>
           <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
           <TextInput
@@ -158,7 +298,7 @@ class Signup extends Component {
 
           <View style={styles.buttonArea}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.button3}
               onPress={() => {
                 this.onClickEmail();
               }}>
@@ -223,7 +363,11 @@ const mapDispatchToProps = (dispatch) => ({
   requestNum: (data)=> dispatch(requestNum(data)),
   requestEmail: (data)=>dispatch(requestEmail(data)),
 });
+<<<<<<< Updated upstream
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+=======
+export default connect(null,mapDispatchToProps)(Signup);
+>>>>>>> Stashed changes
 
 const styles = StyleSheet.create({
   container: {
@@ -288,6 +432,11 @@ const styles = StyleSheet.create({
     height: 40,
     marginTop: 5,
   },
+  buttonArea2: {
+    width: '100%',
+    height: 40,
+    marginTop: 1,
+  },
   button: {
     backgroundColor: '#8fbc8f',
     width: '100%',
@@ -295,6 +444,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+  },
+  modalButton: {
+    backgroundColor: '#8fbc8f',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 1,
+    padding: 5,
+    elevation: 2,
+  },
+  button2: {
+    backgroundColor: '#8fbc8f',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 3,
+  },
+  button3: {
+    backgroundColor: '#8fbc8f',
+    width: '100%',
+    height:'100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 3,
   },
   buttonOAuth: {
     width: '100%',
@@ -326,4 +499,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  }
 });
