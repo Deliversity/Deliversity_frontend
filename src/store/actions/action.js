@@ -10,9 +10,9 @@ import {
   SIGNUP_SUCCESS,
   USER_CHANGE,
 } from './type';
-
+import buffer from 'buffer';
 import axios from '../../axiosConfig';
-
+import jwt_decode from "jwt-decode";
 export const setUserStorage = async (key, data) => {
   try {
     await AsyncStorage.setItem(key, data);
@@ -47,7 +47,9 @@ export const requestLogin = (data) => {
       .then((response) => {
         setUserStorage('userToken', response.data.data.token);
         axios.defaults.headers.common.Authorization = response.data.data.token;
-        alert(response.data.data.admin + '님 반갑습니다.');
+        let decoded = jwt_decode(response.data.data.token);
+        alert(decoded.name + '님 반갑습니다.');
+        console.log(decoded);
         dispatch(loginSuccess());
       })
       .catch((error) => {

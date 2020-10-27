@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
@@ -9,6 +15,9 @@ import {RNS3} from 'react-native-aws3/src/RNS3';
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      imageSrc: 'https://api.adorable.io/avatars/80/abott@adorable.png',
+    };
   }
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
@@ -24,12 +33,13 @@ class MyPageScreen extends Component {
       console.log(file);
       const config = {
         keyPrefix: 'Identification/',
-        bucket: 'elasticbeanstalk-ap-northeast-2-306470822559',
+        bucket: 'deliversity',
         region: 'ap-northeast-2',
         accessKey: AWS_ACCESSKEY,
         secretKey: AWS_SECRETKEY,
         successActionStatus: 201,
       };
+      this.setState({imageSrc: file.uri});
       RNS3.put(file, config)
         .then((response) => {
           console.log('response: ' + response);
@@ -57,6 +67,11 @@ class MyPageScreen extends Component {
             onPress={() => {
               this.onClickPicture();
             }}>
+            <ImageBackground
+              source={{uri: this.state.imageSrc}}
+              style={{height: 100, width: 100}}
+              imageStyle={{borderRadius: 15}}
+            />
             <Text style={styles.textSize}>📷 TAKE PICTURE</Text>
           </TouchableOpacity>
           <TouchableOpacity
