@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
-import {Image, Text, TouchableOpacity, View, StyleSheet, ScrollView,
-Modal, Alert} from 'react-native';
-import {TextInput, RadioButton, Button} from 'react-native-paper';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  ScrollView,
+  Modal,
+  Alert,
+} from 'react-native';
+import {TextInput, RadioButton} from 'react-native-paper';
 import {connect} from 'react-redux';
-import axios from 'axios';
+import axios from '../axiosConfig';
+import {requestSignup} from '../store/actions/action';
 class Signup extends Component {
-  
   static navigationOptions = {
     title: 'Signup',
   };
@@ -14,91 +21,86 @@ class Signup extends Component {
     this.state = {
       id: '',
       pw: '',
-      name:'',
-      email:'',
-      nickName:'',
-      gender:'',
+      name: '',
+      email: '',
+      nickName: '',
+      gender: '',
       age: '',
-      phone: ''
+      phone: '',
+      modalVisible: false,
     };
   }
-  state1 = {
-    modalVisible: false,
-  };
 
   setModalVisible = (visible) => {
-    this.state1.modalVisible=visible;
-    this.setState({ modalVisible: visible });
-  }
-  onClickSMS= async()=>{
-    const data={
+    this.state.modalVisible = visible;
+    this.setState({modalVisible: visible});
+  };
+  onClickSMS = async () => {
+    const data = {
       phone: this.state.phone,
     };
     console.log(data);
-    await axios.post('api/v1/auth/sms', data).then(()=>{
-      alert("send message");
-    }).catch((err)=>{
-      alert("CAN'T send message : " + err);
-    })
-  }
+    await axios
+      .post('api/v1/auth/sms', data)
+      .then(() => {
+        this.setModalVisible(true);
+      })
+      .catch((err) => {
+        alert("CAN'T send message : " + err);
+      });
+  };
 
-  onClickNum= async()=>{
-    const data={
-      phone:this.state.phone,
-      verify: this.state.verify
+  onClickNum = async () => {
+    const data = {
+      phone: this.state.phone,
+      verify: this.state.verify,
     };
     console.log(data);
-    await axios.post('/api/v1/auth/sms/verification', data).then(()=>{
-      alert("Success");
-    }). catch((err)=>{
-      alert('This is not 인증번호: '+err);
-    })
-  }
+    await axios
+      .post('/api/v1/auth/sms/verification', data)
+      .then(() => {
+        this.setModalVisible(false);
+        alert('Success');
+      })
+      .catch((err) => {
+        alert('This is not 인증번호: ' + err);
+      });
+  };
 
-  checkEmail=async()=>{
-    await axios.get('/api/v1/auth/email/verification').then(()=>{
-      console.log("n");
-      alert("Success");
-    }).catch((err)=>{
-      alert("Fail to check Email");
-    })
-  }
-
-  onClickEmail= async()=>{
-    const data={
-      email:this.state.email,
+  onClickEmail = async () => {
+    const data = {
+      email: this.state.email,
     };
-    await axios.post('/api/v1/auth/email', data).then(()=>{
-      alert('Success to send mail');
-      this.checkEmail();
-    }).catch((err)=>{
-      alert('sendEmail Failed: '+err);
-    });
-  }
+    await axios
+      .post('/api/v1/auth/email', data)
+      .then(() => {
+        alert('Success to send mail');
+      })
+      .catch((err) => {
+        alert('sendEmail Failed: ' + err);
+      });
+  };
 
   onClickSign = async () => {
-    try{
-    const data = {
-      id: this.state.id,
-      pw: this.state.pw,
-      name: this.state.name,
-      email: this.state.email,
-      nickName: this.state.nickName,
-      gender: this.state.gender,
-      age: this.state.age,
-      phone: this.state.phone,
-    };
-    console.log(data);
-    await this.props.requestSignup(data);
-    this.props.navigation.goBack(null);
-  } catch(e){
-    alert('error'+e);
-  }
+    try {
+      const data = {
+        id: this.state.id,
+        pw: this.state.pw,
+        name: this.state.name,
+        email: this.state.email,
+        nickName: this.state.nickName,
+        gender: this.state.gender,
+        age: this.state.age,
+        phone: this.state.phone,
+      };
+      await this.props.requestSignup(data);
+      this.props.navigation.goBack(null);
+    } catch (e) {
+      alert('error' + e);
+    }
   };
 
   render() {
-    const {modalVisible}=this.state1;
-    console.log(modalVisible);
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
@@ -137,69 +139,66 @@ class Signup extends Component {
           <Text style={styles.text_footer}>Phone</Text>
 
           <View style={styles.action}>
-          <TextInput
+            <TextInput
               placeholder="phone"
               style={styles.textInput}
               value={this.state.phone}
               onChangeText={(text) => this.setState({phone: text})}
             />
-            </View>
-            <View style={styles.buttonArea}>
+          </View>
+          <View style={styles.buttonArea}>
             <TouchableOpacity
               style={styles.button3}
               onPress={() => {
                 this.onClickSMS();
-                this.setModalVisible(true);
               }}>
               <Text style={styles.buttonTitle}>인증 번호 받기</Text>
             </TouchableOpacity>
-            </View>
-
-          <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-          <Text style={styles.text_footer}>인증 번호 입력</Text>
-          <View style={styles.action}>
-          <TextInput
-              placeholder="num"
-              style={styles.textInput}
-              value={this.state.num}
-              onChangeText={(text) => this.setState({verify: text})}
-            />
           </View>
 
-          <View style={styles.buttonArea2}>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => {
-                this.onClickNum();
+          <View style={styles.centeredView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
               }}>
-              <Text style={styles.buttonTitle}>인증하기</Text>
-            </TouchableOpacity>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.text_footer}>인증 번호 입력</Text>
+                  <View style={styles.action}>
+                    <TextInput
+                      placeholder="num"
+                      style={styles.textInput}
+                      value={this.state.num}
+                      onChangeText={(text) => this.setState({verify: text})}
+                    />
+                  </View>
+
+                  <View style={styles.buttonArea2}>
+                    <TouchableOpacity
+                      style={styles.modalButton}
+                      onPress={() => {
+                        this.onClickNum();
+                      }}>
+                      <Text style={styles.buttonTitle}>인증하기</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}>
+                    <Text style={styles.buttonTitle}>이전으로</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => {
-                  this.setModalVisible(!modalVisible);
-                }}
-              >
-                <Text style={styles.buttonTitle}>Hide Modal</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View>
           <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
-          <TextInput
+            <TextInput
               placeholder="Email"
               style={styles.textInput}
               value={this.state.email}
@@ -215,11 +214,11 @@ class Signup extends Component {
               }}>
               <Text style={styles.buttonTitle}>인증 링크받기</Text>
             </TouchableOpacity>
-            </View>
+          </View>
 
           <Text style={styles.text_footer}>NickName</Text>
           <View style={styles.action}>
-          <TextInput
+            <TextInput
               placeholder="NickName"
               style={styles.textInput}
               value={this.state.nickName}
@@ -229,22 +228,23 @@ class Signup extends Component {
 
           <Text style={styles.text_footer}>Gender</Text>
           <View style={styles.action}>
-            <RadioButton value="male"
-            status={this.state.gender=='male'? 'checked' : 'unchecked'}
-            onPress={()=>this.setState({gender: "male"})}            
+            <RadioButton
+              value="male"
+              status={this.state.gender == 'male' ? 'checked' : 'unchecked'}
+              onPress={() => this.setState({gender: 'male'})}
             />
             <Text style={styles.text_opt}>male</Text>
-            <RadioButton value="female"
-            status={this.state.gender=='female'? 'checked' : 'unchecked'}
-            onPress={()=>this.setState({gender: "female"})}
+            <RadioButton
+              value="female"
+              status={this.state.gender == 'female' ? 'checked' : 'unchecked'}
+              onPress={() => this.setState({gender: 'female'})}
             />
             <Text style={styles.text_opt}>female</Text>
-          
           </View>
 
           <Text style={styles.text_footer}>Age</Text>
           <View style={styles.action}>
-          <TextInput
+            <TextInput
               placeholder="Age"
               style={styles.textInput}
               value={this.state.age}
@@ -253,28 +253,22 @@ class Signup extends Component {
           </View>
         </View>
         <View style={styles.buttonArea}>
-        <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                this.onClickSign();
-              }}>
-              <Text style={styles.buttonMini}>회원가입</Text>
-              </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              this.onClickSign();
+            }}>
+            <Text style={styles.buttonMini}>회원가입</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
   }
 }
-const mapStateToProps = (state) => ({
-  token: state,
-});
 const mapDispatchToProps = (dispatch) => ({
-  requestSign: (data) => dispatch(requestSign(data)),
-  requestPhone:(data)=>dispatch(requestPhone(data)),
-  requestNum: (data)=> dispatch(requestNum(data)),
-  requestEmail: (data)=>dispatch(requestEmail(data)),
+  requestSignup: (data) => dispatch(requestSignup(data)),
 });
-export default connect(null,mapDispatchToProps)(Signup);
+export default connect(null, mapDispatchToProps)(Signup);
 
 const styles = StyleSheet.create({
   container: {
@@ -304,12 +298,12 @@ const styles = StyleSheet.create({
     color: '#ff7f50',
     fontSize: 15,
   },
-  text_footer2:{
+  text_footer2: {
     color: '#ff7f50',
     fontSize: 15,
     margin: 0.5,
   },
-  text_opt:{
+  text_opt: {
     flex: 0.5,
     color: 'black',
     fontSize: 15,
@@ -371,7 +365,7 @@ const styles = StyleSheet.create({
   button3: {
     backgroundColor: '#8fbc8f',
     width: '100%',
-    height:'100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 3,
@@ -386,7 +380,7 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: 'white',
   },
-  buttonMini:{
+  buttonMini: {
     color: 'white',
     height: '70%',
   },
@@ -408,23 +402,23 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
-  }
+    elevation: 5,
+  },
 });

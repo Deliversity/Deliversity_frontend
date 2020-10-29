@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/index';
-
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import PostCode from '../components/PostCode';
 class StoreScreen extends Component {
   static navigationOptions = {
     title: 'Store',
@@ -14,7 +13,8 @@ class StoreScreen extends Component {
   }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
+        <PostCode />
         <Text>{this.state.category}</Text>
       </View>
     );
@@ -22,3 +22,12 @@ class StoreScreen extends Component {
 }
 
 export default StoreScreen;
+const styles = StyleSheet.create({
+  textSize: {
+    fontSize: 15,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#ffd700',
+  },
+});

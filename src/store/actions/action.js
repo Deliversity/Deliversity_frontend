@@ -10,9 +10,8 @@ import {
   SIGNUP_SUCCESS,
   USER_CHANGE,
 } from './type';
-import buffer from 'buffer';
 import axios from '../../axiosConfig';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 export const setUserStorage = async (key, data) => {
   try {
     await AsyncStorage.setItem(key, data);
@@ -26,7 +25,13 @@ export const getUserStorage = async (key) => {
     if (userData === null) {
       return false;
     }
-    axios.defaults.headers.common.Authorization = userData;
+    //axios.defaults.headers.common['x-access-token'] = userData;
+    axios.interceptors.request.use(function (config) {
+      const token = userData;
+      config.headers['x-access-token'] = token;
+
+      return config;
+    });
   } catch (e) {
     alert('error: ' + e);
   }
@@ -39,18 +44,27 @@ export const removeUserStorage = async (key) => {
     alert('err : ', e);
   }
 };
-
 export const requestLogin = (data) => {
   return (dispatch) => {
     return axios
       .post('/api/v1/auth/login', data)
       .then((response) => {
+        axios.interceptors.request.use(function (config) {
+          const token = response.data.data.token;
+          config.headers['x-access-token'] = token;
+
+          return config;
+        });
         setUserStorage('userToken', response.data.data.token);
-        axios.defaults.headers.common.Authorization = response.data.data.token;
         let decoded = jwt_decode(response.data.data.token);
+        const userData = {
+          token: response.data.data.token,
+          name: decoded.name,
+          grade: response.data.data.grade,
+        };
         alert(decoded.name + '님 반갑습니다.');
-        console.log(decoded);
-        dispatch(loginSuccess());
+        //console.log(decoded);
+        dispatch(loginSuccess(userData));
       })
       .catch((error) => {
         alert('Login Failed : ' + error);
@@ -60,6 +74,7 @@ export const requestLogin = (data) => {
 };
 
 export const requestSignup = (data) => {
+  console.log(data);
   return (dispatch) => {
     return axios
       .post('/api/v1/auth/signup', data)
@@ -85,9 +100,12 @@ export const requestLogout = (data) => {
     dispatch(logout());
   };
 };
-export const loginSuccess = () => {
+export const loginSuccess = (data) => {
   return {
     type: LOGIN_SUCCESS,
+    token: data.token,
+    name: data.name,
+    grade: data.grade,
   };
 };
 

@@ -10,19 +10,28 @@ import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
+import axios from '../axiosConfig';
 import {RNS3} from 'react-native-aws3/src/RNS3';
-
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imageSrc: 'https://api.adorable.io/avatars/80/abott@adorable.png',
+      userGrade: '',
     };
+    props.grade
+      ? (this.state.userGrade = '준회원')
+      : (this.state.userGrade = '정회원');
   }
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
     await this.props.requestLogout();
   };
+  onClickGetAddress = async () => {
+    const address = await axios.get('/api/v1/myinfo/address/list');
+    console.log(address.data.data);
+  };
+
   onClickPicture = async () => {
     ImagePicker.showImagePicker({}, (response) => {
       const file = {
@@ -42,7 +51,7 @@ class MyPageScreen extends Component {
       this.setState({imageSrc: file.uri});
       RNS3.put(file, config)
         .then((response) => {
-          console.log('response: ' + response);
+          alert('사진 등록이 완료되었습니다.');
           console.log(response.body.postResponse.location);
         })
         .catch(function (error) {
@@ -62,17 +71,27 @@ class MyPageScreen extends Component {
           <Text style={styles.text_header}>MyPage</Text>
         </View>
         <View style={styles.footer}>
+          <Text style={styles.textSize}>
+            {this.props.name}님은 {this.state.userGrade}입니다.
+          </Text>
+          <ImageBackground
+            source={{uri: this.state.imageSrc}}
+            style={{height: 100, width: 100}}
+            imageStyle={{borderRadius: 15}}
+          />
           <TouchableOpacity
             style={styles.center}
             onPress={() => {
               this.onClickPicture();
             }}>
-            <ImageBackground
-              source={{uri: this.state.imageSrc}}
-              style={{height: 100, width: 100}}
-              imageStyle={{borderRadius: 15}}
-            />
             <Text style={styles.textSize}>📷 TAKE PICTURE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.center}
+            onPress={() => {
+              this.onClickGetAddress();
+            }}>
+            <Text style={styles.textSize}>주소 출력하기 테스트</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -112,7 +131,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
   center: {
     justifyContent: 'center',
@@ -121,7 +140,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  token: state,
+  name: state.authentication.name,
+  grade: state.authentication.grade,
+  token: state.authentication.token,
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogout: () => dispatch(requestLogout()),

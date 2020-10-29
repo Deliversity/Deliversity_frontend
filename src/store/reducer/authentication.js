@@ -12,6 +12,8 @@ const initialState = {
   },
   user: '사용자',
   token: null,
+  name: '',
+  grade: '',
 };
 const authentication = (state = initialState, action) => {
   switch (action.type) {
@@ -30,6 +32,8 @@ const authentication = (state = initialState, action) => {
           status: 'SUCCESS',
         },
         token: action.token,
+        name: action.name,
+        grade: action.grade,
       };
     case LOGIN_FAILURE:
       return {
