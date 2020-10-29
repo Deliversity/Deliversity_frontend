@@ -27,10 +27,6 @@ class MyPageScreen extends Component {
     alert('로그아웃 되었습니다.');
     await this.props.requestLogout();
   };
-  onClickGetAddress = async () => {
-    const address = await axios.get('/api/v1/myinfo/address/list');
-    console.log(address.data.data);
-  };
 
   onClickPicture = async () => {
     ImagePicker.showImagePicker({}, (response) => {
@@ -85,13 +81,6 @@ class MyPageScreen extends Component {
               this.onClickPicture();
             }}>
             <Text style={styles.textSize}>📷 TAKE PICTURE</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.center}
-            onPress={() => {
-              this.onClickGetAddress();
-            }}>
-            <Text style={styles.textSize}>주소 출력하기 테스트</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
