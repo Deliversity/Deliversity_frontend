@@ -12,7 +12,7 @@ import SeekDeliveryScreen from './SeekDeliveryScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
-import PostCode from '../components/PostCode';
+import ExploreScreen from './ExploreScreen';
 import {NavigationContainer} from '@react-navigation/native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -96,8 +96,8 @@ function ConsumerStack() {
       />
       <Stack.Screen
         options={{headerShown: false}}
-        name="PostCode"
-        component={PostCode}
+        name="Explore"
+        component={ExploreScreen}
       />
     </Stack.Navigator>
   );
