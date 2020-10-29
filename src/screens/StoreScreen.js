@@ -8,7 +8,6 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import PostCode from '../components/PostCode';
 import axios from '../axiosConfig';
 class StoreScreen extends Component {
   static navigationOptions = {
@@ -17,27 +16,27 @@ class StoreScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: this.props.route.params ? this.props.route.params.category : '',
+      category: this.props.route.params ? this.props.route.params.category : '', //카테고리 페이지에서 props로 가져온겁니다.
       address: '',
     };
-    console.log(this.state.category);
-    this.onClickGetAddress();
+    console.log(this.state.category); // 카테고리명: 카테고리로 주변찾기 검색할 때 쓰세요
+    this.onClickGetAddress(); //검색창에 주소 띄우기
   }
   onClickPostCode = async () => {
-    this.props.navigation.navigate('PostCode');
+    this.props.navigation.navigate('Explore');
   };
   onClickGetAddress = async () => {
-    const address = await axios.get('/api/v1/myinfo/address/list');
-    const data = address.data.data;
-    console.log(data.address);
-    this.setState({address: address.data.data.address});
+    const data = await axios.get('/api/v1/myinfo/address/list');
+    console.log(data.data.data);
+    const address = data.data.data[0].address;
+    this.setState({address: address});
   };
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.searchBox}>
           <Text autoCapitalize="none" style={{flex: 1, padding: 0}}>
-            등록된 위치: 원천동
+            등록된 위치: {this.state.address}
           </Text>
           <TouchableOpacity
             onPress={() => {
