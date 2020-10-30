@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from '../axiosConfig';
+import {connect} from 'react-redux';
 class StoreScreen extends Component {
   static navigationOptions = {
     title: 'Store',
@@ -17,18 +18,18 @@ class StoreScreen extends Component {
     super(props);
     this.state = {
       category: this.props.route.params ? this.props.route.params.category : '', //카테고리 페이지에서 props로 가져온겁니다.
-      address: '',
+      address: this.props.address,
     };
     console.log(this.state.category); // 카테고리명: 카테고리로 주변찾기 검색할 때 쓰세요
-    this.onClickGetAddress(); //검색창에 주소 띄우기
+    this.onClickGetAddress();
   }
   onClickPostCode = async () => {
     this.props.navigation.navigate('Explore');
   };
   onClickGetAddress = async () => {
-    const data = await axios.get('/api/v1/myinfo/address/list');
+    const data = await axios.get('/api/v1/myinfo/address');
     console.log(data.data.data);
-    const address = data.data.data[0].address;
+    const address = data.data.data.address + ' ' + data.data.data.detailAddress;
     this.setState({address: address});
   };
   render() {
@@ -36,7 +37,10 @@ class StoreScreen extends Component {
       <View style={styles.container}>
         <View style={styles.searchBox}>
           <Text autoCapitalize="none" style={{flex: 1, padding: 0}}>
-            등록된 위치: {this.state.address}
+            등록된 위치:{' '}
+            {this.props.address === ''
+              ? this.state.address
+              : this.props.address}
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -49,8 +53,10 @@ class StoreScreen extends Component {
     );
   }
 }
-
-export default StoreScreen;
+const mapStateToProps = (state) => ({
+  address: state.authentication.address,
+});
+export default connect(mapStateToProps, {})(StoreScreen);
 const styles = StyleSheet.create({
   textSize: {
     fontSize: 15,

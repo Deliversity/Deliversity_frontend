@@ -9,3 +9,5 @@ export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAIL = 'SIGNUP_FAIL';
 
 export const USER_CHANGE = 'USER_CHANGE';
+
+export const ADDRESS_CHANGE = 'ADDRESS_CHANGE';

@@ -9,6 +9,7 @@ import {
   SIGNUP_FAIL,
   SIGNUP_SUCCESS,
   USER_CHANGE,
+  ADDRESS_CHANGE,
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
@@ -92,6 +93,27 @@ export const requestChangeUser = (user) => {
   return {
     type: USER_CHANGE,
     data: user,
+  };
+};
+export const requestUpdateAddress = () => {
+  return (dispatch) => {
+    return axios
+      .get('/api/v1/myinfo/address')
+      .then((response) => {
+        const address =
+          response.data.data.address + ' ' + response.data.data.detailAddress;
+        console.log(address);
+        dispatch(addressSuccess(address));
+      })
+      .catch((error) => {
+        alert('Failed : ' + error);
+      });
+  };
+};
+export const addressSuccess = (address) => {
+  return {
+    type: ADDRESS_CHANGE,
+    data: address,
   };
 };
 export const requestLogout = (data) => {
