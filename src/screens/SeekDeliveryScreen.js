@@ -1,10 +1,22 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {Text, View, ScrollView, StyleSheet, Image} from 'react-native';
 import ChangeButton from '../components/ChangeButton';
+import axios from '../axiosConfig';
 class SeekDeliveryScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      orderList: '',
+    };
+    this.onClickGetAddress();
   }
+  onClickGetAddress = async () => {
+    const data = await axios.get('/api/v1/order/orders');
+    //console.log(data.data.data);
+    const orderList = data.data.data;
+    this.setState({orderList: orderList});
+    console.log(orderList);
+  };
   render() {
     return (
       <View style={styles.container}>
