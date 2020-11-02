@@ -3,7 +3,7 @@ import {ListItem, Right, Body, Text, Button, Left} from 'native-base';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-class OrderItem extends Component {
+class HotOrderItem extends Component {
   constructor(props) {
     super(props);
     this.data = props.data;
@@ -26,7 +26,10 @@ class OrderItem extends Component {
         }}>
         <ListItem thumbnail>
           <Body>
-            <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
               <Text style={styles.textSize}>{this.data.storeName}</Text>
               {this.data.reservation === false ? null : (
                 <View style={{flexDirection: 'row'}}>
@@ -71,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderItem;
+export default HotOrderItem;
