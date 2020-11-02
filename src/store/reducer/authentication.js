@@ -4,6 +4,7 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   USER_CHANGE,
+  ADDRESS_CHANGE,
 } from '../actions/type';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   token: null,
   name: '',
   grade: '',
+  address: '',
 };
 const authentication = (state = initialState, action) => {
   switch (action.type) {
@@ -51,6 +53,11 @@ const authentication = (state = initialState, action) => {
       return {
         ...state,
         user: action.data,
+      };
+    case ADDRESS_CHANGE:
+      return {
+        ...state,
+        address: action.data,
       };
     default:
       return state;

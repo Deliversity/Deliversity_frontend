@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
+import OrderScreen from './OrderScreen';
 import {NavigationContainer} from '@react-navigation/native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -110,9 +111,25 @@ function CourierStack() {
         name="SeekDelivery"
         component={SeekDeliveryScreen}
       />
+      <Stack.Screen
+        name="Order"
+        options={{
+          title: '주문하기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+            textAlign: 'center',
+          },
+        }}
+        component={OrderScreen}
+      />
     </Stack.Navigator>
   );
 }
+
 function CourierTabStack() {
   return (
     <Tab.Navigator activeColor="#fff">
