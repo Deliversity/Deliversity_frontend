@@ -14,38 +14,33 @@ class OrderItem extends Component {
   }
   handleSelect = () => {
     const {id} = this.data;
-    console.log(id);
-    //this.props.onSelect({id}); arrow-forward-io
+    //console.log(id);
+    this.props.onSelect({id});
   };
 
   render() {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          this.handleSelect();
-        }}>
-        <ListItem thumbnail>
-          <Body>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.textSize}>{this.data.storeName}</Text>
-              {this.data.reservation === false ? null : (
-                <View style={{flexDirection: 'row'}}>
-                  <View style={styles.reservationBox}>
-                    <Text style={styles.bookingStyle}>예약</Text>
-                  </View>
-                  <Text style={styles.bookingStyle}>{this.time}</Text>
+      <ListItem thumbnail>
+        <Body>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.textSize}>{this.data.storeName}</Text>
+            {this.data.reservation === false ? null : (
+              <View style={{flexDirection: 'row'}}>
+                <View style={styles.reservationBox}>
+                  <Text style={styles.bookingStyle}>예약</Text>
                 </View>
-              )}
-            </View>
-            <Text style={{fontSize: 13}}>{this.data.content}</Text>
-          </Body>
-          <Right>
-            <Button transparent onPress={this.handleSelect}>
-              <Icon name="chevron-right" size={30} />
-            </Button>
-          </Right>
-        </ListItem>
-      </TouchableOpacity>
+                <Text style={styles.bookingStyle}>{this.time}</Text>
+              </View>
+            )}
+          </View>
+          <Text style={{fontSize: 13}}>{this.data.content}</Text>
+        </Body>
+        <Right>
+          <Button transparent onPress={this.handleSelect}>
+            <Icon name="chevron-right" size={30} />
+          </Button>
+        </Right>
+      </ListItem>
     );
   }
 }

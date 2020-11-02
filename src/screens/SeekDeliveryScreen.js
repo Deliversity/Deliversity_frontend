@@ -16,15 +16,17 @@ class SeekDeliveryScreen extends Component {
     this.onClickGetHotDeal();
     this.onClickGetDefault();
   }
-  handleItemDataonSelect = async () => {};
+  handleItemDataonSelect = (articleData) => {
+    this.props.navigation.navigate('DetailDelivery', {
+      orderID: articleData.id,
+    });
+  };
   onClickGetHotDeal = async () => {
     const data = await axios.get('/api/v1/order/orders');
     const orderList = data.data.data.orders;
     const HotDealList = orderList.filter(function (ele) {
       return ele.hotDeal === true;
     });
-    console.log('hot deal');
-    //console.log(HotDealList);
     this.setState({HotOrderList: HotDealList});
   };
   onClickGetDefault = async () => {
@@ -33,13 +35,10 @@ class SeekDeliveryScreen extends Component {
     const DefaultOrderList = orderList.filter(function (ele) {
       return ele.hotDeal === false;
     });
-    console.log('default');
-    // console.log(HotDealList);
     this.setState({DefaultOrderList: DefaultOrderList});
   };
 
   render() {
-    console.log(this.state.orderList);
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
@@ -128,8 +127,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 20,
-    marginRight: 5,
-    marginLeft: 5,
   },
   panelButtonTitle: {
     fontSize: 15,

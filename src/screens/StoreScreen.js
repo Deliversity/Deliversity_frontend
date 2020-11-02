@@ -28,7 +28,7 @@ class StoreScreen extends Component {
   };
   onClickGetAddress = async () => {
     const data = await axios.get('/api/v1/myinfo/address');
-    console.log(data.data.data);
+    //console.log(data.data.data);
     const address = data.data.data.address + ' ' + data.data.data.detailAddress;
     this.setState({address: address});
   };

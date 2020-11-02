@@ -9,6 +9,8 @@ import SignupScreen from './SignupScreen';
 import StoreScreen from './StoreScreen';
 import MyPageScreen from './MyPageScreen';
 import SeekDeliveryScreen from './SeekDeliveryScreen';
+import DetailDeliveryScreen from './DetailDeliveryScreen';
+import MatchingScreen from './MatchingScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -100,6 +102,21 @@ function ConsumerStack() {
         name="Explore"
         component={ExploreScreen}
       />
+      <Stack.Screen
+        name="Order"
+        options={{
+          title: '주문 요청 하기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+            textAlign: 'center',
+          },
+        }}
+        component={OrderScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -112,19 +129,18 @@ function CourierStack() {
         component={SeekDeliveryScreen}
       />
       <Stack.Screen
-        name="Order"
+        name="DetailDelivery"
         options={{
-          title: '주문하기',
+          title: '배달 신청 하기',
           headerStyle: {
             backgroundColor: '#f4da6c',
           },
           headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: 16,
-            textAlign: 'center',
           },
         }}
-        component={OrderScreen}
+        component={DetailDeliveryScreen}
       />
     </Stack.Navigator>
   );
@@ -169,6 +185,17 @@ function ConsumerTabStack() {
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Matching"
+        component={MatchingScreen}
+        options={{
+          tabBarLabel: 'Matching',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="sports-kabaddi" color={'#e9967a'} size={26} />
           ),
         }}
       />
