@@ -24,9 +24,27 @@ class DetailDeliveryScreen extends Component {
       hasReview: false,
       isReservation: false,
       reservationTime: '',
+      extraFee: '',
     };
     this.getOrderInfo();
   }
+  onClickOrder = async () => {
+    const data = {
+      extraFee: this.state.extraFee,
+    };
+    const orderID = Number(this.state.orderID);
+    console.log(data);
+    console.log(orderID);
+    await axios
+      .post(`/api/v1/order/apply?orderId=${orderID}`, data)
+      .then((res) => {
+        alert('배달 신청이 완료되었습니다.');
+        this.props.navigation.popToTop();
+      })
+      .catch((e) => {
+        alert('배달 신청이 실패되었습니다.'+e);
+      });
+  };
   getOrderInfo = async () => {
     await axios
       .get(`/api/v1/order?orderId=${this.state.orderID}`)
@@ -66,7 +84,7 @@ class DetailDeliveryScreen extends Component {
           ) : null}
         </View>
         <View style={styles.box}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', fontSize: 19}}>
               {this.state.orderInfo.storeName}
             </Text>
@@ -123,9 +141,9 @@ class DetailDeliveryScreen extends Component {
                 placeholder="추가가격"
                 placeholderTextColor="#e9967a"
                 underlineColorAndroid="#e9967a"
-                value={this.state.hour}
+                value={this.state.extraFee}
                 style={{marginTop: 10, width: '50%'}}
-                onChangeText={(text) => this.setState({hour: text})}
+                onChangeText={(text) => this.setState({extraFee: text})}
               />
               <TextInput
                 value="won"
@@ -176,7 +194,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginBottom: 5,
     marginTop: 2,
-    height: 150,
+    height: 130,
     backgroundColor: 'white',
   },
   imageSubTitle: {
@@ -199,7 +217,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     alignSelf: 'flex-end',
-    marginTop: 10,
   },
   bookingStyle: {
     fontSize: 15,

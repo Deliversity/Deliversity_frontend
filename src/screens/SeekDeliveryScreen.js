@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 30,
+    paddingBottom: 35,
   },
   text_header: {
     color: '#fff',
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   panelButtonTitle: {
     fontSize: 15,

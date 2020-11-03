@@ -11,6 +11,8 @@ import MyPageScreen from './MyPageScreen';
 import SeekDeliveryScreen from './SeekDeliveryScreen';
 import DetailDeliveryScreen from './DetailDeliveryScreen';
 import MatchingScreen from './MatchingScreen';
+import ChatScreen from './ChatScreen';
+import ChatHomeScreen from './ChatHomeScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -117,6 +119,11 @@ function ConsumerStack() {
         }}
         component={OrderScreen}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Chat"
+        component={ChatScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -142,6 +149,11 @@ function CourierStack() {
         }}
         component={DetailDeliveryScreen}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Chat"
+        component={ChatScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -157,6 +169,17 @@ function CourierTabStack() {
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ChatHome"
+        component={ChatHomeScreen}
+        options={{
+          tabBarLabel: 'Chat',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="chat" color={'#e9967a'} size={26} />
           ),
         }}
       />
@@ -195,7 +218,18 @@ function ConsumerTabStack() {
           tabBarLabel: 'Matching',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="sports-kabaddi" color={'#e9967a'} size={26} />
+            <Icon name="family-restroom" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ChatHome"
+        component={ChatHomeScreen}
+        options={{
+          tabBarLabel: 'Chat',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="chat" color={'#e9967a'} size={26} />
           ),
         }}
       />
