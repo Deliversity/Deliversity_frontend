@@ -13,6 +13,8 @@ import DetailDeliveryScreen from './DetailDeliveryScreen';
 import MatchingScreen from './MatchingScreen';
 import ChatScreen from './ChatScreen';
 import ChatHomeScreen from './ChatHomeScreen';
+import DeliveryManScreen from './DeliveryManScreen';
+import CourierReviewScreen from './CourierReviewScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -86,6 +88,45 @@ function AuthStack() {
     </Stack.Navigator>
   );
 }
+function OrderManageStack() {
+  return (
+    <Stack.Navigator initialRouteName="Matching">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Matching"
+        component={MatchingScreen}
+      />
+      <Stack.Screen
+        name="DeliveryMan"
+        options={{
+          title: '배달원 리스트 보기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        component={DeliveryManScreen}
+      />
+      <Stack.Screen
+        name="CourierReview"
+        options={{
+          title: '배달원 리뷰 보기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        component={CourierReviewScreen}
+      />
+    </Stack.Navigator>
+  );
+}
 function ConsumerStack() {
   return (
     <Stack.Navigator initialRouteName="Home">
@@ -118,6 +159,11 @@ function ConsumerStack() {
           },
         }}
         component={OrderScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="OrderManage"
+        component={OrderManageStack}
       />
       <Stack.Screen
         options={{headerShown: false}}
@@ -176,7 +222,7 @@ function CourierTabStack() {
         name="ChatHome"
         component={ChatHomeScreen}
         options={{
-          tabBarLabel: 'Chat',
+          tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="chat" color={'#e9967a'} size={26} />
@@ -187,7 +233,7 @@ function CourierTabStack() {
         name="MyPage"
         component={MyPageScreen}
         options={{
-          tabBarLabel: 'me',
+          tabBarLabel: 'Me',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
             <Icon name="face-retouching-natural" color={'#e9967a'} size={26} />
@@ -213,9 +259,9 @@ function ConsumerTabStack() {
       />
       <Tab.Screen
         name="Matching"
-        component={MatchingScreen}
+        component={OrderManageStack}
         options={{
-          tabBarLabel: 'Matching',
+          tabBarLabel: '주문 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="family-restroom" color={'#e9967a'} size={26} />
@@ -226,7 +272,7 @@ function ConsumerTabStack() {
         name="ChatHome"
         component={ChatHomeScreen}
         options={{
-          tabBarLabel: 'Chat',
+          tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="chat" color={'#e9967a'} size={26} />
@@ -237,7 +283,7 @@ function ConsumerTabStack() {
         name="MyPage"
         component={MyPageScreen}
         options={{
-          tabBarLabel: 'me',
+          tabBarLabel: 'Me',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="face" color={'#e9967a'} size={26} />

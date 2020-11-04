@@ -27,10 +27,16 @@ class StoreScreen extends Component {
     this.props.navigation.navigate('Explore');
   };
   onClickGetAddress = async () => {
-    const data = await axios.get('/api/v1/myinfo/address');
-    //console.log(data.data.data);
-    const address = data.data.data.address + ' ' + data.data.data.detailAddress;
-    this.setState({address: address});
+    await axios
+      .get('/api/v1/myinfo/address')
+      .then((res) => {
+        const address =
+          res.data.data.address + ' ' + res.data.data.detailAddress;
+        this.setState({address: address});
+      })
+      .catch((e) => {
+        alert('배달 받을 주소를 등록해주세요!');
+      });
   };
   render() {
     return (
