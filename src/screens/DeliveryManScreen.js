@@ -9,7 +9,7 @@ import {
 import axios from '../axiosConfig';
 import {List, Text} from 'native-base';
 import DeliveryManList from '../components/DeliveryManList';
-import CustomerOrderList from '../components/CustomerOrderList';
+//신청온 배달원 리스트 확인후 선택하는 페이지
 class DeliveryManScreen extends Component {
   static navigationOptions = {
     title: 'DeliveryMan',
@@ -69,7 +69,7 @@ class DeliveryManScreen extends Component {
         `/api/v1/order/rider?orderId=${this.state.orderID}&riderId=${articleData.riderID}`,
       )
       .then((res) => {
-        console.log(res);
+        alert('매칭 신청이 완료 되었습니다.');
       })
       .catch((e) => {
         alert(e);

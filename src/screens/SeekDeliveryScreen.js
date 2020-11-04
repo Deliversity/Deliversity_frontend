@@ -22,16 +22,16 @@ class SeekDeliveryScreen extends Component {
     });
   };
   onClickGetHotDeal = async () => {
-    const data = await axios.get('/api/v1/order/orders');
-    const orderList = data.data.data.orders;
+    const data = await axios.get('/api/v1/order/deliverList');
+    const orderList = data.data.data;
     const HotDealList = orderList.filter(function (ele) {
       return ele.hotDeal === true;
     });
     this.setState({HotOrderList: HotDealList});
   };
   onClickGetDefault = async () => {
-    const data = await axios.get('/api/v1/order/orders');
-    const orderList = data.data.data.orders;
+    const data = await axios.get('/api/v1/order/deliverList');
+    const orderList = data.data.data;
     const DefaultOrderList = orderList.filter(function (ele) {
       return ele.hotDeal === false;
     });

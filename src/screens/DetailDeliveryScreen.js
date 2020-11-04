@@ -42,7 +42,7 @@ class DetailDeliveryScreen extends Component {
         this.props.navigation.popToTop();
       })
       .catch((e) => {
-        alert('배달 신청이 실패되었습니다.'+e);
+        alert('배달 신청이 실패되었습니다.' + e);
       });
   };
   getOrderInfo = async () => {
@@ -63,10 +63,14 @@ class DetailDeliveryScreen extends Component {
     // console.log(data.data.data); /order/review/user expArrivalTime
   };
   getReviewInfo = async () => {
-    const data = await axios.get(
-      `/api/v1/order/review/user?orderId=${this.state.orderInfo.id}&userId=${this.state.orderInfo.userId}`,
-    );
-    this.setState({reviewInfo: data.data.data.reviews, hasReview: true});
+    await axios
+      .get(
+        `/api/v1/order/review/user?orderId=${this.state.orderInfo.id}&userId=${this.state.orderInfo.userId}`,
+      )
+      .then((res) => {
+        this.setState({reviewInfo: res.data.data.reviews, hasReview: true});
+      })
+      .catch((e) => {});
   };
   render() {
     return (
@@ -81,7 +85,9 @@ class DetailDeliveryScreen extends Component {
                 return <ReviewItem data={item} />;
               }}
             />
-          ) : null}
+          ) : (
+            <Text>등록된 후기가 없습니다.</Text>
+          )}
         </View>
         <View style={styles.box}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
