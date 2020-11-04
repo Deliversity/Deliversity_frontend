@@ -33,8 +33,6 @@ class DetailDeliveryScreen extends Component {
       extraFee: this.state.extraFee,
     };
     const orderID = Number(this.state.orderID);
-    console.log(data);
-    console.log(orderID);
     await axios
       .post(`/api/v1/order/apply?orderId=${orderID}`, data)
       .then((res) => {
@@ -42,7 +40,7 @@ class DetailDeliveryScreen extends Component {
         this.props.navigation.popToTop();
       })
       .catch((e) => {
-        alert('배달 신청이 실패되었습니다.' + e);
+        alert(e.response.data.message);
       });
   };
   getOrderInfo = async () => {

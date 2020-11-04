@@ -26,7 +26,6 @@ class DeliveryManScreen extends Component {
     this.getDeliveryList();
     this.getOrderInfo();
   }
-  onClickDelivery = async () => {};
   getDeliveryList = async () => {
     await axios
       .get(`/api/v1/order/riders?orderId=${this.state.orderID}`)
@@ -63,16 +62,17 @@ class DeliveryManScreen extends Component {
     });
   };
   handleItemOnPressSelect = async (articleData) => {
-    ///order/rider
+    const data = {
+      riderId: articleData.riderId,
+    };
     await axios
-      .post(
-        `/api/v1/order/rider?orderId=${this.state.orderID}&riderId=${articleData.riderID}`,
-      )
+      .post(`/api/v1/order/rider?orderId=${this.state.orderID}`, data)
       .then((res) => {
         alert('매칭 신청이 완료 되었습니다.');
+        this.props.navigation.goBack(null);
       })
       .catch((e) => {
-        alert(e);
+        alert(e.response.data.message);
       });
   };
   render() {
