@@ -23,9 +23,9 @@ class SeekDeliveryScreen extends Component {
   };
   onClickGetHotDeal = async () => {
     await axios
-      .get('/api/v1/order/deliverList')
+      .get('/api/v1/order/orders')
       .then((res) => {
-        const orderList = res.data.data;
+        const orderList = res.data.data.orders;
         const HotDealList = orderList.filter(function (ele) {
           return ele.hotDeal === true;
         });
@@ -35,10 +35,10 @@ class SeekDeliveryScreen extends Component {
   };
   onClickGetDefault = async () => {
     await axios
-      .get('/api/v1/order/deliverList')
+      .get('/api/v1/order/orders')
       .then((res) => {
-        console.log(res.data.data);
-        const orderList = res.data.data;
+        //console.log(res.data.data.orders);
+        const orderList = res.data.data.orders;
         const DefaultOrderList = orderList.filter(function (ele) {
           return ele.hotDeal === false;
         });
