@@ -13,6 +13,7 @@ import {
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
+let myInterceptor = '';
 export const setUserStorage = async (key, data) => {
   try {
     await AsyncStorage.setItem(key, data);
@@ -26,13 +27,13 @@ export const getUserStorage = async (key) => {
     if (userData === null) {
       return false;
     }
-    //axios.defaults.headers.common['x-access-token'] = userData;
-    axios.interceptors.request.use(function (config) {
-      const token = userData;
-      config.headers['x-access-token'] = token;
-
-      return config;
-    });
+    // //axios.defaults.headers.common['x-access-token'] = userData;
+    // axios.interceptors.request.use(function (config) {
+    //   const token = userData;
+    //   config.headers['x-access-token'] = token;
+    //
+    //   return config;
+    // });
   } catch (e) {
     alert('error: ' + e);
   }
@@ -50,7 +51,7 @@ export const requestLogin = (data) => {
     return axios
       .post('/api/v1/auth/login', data)
       .then((response) => {
-        axios.interceptors.request.use(function (config) {
+        myInterceptor = axios.interceptors.request.use(function (config) {
           const token = response.data.data.token;
           config.headers['x-access-token'] = token;
 
@@ -116,9 +117,10 @@ export const addressSuccess = (address) => {
     data: address,
   };
 };
-export const requestLogout = (data) => {
+export const requestLogout = () => {
   return (dispatch) => {
     removeUserStorage('userToken');
+    axios.interceptors.request.eject(myInterceptor);
     dispatch(logout());
   };
 };

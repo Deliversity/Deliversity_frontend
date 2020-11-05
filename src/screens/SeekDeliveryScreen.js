@@ -16,30 +16,40 @@ class SeekDeliveryScreen extends Component {
     this.onClickGetHotDeal();
     this.onClickGetDefault();
   }
-  handleItemDataonSelect = async () => {};
-  onClickGetHotDeal = async () => {
-    const data = await axios.get('/api/v1/order/orders');
-    const orderList = data.data.data.orders;
-    const HotDealList = orderList.filter(function (ele) {
-      return ele.hotDeal === true;
+  handleItemDataonSelect = (articleData) => {
+    this.props.navigation.navigate('DetailDelivery', {
+      orderID: articleData.id,
     });
-    console.log('hot deal');
-    //console.log(HotDealList);
-    this.setState({HotOrderList: HotDealList});
+  };
+  onClickGetHotDeal = async () => {
+    await axios
+      .get('/api/v1/order/orders')
+      .then((res) => {
+        const orderList = res.data.data.orders;
+        const HotDealList = orderList.filter(function (ele) {
+          return ele.hotDeal === true;
+        });
+        this.setState({HotOrderList: HotDealList});
+      })
+      .catch((e) => {});
   };
   onClickGetDefault = async () => {
-    const data = await axios.get('/api/v1/order/orders');
-    const orderList = data.data.data.orders;
-    const DefaultOrderList = orderList.filter(function (ele) {
-      return ele.hotDeal === false;
-    });
-    console.log('default');
-    // console.log(HotDealList);
-    this.setState({DefaultOrderList: DefaultOrderList});
+    await axios
+      .get('/api/v1/order/orders')
+      .then((res) => {
+        //console.log(res.data.data.orders);
+        const orderList = res.data.data.orders;
+        const DefaultOrderList = orderList.filter(function (ele) {
+          return ele.hotDeal === false;
+        });
+        this.setState({DefaultOrderList: DefaultOrderList});
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
   };
 
   render() {
-    console.log(this.state.orderList);
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
@@ -115,7 +125,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 30,
+    paddingBottom: 35,
   },
   text_header: {
     color: '#fff',
@@ -127,9 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 20,
-    marginRight: 5,
-    marginLeft: 5,
+    paddingVertical: 10,
   },
   panelButtonTitle: {
     fontSize: 15,

@@ -50,7 +50,7 @@ class ExploreScreen extends Component {
     this.setState({
       rootAddress: '',
     });
-    console.log(data);
+    //console.log(data);
     await axios
       .post('api/v1/myinfo/address', data)
       .then(() => {
@@ -77,7 +77,7 @@ class ExploreScreen extends Component {
     const data = {
       addressId: articleData.id,
     };
-    console.log(data);
+    // console.log(data);
     axios({
       url: '/api/v1/myinfo/address/',
       data: data,

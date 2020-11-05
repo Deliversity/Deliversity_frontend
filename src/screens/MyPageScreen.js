@@ -64,7 +64,7 @@ class MyPageScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text_header}>MyPage</Text>
+          <Text style={styles.text_header}>마이페이지</Text>
         </View>
         <View style={styles.footer}>
           <Text style={styles.textSize}>
@@ -100,27 +100,26 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#ffd700',
+    backgroundColor: '#f4da6c',
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text_header: {
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 20,
   },
   footer: {
-    flex: 6,
+    flex: 8,
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    paddingVertical: 30,
     paddingHorizontal: 20,
-    paddingVertical: 20,
-    justifyContent: 'flex-start',
   },
   center: {
     justifyContent: 'center',

@@ -3,35 +3,30 @@ import {ListItem, Right, Body, Text, Button, Left} from 'native-base';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-class OrderItem extends Component {
+class CustomerOrderList extends Component {
   constructor(props) {
     super(props);
     this.data = props.data;
-    let arr = this.data.expArrivalTime.split(' ')[1];
-    let hour = arr.split(':')[0];
-    let min = arr.split(':')[1];
-    this.time = hour + ':' + min;
+    if (this.data.orderStatus === '0') {
+      this.text = '주문접수 완료';
+    } else{
+      this.text = '배달원 선택 완료';
+    }
   }
   handleSelect = () => {
     const {id} = this.data;
-    //console.log(id);
-    this.props.onSelect({id});
+    this.props.onPress({id});
   };
 
   render() {
     return (
       <ListItem thumbnail>
         <Body>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.textSize}>{this.data.storeName}</Text>
-            {this.data.reservation === false ? null : (
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.reservationBox}>
-                  <Text style={styles.bookingStyle}>예약</Text>
-                </View>
-                <Text style={styles.bookingStyle}>{this.time}</Text>
-              </View>
-            )}
+            <View style={styles.reservationBox}>
+              <Text style={styles.bookingStyle}>{this.text}</Text>
+            </View>
           </View>
           <Text style={{fontSize: 13}}>{this.data.content}</Text>
         </Body>
@@ -66,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderItem;
+export default CustomerOrderList;
