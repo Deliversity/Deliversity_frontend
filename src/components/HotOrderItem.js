@@ -36,7 +36,10 @@ class HotOrderItem extends Component {
               </View>
             )}
           </View>
-          <Text style={{fontSize: 13}}>{this.data.content}</Text>
+          <View style={{marginTop: 5}}>
+            <Text style={{fontSize: 13}}>{this.data.address} {this.data.detailAddress}</Text>
+            <Text style={{fontSize: 13}}>{this.data.deliveryFee}원</Text>
+          </View>
         </Body>
         <Right>
           <Button transparent onPress={this.handleSelect}>
