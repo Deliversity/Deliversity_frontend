@@ -1,61 +1,75 @@
 import React, {Component, useState, useEffect, useCallback} from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {GiftedChat, Bubble} from 'react-native-gifted-chat';
+import {GiftedChat, Bubble, Message} from 'react-native-gifted-chat';
 import logo from '../../assets/logo_colorD.png';
+import * as socketio from "socket.io-client";
 
-const ChatScreen = (props) => {
-  // const navigationOptions = {
-  //   title: 'Chat',
-  // };
-  const [messages, setMessage] = useState([]);
+const socket = socketio.connect('http://deliversity.co.kr/api/v1/chat/io',{transports:['websocket']});
+// export default class ChatScreen extends React.Component{
+//   // const navigationOptions = {
+//   //   title: 'Chat',
+//   // };
+//   state={
+//     messsges: [],
+//     setMessages: []
+//   }
+const ChatScreen=(props)=> {
+  const [messages, setMessages] = useState([]);
+
+  // constructor(props){
+  //   super(props);
+  //   console.log(props.route.params.userId)
+  //   socket.on('rchat',msg =>{
+  //     setMessages(msg=>{
+  //       GiftedChat.append(msg,messages);
+  //     })
+  //   })
+  // }
+  
   useEffect(() => {
-    setMessage([
+    setMessages([
       {
         _id: 1,
-        text: 'hello developer',
+        text: 'Hello developer',
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'Chatbot',
-          avatar: logo,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
         },
       },
-      {
-        _id: 2,
-        text: 'hello!',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'Chatbot',
-          avatar: logo,
-        },
-      },
-    ]);
-  }, []);
-  const onSend = useCallback((messages = []) => {
-    setMessage((previousMessage) =>
-      GiftedChat.append(previousMessage, messages),
-    );
-  }, []);
-  const renderBubble = (props) => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          right: {
-            color: 'white',
-            backgroundColor: '#8fbc8f',
-          },
-        }}
-      />
-    );
-  };
+    ])
+  }, [])
+
+const onSend=useCallback((messages = []) =>{
+  console.log(messages)
+  setMessages((previousMessage) =>{
+    GiftedChat.append(previousMessage, messages)
+    console.log(previousMessage)
+    socket.emit('chat', previousMessage);
+  })
+},[]);
+
+const renderBubble = (props)=>{
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      user={{_id: 1}}
-      renderBubble={renderBubble}
+    <Bubble
+      {...props}
+      wrapperStyle={{
+        right: {
+          color: 'white',
+          backgroundColor: '#8fbc8f',
+        },
+      }}
+    />
+  )};
+
+return (
+  <GiftedChat
+    messages={messages}
+    onSend={(messages) => onSend(messages)}
+    user={{_id: props.route.params.userId,
+          password:props.route.params.password}}
+    renderBubble={renderBubble}
     />
   );
 };

@@ -10,9 +10,15 @@ import {
   SIGNUP_SUCCESS,
   USER_CHANGE,
   ADDRESS_CHANGE,
+  LINK_ACCOUNT
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
+import firebase from 'react-native-firebase';
+import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+
+
 let myInterceptor = '';
 export const setUserStorage = async (key, data) => {
   try {
@@ -46,6 +52,41 @@ export const removeUserStorage = async (key) => {
     alert('err : ', e);
   }
 };
+export const requestGoogleLogin =  (data) => {
+  return  (dispatch) => {
+    console.log(data)
+    return axios
+    .post('/api/v1/auth/login/google', data)
+    .then((response)=>{
+      myInterceptor = axios.interceptors.request.use(function (config) {
+        const token = response.data.data.token;
+        config.headers['x-access-token'] = token;
+        return config;
+      });
+      setUserStorage('userToken', response.data.data.token);
+      setUserStorage('firebaseToken', response.data.data.firebaseToken);
+      let decoded = jwt_decode(response.data.data.token);
+      auth().signInWithCustomToken(response.data.data.firebaseToken)
+      const userData = {
+        token: response.data.data.token,
+        name: decoded.name,
+        grade: response.data.data.grade,
+        id: response.data.data.id,
+        nickName: response.data.data.nickName
+      };
+      messaging().getToken().then(token=>{
+        console.log(token)
+      })
+      alert(decoded.name + '님 반갑습니다.');
+      dispatch(loginSuccess(userData));
+    })
+    .catch((error)=>{
+      alert('Login Failed : ' + error);
+        dispatch(linkAccount(error));
+    })
+  }
+}
+
 export const requestLogin = (data) => {
   return (dispatch) => {
     return axios
@@ -54,16 +95,20 @@ export const requestLogin = (data) => {
         myInterceptor = axios.interceptors.request.use(function (config) {
           const token = response.data.data.token;
           config.headers['x-access-token'] = token;
-
           return config;
         });
         setUserStorage('userToken', response.data.data.token);
+        setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
+        auth().signInWithCustomToken(response.data.data.firebaseToken)
         const userData = {
           token: response.data.data.token,
           name: decoded.name,
           grade: response.data.data.grade,
+          id: response.data.data.id,
+          nickName: response.data.data.nickName
         };
+        console.log(response.data.data)
         alert(decoded.name + '님 반갑습니다.');
         //console.log(decoded);
         dispatch(loginSuccess(userData));
@@ -75,12 +120,12 @@ export const requestLogin = (data) => {
   };
 };
 
-export const requestSignup = (data) => {
+export const requestSignup =  (data) => {
   console.log(data);
   return (dispatch) => {
     return axios
       .post('/api/v1/auth/signup', data)
-      .then((response) => {
+      .then( (response) => {
         alert(response.data.data.name + '님. 환영합니다.');
         dispatch(signupSuccess());
       })
@@ -136,6 +181,13 @@ export const loginSuccess = (data) => {
 export const loginFailure = (error) => {
   return {
     type: LOGIN_FAILURE,
+    error,
+  };
+};
+
+export const linkAccount = (error) => {
+  return {
+    type: LINK_ACCOUNT,
     error,
   };
 };

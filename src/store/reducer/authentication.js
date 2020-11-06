@@ -16,6 +16,8 @@ const initialState = {
   name: '',
   grade: '',
   address: '',
+  id: '',
+  nickName: ''
 };
 const authentication = (state = initialState, action) => {
   switch (action.type) {
@@ -36,6 +38,8 @@ const authentication = (state = initialState, action) => {
         token: action.token,
         name: action.name,
         grade: action.grade,
+        id: action.id,
+        nickName: action.nickName
       };
     case LOGIN_FAILURE:
       return {
