@@ -101,6 +101,17 @@ export const requestLogin = (data) => {
         setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
         auth().signInWithCustomToken(response.data.data.firebaseToken)
+          auth().currentUser.getIdToken().then((idToken)=>{
+            firebase.messaging().getToken().then((fcmToken)=>{
+            console.log({idToken:idToken,fcmToken:fcmToken})
+            axios
+            .post('/api/v1/auth/login/fcm', {idToken:idToken,fcmToken:fcmToken})
+            .then((response) => {
+              console.log(response)
+            })
+          });
+        })
+        
         const userData = {
           token: response.data.data.token,
           name: decoded.name,

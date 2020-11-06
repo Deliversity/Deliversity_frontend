@@ -12,7 +12,6 @@ import {TextInput, RadioButton} from 'react-native-paper';
 import {connect} from 'react-redux';
 import axios from '../axiosConfig';
 import {requestSignup} from '../store/actions/action';
-import messaging from '@react-native-firebase/messaging';
 class Signup extends Component {
   static navigationOptions = {
     title: 'Signup',
@@ -85,7 +84,7 @@ class Signup extends Component {
 
   onClickSign = async () => {
     try {
-      const token = await messaging().getToken();
+      
       const data = {
         id: this.state.id,
         pw: this.state.pw,
@@ -94,8 +93,7 @@ class Signup extends Component {
         nickName: this.state.nickName,
         gender: this.state.gender,
         age: this.state.age,
-        phone: this.state.phone,
-        firebaseFCM: token
+        phone: this.state.phone
       };
       await this.props.requestSignup(data);
       this.props.navigation.goBack(null);
