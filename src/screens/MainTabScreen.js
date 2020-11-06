@@ -15,6 +15,7 @@ import ChatScreen from './ChatScreen';
 import ChatHomeScreen from './ChatHomeScreen';
 import DeliveryManScreen from './DeliveryManScreen';
 import CourierReviewScreen from './CourierReviewScreen';
+import ManageDeliveryScreen from './ManageDeliveryScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -219,6 +220,17 @@ function CourierTabStack() {
         }}
       />
       <Tab.Screen
+        name="ManageDelivery"
+        component={ManageDeliveryScreen}
+        options={{
+          tabBarLabel: '배달 관리',
+          tabBarColor: '#ff7f50',
+          tabBarIcon: ({color}) => (
+            <Icon name="work" color={'#e9967a'} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="ChatHome"
         component={ChatHomeScreen}
         options={{
@@ -264,7 +276,7 @@ function ConsumerTabStack() {
           tabBarLabel: '주문 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="family-restroom" color={'#e9967a'} size={26} />
+            <Icon name="grading" color={'#e9967a'} size={26} />
           ),
         }}
       />

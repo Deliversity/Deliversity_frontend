@@ -31,7 +31,7 @@ class MatchingScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text_header}>주문 관리</Text>
+          <Text style={styles.text_header}>나의 주문 리스트</Text>
         </View>
         <View style={styles.footer}>
           <List

@@ -64,7 +64,7 @@ class MyPageScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text_header}>MyPage</Text>
+          <Text style={styles.text_header}>마이페이지</Text>
         </View>
         <View style={styles.footer}>
           <Text style={styles.textSize}>
