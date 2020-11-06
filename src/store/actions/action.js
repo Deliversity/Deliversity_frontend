@@ -67,18 +67,67 @@ export const requestGoogleLogin =  (data) => {
       setUserStorage('firebaseToken', response.data.data.firebaseToken);
       let decoded = jwt_decode(response.data.data.token);
       auth().signInWithCustomToken(response.data.data.firebaseToken)
-      const userData = {
-        token: response.data.data.token,
-        name: decoded.name,
-        grade: response.data.data.grade,
-        id: response.data.data.id,
-        nickName: response.data.data.nickName
-      };
-      messaging().getToken().then(token=>{
-        console.log(token)
+      auth().currentUser.getIdToken().then((idToken)=>{
+        firebase.messaging().getToken().then((fcmToken)=>{
+          axios
+          .post('/api/v1/auth/login/fcm', {idToken:idToken,fcmToken:fcmToken})
+          .then((res) => {
+            const userData = {
+              token: response.data.data.token,
+              name: decoded.name,
+              grade: response.data.data.grade,
+              id: response.data.data.id,
+              nickName: response.data.data.nickName
+            };
+            // alert(decoded.name + '님 반갑습니다.');
+            //console.log(decoded);
+            dispatch(loginSuccess(userData));
+          })
+        });
       })
-      alert(decoded.name + '님 반갑습니다.');
-      dispatch(loginSuccess(userData));
+      dispatch(loginFailure(null));
+    })
+    .catch((error)=>{
+      alert('Login Failed : ' + error);
+        dispatch(linkAccount(error));
+    })
+  }
+}
+
+export const requestKakaoLogin =  (data) => {
+  return  (dispatch) => {
+    // console.log(data)
+    return axios
+    .post('/api/v1/auth/login/kakao', data)
+    .then((response)=>{
+      myInterceptor = axios.interceptors.request.use(function (config) {
+        const token = response.data.data.token;
+        config.headers['x-access-token'] = token;
+        return config;
+      });
+      setUserStorage('userToken', response.data.data.token);
+      setUserStorage('firebaseToken', response.data.data.firebaseToken);
+      let decoded = jwt_decode(response.data.data.token);
+      auth().signInWithCustomToken(response.data.data.firebaseToken)
+      auth().currentUser.getIdToken().then((idToken)=>{
+        firebase.messaging().getToken().then((fcmToken)=>{
+          axios
+          .post('/api/v1/auth/login/fcm', {idToken:idToken,fcmToken:fcmToken})
+          .then((res) => {
+            const userData = {
+              token: response.data.data.token,
+              name: decoded.name,
+              grade: response.data.data.grade,
+              id: response.data.data.id,
+              nickName: response.data.data.nickName
+            };
+            // alert(decoded.name + '님 반갑습니다.');
+            //console.log(decoded);
+            dispatch(loginSuccess(userData));
+          })
+        });
+      })
+      dispatch(loginFailure(null));
     })
     .catch((error)=>{
       alert('Login Failed : ' + error);
@@ -101,28 +150,25 @@ export const requestLogin = (data) => {
         setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
         auth().signInWithCustomToken(response.data.data.firebaseToken)
-          auth().currentUser.getIdToken().then((idToken)=>{
-            firebase.messaging().getToken().then((fcmToken)=>{
-            console.log({idToken:idToken,fcmToken:fcmToken})
+        auth().currentUser.getIdToken().then((idToken)=>{
+          firebase.messaging().getToken().then((fcmToken)=>{
             axios
             .post('/api/v1/auth/login/fcm', {idToken:idToken,fcmToken:fcmToken})
-            .then((response) => {
-              console.log(response)
+            .then((res) => {
+              const userData = {
+                token: response.data.data.token,
+                name: decoded.name,
+                grade: response.data.data.grade,
+                id: response.data.data.id,
+                nickName: response.data.data.nickName
+              };
+              // alert(decoded.name + '님 반갑습니다.');
+              //console.log(decoded);
+              dispatch(loginSuccess(userData));
             })
           });
         })
-        
-        const userData = {
-          token: response.data.data.token,
-          name: decoded.name,
-          grade: response.data.data.grade,
-          id: response.data.data.id,
-          nickName: response.data.data.nickName
-        };
-        console.log(response.data.data)
-        alert(decoded.name + '님 반갑습니다.');
-        //console.log(decoded);
-        dispatch(loginSuccess(userData));
+        dispatch(loginFailure(null));
       })
       .catch((error) => {
         alert('Login Failed : ' + error);
