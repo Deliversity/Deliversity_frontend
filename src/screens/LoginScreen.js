@@ -8,7 +8,11 @@ import {
   Image,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {requestLogin, requestGoogleLogin,requestKakaoLogin} from '../store/actions/action';
+import {
+  requestLogin,
+  requestGoogleLogin,
+  requestKakaoLogin,
+} from '../store/actions/action';
 import {connect} from 'react-redux';
 import Signup from './SignupScreen';
 import {GOOGLE_KEY} from '../../env/development';
@@ -22,7 +26,7 @@ import auth from '@react-native-firebase/auth';
 
 GoogleSignin.configure({
   webClientId: GOOGLE_KEY,
-  offlineAccess: true
+  offlineAccess: true,
 });
 class LoginScreen extends Component {
   constructor(props) {
@@ -34,16 +38,14 @@ class LoginScreen extends Component {
     };
   }
   onClickLogin = async () => {
-
     const data = {
       id: this.state.id,
       pw: this.state.pw,
-      
     };
     console.log(data);
     await this.props.requestLogin(data);
   };
-  
+
   onGoogleButtonPress = async () => {
     try {
       await GoogleSignin.signIn();
@@ -52,13 +54,16 @@ class LoginScreen extends Component {
     } catch (e) {
       console.log(e.message);
     }
-
   };
   onKakaoButtonPress = async () => {
     try {
-      const tokens = await KakaoLogins.login();
-      console.log(tokens)
-      await this.props.requestKakaoLogin(tokens);
+      let result = await KakaoLogins.login();
+      if (result) {
+        const data = {
+          accessToken: result.accessToken,
+        };
+        await this.props.requestKakaoLogin(data);
+      }
     } catch (e) {
       console.log(e.message);
     }
