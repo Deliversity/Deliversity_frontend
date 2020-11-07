@@ -8,7 +8,11 @@ import {
   Image,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {requestLogin} from '../store/actions/action';
+import {
+  requestLogin,
+  requestGoogleLogin,
+  requestKakaoLogin,
+} from '../store/actions/action';
 import {connect} from 'react-redux';
 import Signup from './SignupScreen';
 import {GOOGLE_KEY} from '../../env/development';
@@ -17,12 +21,16 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-community/google-signin';
+import firebase from 'react-native-firebase';
 import auth from '@react-native-firebase/auth';
+
 GoogleSignin.configure({
   webClientId: GOOGLE_KEY,
+  offlineAccess: true,
 });
 class LoginScreen extends Component {
   constructor(props) {
+    GoogleSignin.hasPlayServices();
     super(props);
     this.state = {
       id: '',
@@ -37,12 +45,12 @@ class LoginScreen extends Component {
     console.log(data);
     await this.props.requestLogin(data);
   };
+
   onGoogleButtonPress = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      this.setState({userInfo});
-      console.log(userInfo);
+      await GoogleSignin.signIn();
+      const tokens = await GoogleSignin.getTokens();
+      await this.props.requestGoogleLogin(tokens);
     } catch (e) {
       console.log(e.message);
     }
@@ -51,7 +59,10 @@ class LoginScreen extends Component {
     try {
       let result = await KakaoLogins.login();
       if (result) {
-        console.log(result);
+        const data = {
+          accessToken: result.accessToken,
+        };
+        await this.props.requestKakaoLogin(data);
       }
     } catch (e) {
       console.log(e.message);
@@ -129,6 +140,8 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogin: (data) => dispatch(requestLogin(data)),
+  requestGoogleLogin: (data) => dispatch(requestGoogleLogin(data)),
+  requestKakaoLogin: (data) => dispatch(requestKakaoLogin(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 

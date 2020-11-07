@@ -28,6 +28,7 @@ class Signup extends Component {
       age: '',
       phone: '',
       modalVisible: false,
+      googleOAuth: ''
     };
   }
 
@@ -83,6 +84,7 @@ class Signup extends Component {
 
   onClickSign = async () => {
     try {
+      
       const data = {
         id: this.state.id,
         pw: this.state.pw,
@@ -91,7 +93,7 @@ class Signup extends Component {
         nickName: this.state.nickName,
         gender: this.state.gender,
         age: this.state.age,
-        phone: this.state.phone,
+        phone: this.state.phone
       };
       await this.props.requestSignup(data);
       this.props.navigation.goBack(null);

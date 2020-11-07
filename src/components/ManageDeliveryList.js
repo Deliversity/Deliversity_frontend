@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  ListItem,
-  Right,
-  Body,
-  Text,
-  Button,
-} from 'native-base';
+import {ListItem, Right, Body, Text, Button} from 'native-base';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 class ManageDeliveryList extends Component {

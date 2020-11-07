@@ -108,19 +108,25 @@ class DeliveryManScreen extends Component {
         </View>
         <View style={styles.listBox}>
           <Text style={styles.imageTitle}>신청한 배달원 리스트</Text>
-          <List
-            keyExtractor={(item, index) => index.toString()}
-            dataArray={this.state.deliveryList}
-            renderRow={(item) => {
-              return (
-                <DeliveryManList
-                  onPressSelect={this.handleItemOnPressSelect}
-                  onPressReview={this.handleItemOnPressReview}
-                  data={item}
-                />
-              );
-            }}
-          />
+          {this.state.deliveryList === null ? (
+            <Text style={{paddingHorizontal: 20}}>
+              배달을 희망하는 배달원이 없습니다.
+            </Text>
+          ) : (
+            <List
+              keyExtractor={(item, index) => index.toString()}
+              dataArray={this.state.deliveryList}
+              renderRow={(item) => {
+                return (
+                  <DeliveryManList
+                    onPressSelect={this.handleItemOnPressSelect}
+                    onPressReview={this.handleItemOnPressReview}
+                    data={item}
+                  />
+                );
+              }}
+            />
+          )}
         </View>
       </View>
     );
@@ -136,9 +142,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#fffaf0',
     flexDirection: 'column',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 20,
     marginBottom: 5,
-    marginTop: 2,
     backgroundColor: 'white',
     flex: 2,
   },
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     paddingHorizontal: 20,
-    paddingVertical: 5,
+    paddingVertical: 20,
   },
   bookingStyle: {
     fontSize: 15,

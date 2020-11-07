@@ -10,10 +10,10 @@ class ChatHomeScreen extends Component {
     this.state = {
       isLoading: false,
       data: [
-        {id: 'test1', pw: 'test1'},
+        {id: '4', pw: '4ec8ccac4b16b62'},
         {id: 'test2', pw: 'test2'},
       ],
-      chatId: '',
+      password: '',
       backColor: '',
     };
 
@@ -21,10 +21,13 @@ class ChatHomeScreen extends Component {
 
   handleItemDataOnPress = (articleData) => {
     this.setState({
-      chatId: articleData.id,
+      password: articleData.pw,
     });
     //console.log(articleData);
-    this.props.navigation.navigate('Chat');
+    this.props.navigation.navigate('Chat',{
+      userId:articleData.id,
+      password: articleData.pw
+    });
   };
 
   // componentDidMount() {

@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBdZkwcfy8l-9om3UQADEJ_LKeHN8Z2hPM"
+          "current_key": "AIzaSyCcuiiif_B6xOSsS1jAptbX8DqVc66v89o"
         }
       ],
       "services": {
@@ -38,6 +38,13 @@
             {
               "client_id": "789206121929-spmbe6ovv7hdfh4r4ikv7m3grush4o4v.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "789206121929-3dn0jprh52i4t05k4epre2ipf1nv0csd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.deliversity"
+              }
             }
           ]
         }
