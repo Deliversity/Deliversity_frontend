@@ -53,6 +53,8 @@ export const removeUserStorage = async (key) => {
 };
 export const requestGoogleLogin = (data) => {
   return (dispatch) => {
+    auth().currentUser.getIdToken()
+    .then((fcmToken)=>{})
     //console.log(data);
     return axios
       .post('/api/v1/auth/login/google', data)
@@ -66,33 +68,15 @@ export const requestGoogleLogin = (data) => {
         setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
         auth().signInWithCustomToken(response.data.data.firebaseToken);
-        auth()
-          .currentUser.getIdToken()
-          .then((idToken) => {
-            firebase
-              .messaging()
-              .getToken()
-              .then((fcmToken) => {
-                axios
-                  .post('/api/v1/auth/login/fcm', {
-                    idToken: idToken,
-                    fcmToken: fcmToken,
-                  })
-                  .then((res) => {
-                    const userData = {
-                      token: response.data.data.token,
-                      name: decoded.name,
-                      grade: response.data.data.grade,
-                      id: response.data.data.id,
-                      nickName: response.data.data.nickName,
-                    };
-                    alert(decoded.name + '님 반갑습니다.');
-                    //console.log(decoded);
-                    dispatch(loginSuccess(userData));
-                  });
-              });
-          });
-        dispatch(loginFailure(null));
+        const userData = {
+          token: response.data.data.token,
+          name: decoded.name,
+          grade: response.data.data.grade,
+          id: response.data.data.id,
+          nickName: response.data.data.nickName,
+        };
+        alert(decoded.name + '님 반갑습니다.');
+        dispatch(loginSuccess(userData));
       })
       .catch((error) => {
         alert('Login Failed : ' + error);
@@ -116,33 +100,15 @@ export const requestKakaoLogin = (data) => {
         setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
         auth().signInWithCustomToken(response.data.data.firebaseToken);
-        auth()
-          .currentUser.getIdToken()
-          .then((idToken) => {
-            firebase
-              .messaging()
-              .getToken()
-              .then((fcmToken) => {
-                axios
-                  .post('/api/v1/auth/login/fcm', {
-                    idToken: idToken,
-                    fcmToken: fcmToken,
-                  })
-                  .then((res) => {
-                    const userData = {
-                      token: response.data.data.token,
-                      name: decoded.name,
-                      grade: response.data.data.grade,
-                      id: response.data.data.id,
-                      nickName: response.data.data.nickName,
-                    };
-                    alert(decoded.name + '님 반갑습니다.');
-                    //console.log(decoded);
-                    dispatch(loginSuccess(userData));
-                  });
-              });
-          });
-        dispatch(loginFailure(null));
+        const userData = {
+          token: response.data.data.token,
+          name: decoded.name,
+          grade: response.data.data.grade,
+          id: response.data.data.id,
+          nickName: response.data.data.nickName,
+        };
+        alert(decoded.name + '님 반갑습니다.');
+        dispatch(loginSuccess(userData));
       })
       .catch((error) => {
         alert('Login Failed : ' + error);
@@ -165,33 +131,15 @@ export const requestLogin = (data) => {
         setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
         auth().signInWithCustomToken(response.data.data.firebaseToken);
-        auth()
-          .currentUser.getIdToken()
-          .then((idToken) => {
-            firebase
-              .messaging()
-              .getToken()
-              .then((fcmToken) => {
-                axios
-                  .post('/api/v1/auth/login/fcm', {
-                    idToken: idToken,
-                    fcmToken: fcmToken,
-                  })
-                  .then((res) => {
-                    const userData = {
-                      token: response.data.data.token,
-                      name: decoded.name,
-                      grade: response.data.data.grade,
-                      id: response.data.data.id,
-                      nickName: response.data.data.nickName,
-                    };
-                    alert(decoded.name + '님 반갑습니다.');
-                    //console.log(decoded);
-                    dispatch(loginSuccess(userData));
-                  });
-              });
-          });
-        dispatch(loginFailure(null));
+        const userData = {
+          token: response.data.data.token,
+          name: decoded.name,
+          grade: response.data.data.grade,
+          id: response.data.data.id,
+          nickName: response.data.data.nickName,
+        };
+        alert(decoded.name + '님 반갑습니다.');
+        dispatch(loginSuccess(userData));
       })
       .catch((error) => {
         alert('Login Failed : ' + error);

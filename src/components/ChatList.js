@@ -15,8 +15,8 @@ class ChatList extends Component {
     this.data = props.data;
   }
   handlePress = () => {
-    const {id} = this.data;
-    this.props.onPress({id});
+    const {id,pw} = this.data;
+    this.props.onPress({id,pw});
   };
 
   render() {
@@ -39,7 +39,6 @@ class ChatList extends Component {
                 marginTop: 8,
                 marginLeft: 0,
               }}>
-              <Text note>{this.data.pw}</Text>
             </View>
           </TouchableOpacity>
         </Body>

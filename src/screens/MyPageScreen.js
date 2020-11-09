@@ -12,6 +12,7 @@ import ImagePicker from 'react-native-image-picker';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
 import axios from '../axiosConfig';
 import {RNS3} from 'react-native-aws3/src/RNS3';
+import firebase from 'react-native-firebase';
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,7 @@ class MyPageScreen extends Component {
   }
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
+    firebase.messaging().deleteToken();
     await this.props.requestLogout();
   };
 

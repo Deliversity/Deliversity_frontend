@@ -3,76 +3,50 @@ import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {GiftedChat, Bubble, Message} from 'react-native-gifted-chat';
 import logo from '../../assets/logo_colorD.png';
 import * as socketio from "socket.io-client";
+import {URL} from '../../env/development.json'
 
-const socket = socketio.connect('http://deliversity.co.kr/api/v1/chat/io',{transports:['websocket']});
-// export default class ChatScreen extends React.Component{
-//   // const navigationOptions = {
-//   //   title: 'Chat',
-//   // };
-//   state={
-//     messsges: [],
-//     setMessages: []
-//   }
-const ChatScreen=(props)=> {
-  const [messages, setMessages] = useState([]);
+const socket = socketio.connect(`${URL}/api/v1/chat/io`,{transports:['websocket']});
+console.log(`${URL}/api/v1/chat/io`)
+export default class ChatScreen extends React.Component{
 
-  // constructor(props){
-  //   super(props);
-  //   console.log(props.route.params.userId)
-  //   socket.on('rchat',msg =>{
-  //     setMessages(msg=>{
-  //       GiftedChat.append(msg,messages);
-  //     })
-  //   })
-  // }
+
   
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
+// export default function ChatScreen(props) {
+  constructor(props){
+    super(props);
+    this.state={messages:[]};
+    this.onSend = this.onSend.bind(this);
+  }
+  
+  componentDidMount(){
+    
+    socket.on('rChat',newMessage=>{
+      this.setState((previousState)=>{
+        return {messages: GiftedChat.append(previousState.messages,newMessage)}
+      }
+    )
+    })
+  }
 
-const onSend=useCallback((messages = []) =>{
-  console.log(messages)
-  setMessages((previousMessage) =>{
-    GiftedChat.append(previousMessage, messages)
-    console.log(previousMessage)
-    socket.emit('chat', previousMessage);
-  })
-},[]);
+  onSend(newMessage = []){
+    this.setState((previousState)=>{
+      return {messages: GiftedChat.append(previousState.messages,newMessage)}
+    }
+    )
+    socket.emit('chat', newMessage);
+}
 
-const renderBubble = (props)=>{
+  render(){
   return (
-    <Bubble
-      {...props}
-      wrapperStyle={{
-        right: {
-          color: 'white',
-          backgroundColor: '#8fbc8f',
-        },
-      }}
-    />
-  )};
-
-return (
-  <GiftedChat
-    messages={messages}
-    onSend={(messages) => onSend(messages)}
-    user={{_id: props.route.params.userId,
-          password:props.route.params.password}}
-    renderBubble={renderBubble}
-    />
-  );
-};
+    <GiftedChat
+      messages={this.state.messages}
+      onSend={this.onSend}
+      user={{_id: this.props.route.params.userId,
+        roomId: this.props.route.params.password}}
+      />
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -80,4 +54,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#8fbc8f',
   },
 });
-export default ChatScreen;
+// export default ChatScreen;

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Alert, View, ActivityIndicator, StyleSheet, Image} from 'react-native';
 import {Container, Content, List, Text} from 'native-base';
 import ChatList from '../components/ChatList';
-
+import SQLite from 'react-native-sqlite-storage';
+SQLite.enablePromise(true);
 class ChatHomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -10,9 +11,10 @@ class ChatHomeScreen extends Component {
     this.state = {
       isLoading: false,
       data: [
-        {id: '4', pw: '4ec8ccac4b16b62'},
+        {id: '30', pw: 'e9e202c30d4a5598772d59738d3f7e2ade91343ba0a3742fc7'},
         {id: 'test2', pw: 'test2'},
       ],
+      userId:'',
       password: '',
       backColor: '',
     };
@@ -21,28 +23,16 @@ class ChatHomeScreen extends Component {
 
   handleItemDataOnPress = (articleData) => {
     this.setState({
+      userId:articleData.id,
       password: articleData.pw,
     });
-    //console.log(articleData);
+    console.log("articleData");
+    console.log(articleData);
     this.props.navigation.navigate('Chat',{
       userId:articleData.id,
       password: articleData.pw
     });
   };
-
-  // componentDidMount() {
-  //   getArticles('business').then(
-  //     (data) => {
-  //       this.setState({
-  //         isLoading: false,
-  //         data: data,
-  //       });
-  //     },
-  //     (error) => {
-  //       Alert.alert('Error', 'Something went wrong!');
-  //     },
-  //   );
-  // }
 
   render() {
     let view = this.state.isLoading ? (
@@ -54,6 +44,8 @@ class ChatHomeScreen extends Component {
       <List
         dataArray={this.state.data}
         renderRow={(item) => {
+          console.log("item")
+          console.log(item)
           return <ChatList onPress={this.handleItemDataOnPress} data={item} />;
         }}
       />
