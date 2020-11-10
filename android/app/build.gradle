@@ -194,6 +194,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation project(':react-native-image-picker')
     implementation project(':react-native-vector-icons')
+    implementation project(':react-native-sqlite-storage')
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }

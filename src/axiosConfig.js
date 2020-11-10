@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://deliversity.co.kr',
+  baseURL: 'http://www.deliversity.co.kr',
 });
 
 export default axiosInstance;

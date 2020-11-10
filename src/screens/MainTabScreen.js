@@ -16,6 +16,7 @@ import ChatHomeScreen from './ChatHomeScreen';
 import DeliveryManScreen from './DeliveryManScreen';
 import CourierReviewScreen from './CourierReviewScreen';
 import ManageDeliveryScreen from './ManageDeliveryScreen';
+import ViewUser from './ViewUser';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -85,6 +86,25 @@ function AuthStack() {
         options={{headerShown: false}}
         name="Signup"
         component={SignupScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+function ChatStack() {
+  return (
+    <Stack.Navigator initialRouteName="ChatHome">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="ChatHome"
+        component={ChatHomeScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          tabBarVisible: false,
+        }}
+        name="Chat"
+        component={ChatScreen}
       />
     </Stack.Navigator>
   );
@@ -169,7 +189,7 @@ function ConsumerStack() {
       <Stack.Screen
         options={{headerShown: false}}
         name="Chat"
-        component={ChatScreen}
+        component={ChatStack}
       />
     </Stack.Navigator>
   );
@@ -199,7 +219,7 @@ function CourierStack() {
       <Stack.Screen
         options={{headerShown: false}}
         name="Chat"
-        component={ChatScreen}
+        component={ChatStack}
       />
     </Stack.Navigator>
   );
@@ -232,7 +252,7 @@ function CourierTabStack() {
       />
       <Tab.Screen
         name="ChatHome"
-        component={ChatHomeScreen}
+        component={ChatStack}
         options={{
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
@@ -282,7 +302,7 @@ function ConsumerTabStack() {
       />
       <Tab.Screen
         name="ChatHome"
-        component={ChatHomeScreen}
+        component={ChatStack}
         options={{
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
