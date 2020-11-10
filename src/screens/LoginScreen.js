@@ -41,6 +41,7 @@ class LoginScreen extends Component {
     const data = {
       id: this.state.id,
       pw: this.state.pw,
+      fcmToken: await firebase.messaging().getToken(),
     };
     console.log(data);
     await this.props.requestLogin(data);
@@ -49,7 +50,8 @@ class LoginScreen extends Component {
   onGoogleButtonPress = async () => {
     try {
       await GoogleSignin.signIn();
-      const tokens = await GoogleSignin.getTokens();
+      let tokens = await GoogleSignin.getTokens();
+      tokens.fcmToken = await firebase.messaging().getToken();
       await this.props.requestGoogleLogin(tokens);
     } catch (e) {
       console.log(e.message);
@@ -61,6 +63,7 @@ class LoginScreen extends Component {
       if (result) {
         const data = {
           accessToken: result.accessToken,
+          fcmToken: await firebase.messaging().getToken(),
         };
         await this.props.requestKakaoLogin(data);
       }
