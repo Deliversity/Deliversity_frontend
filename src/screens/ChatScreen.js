@@ -62,7 +62,7 @@ export default function ChatScreen(props) {
   });
   const onSend = (newMessage = []) => {
     let newMessaged = newMessage;
-    newMessaged[0]._id = uuid.v4();
+    //newMessaged[0]._id = uuid.v4();
     newMessaged[0].createdAt = new Date();
     setMessages(GiftedChat.append(messages, newMessaged));
     socket.emit('chat', newMessaged);
@@ -109,7 +109,7 @@ export default function ChatScreen(props) {
       messages={messages}
       onSend={(newMessage) => onSend(newMessage)}
       user={{
-        _id: props.route.params.sender_id,
+        _id: props.route.params.owner_id,
         roomId: props.route.params.room_id,
       }}
     />

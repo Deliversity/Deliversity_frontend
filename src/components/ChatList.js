@@ -17,24 +17,10 @@ class ChatList extends Component {
     this.state = {
       orderInfo: '',
     };
-    this.getOrderInfo();
   }
   handlePress = () => {
-    const {order_id, room_id, sender_id, receiver_id} = this.data;
-    this.props.onPress({order_id, room_id, sender_id, receiver_id});
-  };
-  getOrderInfo = async () => {
-    await axios
-      .get(`/api/v1/order?orderId=${this.data.order_id}`)
-      .then((res) => {
-        this.setState({
-          orderInfo: res.data.data.storeName,
-        });
-        //console.log(res);
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    const {order_id, room_id, owner_id, guest_id} = this.data;
+    this.props.onPress({order_id, room_id, owner_id, guest_id});
   };
   render() {
     return (
@@ -49,7 +35,7 @@ class ChatList extends Component {
         <Body>
           <TouchableOpacity onPress={this.handlePress}>
             <Text style={{fontSize: 13}}>
-              "{this.state.orderInfo}"에서 한 주문
+              {this.data.guest_id}번님과 채팅하기
             </Text>
           </TouchableOpacity>
         </Body>

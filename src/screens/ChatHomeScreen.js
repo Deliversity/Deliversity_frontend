@@ -21,9 +21,9 @@ class ChatHomeScreen extends Component {
     };
     this.getRoomInfo();
   }
-  getRoomInfo() {
+  getRiderRoomInfo() {
     db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM room', [], (tx, results) => {
+      tx.executeSql('SELECT * FROM riderRoom', [], (tx, results) => {
         let length = results.rows.length;
         console.log('len' + length);
         if (length > 0) {
@@ -38,21 +38,36 @@ class ChatHomeScreen extends Component {
       });
     });
   }
-  handleItemDataOnPress = (articleData) => {
-    let ownerId;
-    let hostId;
+  getConsumerRoomInfo() {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM consumerRoom', [], (tx, results) => {
+        let length = results.rows.length;
+        console.log('len' + length);
+        if (length > 0) {
+          let helpArray = [];
+          console.log('success');
+          //console.log(results.rows);
+          for (let i = 0; i < results.rows.length; i++) {
+            helpArray.push(results.rows.item(i));
+          }
+          this.setState({data: helpArray});
+        }
+      });
+    });
+  }
+  getRoomInfo() {
     if (this.props.user === '배달원') {
-      ownerId = articleData.sender_id;
-      hostId = articleData.receiver_id;
+      this.getRiderRoomInfo();
     }
     if (this.props.user === '사용자') {
-      ownerId = articleData.sender_id;
-      hostId = articleData.receiver_id;
+      this.getConsumerRoomInfo();
     }
+  }
+  handleItemDataOnPress = (articleData) => {
     this.props.navigation.navigate('Chat', {
       room_id: articleData.room_id,
-      sender_id: articleData.sender_id,
-      receiver_id: articleData.receiver_id,
+      owner_id: articleData.owner_id,
+      guest_id: articleData.guest_id,
       order_id: articleData.order_id,
     });
   };

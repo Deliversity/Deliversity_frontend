@@ -74,12 +74,12 @@ class DeliveryManScreen extends Component {
     let receiver = 30;
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO room (room_id, sender_id, receiver_id, order_id) VALUES (?,?,?,?)',
+        'INSERT INTO consumerRoom (room_id, owner_id, guest_id, order_id) VALUES (?,?,?,?)',
         [room, sender, receiver, this.state.orderID],
         (tx, results) => {
           console.log(results.rowsAffected);
           if (results.rowsAffected > 0) {
-            alert('이제 주문자와 채팅을 할 수 있습니다.');
+            alert('이제 배달원과 채팅 할 수 있습니다.');
           }
         },
       );

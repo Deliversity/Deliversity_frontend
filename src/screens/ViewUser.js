@@ -30,9 +30,26 @@ export default class App extends Component {
   successToOpenDB() {
     alert('success');
   }
-  onClickShow() {
+  onClickConsumerShow() {
     db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM room', [], (tx, results) => {
+      tx.executeSql('SELECT * FROM consumerRoom', [], (tx, results) => {
+        let length = results.rows.length;
+        console.log('len' + length);
+        if (length > 0) {
+          let helpArray = [];
+          console.log('success');
+          for (let i = 0; i < results.rows.length; i++) {
+            helpArray.push(results.rows.item(i));
+          }
+          console.log(helpArray);
+          this.setState({usersList: helpArray});
+        }
+      });
+    });
+  }
+  onClickRiderShow() {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM riderRoom', [], (tx, results) => {
         let length = results.rows.length;
         console.log('len' + length);
         if (length > 0) {
@@ -65,35 +82,52 @@ export default class App extends Component {
     });
   }
   onClickDelete() {
-    let order = 2;
-    db.transaction((tx) => {
-      tx.executeSql('DELETE FROM room where id=?', [order], (tx, results) => {
-        let length = results.rows.length;
-        console.log('len' + length);
-        console.log(results.rowsAffected);
-        if (results.rowsAffected > 0) {
-          alert('success');
-        }
-      });
-    });
-  }
-  onClickDelete2() {
-    let order = 2;
+    let order = 1;
     db.transaction((tx) => {
       tx.executeSql(
-        'DELETE FROM message',
-        [],
+        'DELETE FROM consumerRoom where id=?',
+        [order],
         (tx, results) => {
           let length = results.rows.length;
           console.log('len' + length);
           console.log(results.rowsAffected);
           if (results.rowsAffected > 0) {
             alert('success');
-          } else {
-            alert('false');
           }
         },
       );
+    });
+  }
+  onClickRiderDelete() {
+    let order = 1;
+    db.transaction((tx) => {
+      tx.executeSql(
+        'DELETE FROM riderRoom where id=?',
+        [order],
+        (tx, results) => {
+          let length = results.rows.length;
+          console.log('len' + length);
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            alert('success');
+          }
+        },
+      );
+    });
+  }
+  onClickDelete2() {
+    let order = 2;
+    db.transaction((tx) => {
+      tx.executeSql('DELETE FROM message', [], (tx, results) => {
+        let length = results.rows.length;
+        console.log('len' + length);
+        console.log(results.rowsAffected);
+        if (results.rowsAffected > 0) {
+          alert('success');
+        } else {
+          alert('false');
+        }
+      });
     });
   }
   onClickOrder() {
@@ -104,7 +138,26 @@ export default class App extends Component {
     console.log(room);
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO room (room_id, sender_id, receiver_id, order_id) VALUES (?,?,?,?)',
+        'INSERT INTO consumerRoom (room_id, owner_id, guest_id, order_id) VALUES (?,?,?,?)',
+        [room, sender, receive, order],
+        (tx, results) => {
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            alert('success');
+          }
+        },
+      );
+    });
+  }
+  onClickRiderOrder() {
+    let room = '664e4b4a0f8f37dfc636f8296992e08b5639a2f539115e9a51';
+    let sender = 30;
+    let receive = 20;
+    let order = 35;
+    console.log(room);
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO riderRoom (room_id, owner_id, guest_id, order_id) VALUES (?,?,?,?)',
         [room, sender, receive, order],
         (tx, results) => {
           console.log(results.rowsAffected);
@@ -129,21 +182,39 @@ export default class App extends Component {
         <Content>
           <TouchableOpacity
             onPress={() => {
-              this.onClickShow();
+              this.onClickRiderShow();
             }}>
-            <Text>룸디비 확인하기</Text>
+            <Text>배달원 룸디비 확인하기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.onClickConsumerShow();
+            }}>
+            <Text>소비자 룸디비 확인하기</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               this.onClickOrder();
             }}>
-            <Text>룸디비 추가하기</Text>
+            <Text>소비자 룸디비 추가하기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.onClickRiderOrder();
+            }}>
+            <Text>배달원 룸디비 추가하기</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               this.onClickDelete();
             }}>
-            <Text>룸디비 삭제하기</Text>
+            <Text>소비자 룸디비 삭제하기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.onClickRiderDelete();
+            }}>
+            <Text>배달원 룸디비 삭제하기</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {

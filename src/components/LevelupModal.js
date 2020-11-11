@@ -22,7 +22,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
 import {RNS3} from 'react-native-aws3/src/RNS3';
-
+import card from '../../assets/card.png';
+import dulicard from '../../assets/card.png';
 // create a component
 class LevelupModal extends Component {
   constructor(props) {
@@ -95,12 +96,18 @@ class LevelupModal extends Component {
           </Header>
           <Content
             contentContainerStyle={{
-              height: 200,
+              height: 450,
               backgroundColor: '#f5f5f5',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 10}}>주민번호 앞 7자리만 보이도록 사진을 찍어주세요.</Text>
+            <ImageBackground
+              source={require('../../assets/dulicard.png')}
+              style={{height: 200, width: 300}}
+            />
+            <Text style={{fontSize: 12, marginTop: 10, textAlign: 'center'}}>
+              자신의 얼굴과 주민번호 앞 7자리만 보이도록 사진을 찍어주세요.
+            </Text>
             <View style={{justifyContent: 'center'}}>
               <ImageBackground
                 source={{uri: this.state.imageSrc}}
