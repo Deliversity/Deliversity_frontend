@@ -10,7 +10,9 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from '../axiosConfig';
 import {connect} from 'react-redux';
-class StoreScreen extends Component {
+import Mapping from './Mapping';
+type Props = {};
+class StoreScreen extends Component<Props> {
   static navigationOptions = {
     title: 'Store',
   };
@@ -22,7 +24,8 @@ class StoreScreen extends Component {
     };
     console.log(this.state.category); // 카테고리명: 카테고리로 주변찾기 검색할 때 쓰세요
     this.onClickGetAddress();
-  }
+  };
+
   onClickPostCode = async () => {
     this.props.navigation.navigate('Explore');
   };
@@ -55,6 +58,7 @@ class StoreScreen extends Component {
             <Icon name="saved-search" size={30} />
           </TouchableOpacity>
         </View>
+        <Mapping cat={this.state.category}></Mapping>
       </View>
     );
   }

@@ -29,7 +29,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('편의점');
+                    this.onClickCategory('convenience_store');
                   }}>
                   <View style={styles.profile}>
                     <Icon
@@ -44,7 +44,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('약국');
+                    this.onClickCategory('pharmacy');
                   }}>
                   <View style={styles.profile}>
                     <Icon name="local-pharmacy" color={'#000000'} size={50} />
@@ -55,7 +55,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('세탁소');
+                    this.onClickCategory('laundry');
                   }}>
                   <View style={styles.profile}>
                     <Icon
@@ -72,7 +72,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('음식점');
+                    this.onClickCategory('food');
                   }}>
                   <View style={styles.profile}>
                     <Icon name="local-restaurant" color={'#000000'} size={50} />
@@ -83,7 +83,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('문구점');
+                    this.onClickCategory('drugstore');
                   }}>
                   <View style={styles.profile}>
                     <Icon name="local-printshop" color={'#000000'} size={50} />
@@ -94,7 +94,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('기타');
+                    this.onClickCategory('point_of_interest');
                   }}>
                   <View style={styles.profile}>
                     <Icon name="add" color={'#ffff'} size={50} />
