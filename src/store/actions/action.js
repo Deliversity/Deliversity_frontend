@@ -32,6 +32,7 @@ export const getUserStorage = async (key) => {
     if (userData === null) {
       return false;
     }
+    return userData
     // //axios.defaults.headers.common['x-access-token'] = userData;
     // axios.interceptors.request.use(function (config) {
     //   const token = userData;
@@ -67,6 +68,7 @@ export const requestGoogleLogin = (data) => {
         setUserStorage('userToken', response.data.data.token);
         setUserStorage('firebaseToken', response.data.data.firebaseToken);
         let decoded = jwt_decode(response.data.data.token);
+        setUserStorage('id', decoded.id);
         auth().signInWithCustomToken(response.data.data.firebaseToken);
         const userData = {
           token: response.data.data.token,

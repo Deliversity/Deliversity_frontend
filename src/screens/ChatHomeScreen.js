@@ -11,8 +11,8 @@ class ChatHomeScreen extends Component {
     this.state = {
       isLoading: false,
       data: [
-        {id: '30', pw: 'e9e202c30d4a5598772d59738d3f7e2ade91343ba0a3742fc7'},
-        {id: 'test2', pw: 'test2'},
+        {id: '26', pw: '664e4b4a0f8f37dfc636f8296992e08b5639a2f539115e9a51'},
+        {id: '30', pw: '664e4b4a0f8f37dfc636f8296992e08b5639a2f539115e9a51'},
       ],
       userId:'',
       password: '',
@@ -26,8 +26,6 @@ class ChatHomeScreen extends Component {
       userId:articleData.id,
       password: articleData.pw,
     });
-    console.log("articleData");
-    console.log(articleData);
     this.props.navigation.navigate('Chat',{
       userId:articleData.id,
       password: articleData.pw
@@ -44,8 +42,6 @@ class ChatHomeScreen extends Component {
       <List
         dataArray={this.state.data}
         renderRow={(item) => {
-          console.log("item")
-          console.log(item)
           return <ChatList onPress={this.handleItemDataOnPress} data={item} />;
         }}
       />
