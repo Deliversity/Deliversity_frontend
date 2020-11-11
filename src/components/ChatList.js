@@ -30,7 +30,7 @@ class ChatList extends Component {
         this.setState({
           orderInfo: res.data.data.storeName,
         });
-        console.log(res);
+        //console.log(res);
       })
       .catch((err) => {
         alert(err);

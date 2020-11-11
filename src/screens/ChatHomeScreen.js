@@ -29,7 +29,7 @@ class ChatHomeScreen extends Component {
         if (length > 0) {
           let helpArray = [];
           console.log('success');
-          console.log(results.rows);
+          //console.log(results.rows);
           for (let i = 0; i < results.rows.length; i++) {
             helpArray.push(results.rows.item(i));
           }
