@@ -1,23 +1,19 @@
 import React, {Component} from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
+import {Container, Header, Content, Button, Text} from 'native-base';
 import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
-import ImagePicker from 'react-native-image-picker';
-import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
 import LevelupModal from '../components/LevelupModal';
-import {RNS3} from 'react-native-aws3/src/RNS3';
 import firebase from 'react-native-firebase';
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageSrc: 'https://api.adorable.io/avatars/80/abott@adorable.png',
       userGrade: '',
       setModalVisible: false,
     };
@@ -50,28 +46,39 @@ class MyPageScreen extends Component {
           <Text style={styles.text_header}>마이페이지</Text>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.textSize}>
-            {this.props.name}님은 {this.state.userGrade}입니다.
-          </Text>
-          <TouchableOpacity
-            style={styles.center}
-            onPress={() => {
-              this.onClickLevelUp();
+          <View
+            style={{
+              flexDirection: 'row',
+              marginBottom: 10,
+              justifyContent: 'flex-end',
             }}>
-            <Text style={styles.textSize}>등업 신청</Text>
-          </TouchableOpacity>
+            <Button
+              rounded
+              warning
+              style={{marginRight: 5}}
+              onPress={() => {
+                this.onClickLevelUp();
+              }}>
+              <Text style={{color: '#fff'}}>등업 신청</Text>
+            </Button>
+            <Button
+              rounded
+              warning
+              onPress={() => {
+                this.onClickLogout();
+              }}>
+              <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
+            </Button>
+          </View>
+          <Text style={styles.textSize}>
+            {this.props.name}님은 {this.state.userGrade}입니다!
+          </Text>
           <View style={{justifyContent: 'center'}}>
             <LevelupModal
               showModal={this.state.setModalVisible}
               onClose={this.handleModalClose}
             />
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              this.onClickLogout();
-            }}>
-            <Text style={styles.textSize}>🔐 LOGOUT</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -81,6 +88,7 @@ class MyPageScreen extends Component {
 const styles = StyleSheet.create({
   textSize: {
     fontSize: 15,
+    marginTop: 10,
   },
   container: {
     flex: 1,
@@ -102,8 +110,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 30,
+    paddingVertical: 20,
     paddingHorizontal: 20,
+    flexDirection: 'column',
   },
   center: {
     justifyContent: 'center',

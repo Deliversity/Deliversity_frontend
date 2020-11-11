@@ -2,31 +2,58 @@ import React, {Component} from 'react';
 import {Alert, View, ActivityIndicator, StyleSheet, Image} from 'react-native';
 import {Container, Content, List, Text} from 'native-base';
 import ChatList from '../components/ChatList';
-//import SQLite from "react-native-sqlite-storage";
+import SQLite from 'react-native-sqlite-storage';
+import {connect} from 'react-redux';
+let db;
 class ChatHomeScreen extends Component {
   constructor(props) {
     super(props);
-
+    db = SQLite.openDatabase({
+      name: 'sqlite.db',
+      createFromLocation: 1,
+    });
     this.state = {
       isLoading: false,
-      data: [
-        {id: '20', pw: 'e9e202c30d4a5598772d59738d3f7e2ade91343ba0a3742fc7'},
-        {id: '26', pw: 'e9e202c30d4a5598772d59738d3f7e2ade91343ba0a3742fc7'},
-      ],
+      data: [],
       userId: '',
       password: '',
       backColor: '',
     };
+    this.getRoomInfo();
   }
-
-  handleItemDataOnPress = (articleData) => {
-    this.setState({
-      userId: articleData.id,
-      password: articleData.pw,
+  getRoomInfo() {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM room', [], (tx, results) => {
+        let length = results.rows.length;
+        console.log('len' + length);
+        if (length > 0) {
+          let helpArray = [];
+          console.log('success');
+          console.log(results.rows);
+          for (let i = 0; i < results.rows.length; i++) {
+            helpArray.push(results.rows.item(i));
+          }
+          this.setState({data: helpArray});
+        }
+      });
     });
+  }
+  handleItemDataOnPress = (articleData) => {
+    let ownerId;
+    let hostId;
+    if (this.props.user === '배달원') {
+      ownerId = articleData.sender_id;
+      hostId = articleData.receiver_id;
+    }
+    if (this.props.user === '사용자') {
+      ownerId = articleData.sender_id;
+      hostId = articleData.receiver_id;
+    }
     this.props.navigation.navigate('Chat', {
-      userId: articleData.id,
-      password: articleData.pw,
+      room_id: articleData.room_id,
+      sender_id: articleData.sender_id,
+      receiver_id: articleData.receiver_id,
+      order_id: articleData.order_id,
     });
   };
 
@@ -38,6 +65,7 @@ class ChatHomeScreen extends Component {
       </View>
     ) : (
       <List
+        keyExtractor={(item, index) => index.toString()}
         dataArray={this.state.data}
         renderRow={(item) => {
           return <ChatList onPress={this.handleItemDataOnPress} data={item} />;
@@ -80,5 +108,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
 });
-
-export default ChatHomeScreen;
+const mapStateToProps = (state) => ({
+  user: state.authentication.user,
+});
+export default connect(mapStateToProps, {})(ChatHomeScreen);

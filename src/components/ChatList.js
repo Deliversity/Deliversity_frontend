@@ -9,37 +9,48 @@ import {
   Button,
 } from 'native-base';
 import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
+import axios from '../axiosConfig';
 class ChatList extends Component {
   constructor(props) {
     super(props);
     this.data = props.data;
+    this.state = {
+      orderInfo: '',
+    };
+    this.getOrderInfo();
   }
   handlePress = () => {
-    const {id, pw} = this.data;
-    this.props.onPress({id, pw});
+    const {order_id, room_id, sender_id, receiver_id} = this.data;
+    this.props.onPress({order_id, room_id, sender_id, receiver_id});
   };
-
+  getOrderInfo = async () => {
+    await axios
+      .get(`/api/v1/order?orderId=${this.data.order_id}`)
+      .then((res) => {
+        this.setState({
+          orderInfo: res.data.data.storeName,
+        });
+        console.log(res);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   render() {
     return (
       <ListItem thumbnail>
         <Left>
-          <Thumbnail
-            circle
-            source={require('../../assets/logo_D.png')}
-            style={{backgroundColor: '#add8e6'}}
-          />
+          <View style={styles.profile}>
+            <Text style={{fontWeight: 'bold', fontSize: 17}}>
+              {this.data.order_id}
+            </Text>
+          </View>
         </Left>
         <Body>
           <TouchableOpacity onPress={this.handlePress}>
-            <Text numberOfLines={2}>{this.data.id}</Text>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                marginTop: 8,
-                marginLeft: 0,
-              }}
-            />
+            <Text style={{fontSize: 13}}>
+              "{this.state.orderInfo}"에서 한 주문
+            </Text>
           </TouchableOpacity>
         </Body>
       </ListItem>
@@ -49,4 +60,14 @@ class ChatList extends Component {
 
 export default ChatList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  profile: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    backgroundColor: '#ffd700',
+  },
+});

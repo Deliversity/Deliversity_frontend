@@ -100,11 +100,22 @@ function ChatStack() {
       />
       <Stack.Screen
         options={{
-          headerShown: false,
-          tabBarVisible: false,
+          title: '채팅하기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
         }}
         name="Chat"
         component={ChatScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="View"
+        component={ViewUser}
       />
     </Stack.Navigator>
   );
