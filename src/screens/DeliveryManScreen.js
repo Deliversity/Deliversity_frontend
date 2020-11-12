@@ -4,11 +4,14 @@ import {
   ScrollView,
   StyleSheet,
   TextInput,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
 import axios from '../axiosConfig';
 import {List, Text} from 'native-base';
 import DeliveryManList from '../components/DeliveryManList';
+import SQLite from 'react-native-sqlite-storage';
+let db;
 //신청온 배달원 리스트 확인후 선택하는 페이지
 class DeliveryManScreen extends Component {
   static navigationOptions = {
@@ -25,6 +28,10 @@ class DeliveryManScreen extends Component {
     };
     this.getDeliveryList();
     this.getOrderInfo();
+    db = SQLite.openDatabase({
+      name: 'sqlite.db',
+      createFromLocation: 1,
+    });
   }
   getDeliveryList = async () => {
     await axios
@@ -61,6 +68,23 @@ class DeliveryManScreen extends Component {
       orderID: this.state.orderID,
     });
   };
+  insertRoomDB = () => {
+    let room = '1740beff4d828061bf9da9fc6203c24d3704ba482499f83b4d';
+    let sender = 20;
+    let receiver = 30;
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO consumerRoom (room_id, owner_id, guest_id, order_id) VALUES (?,?,?,?)',
+        [room, sender, receiver, this.state.orderID],
+        (tx, results) => {
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            alert('이제 배달원과 채팅 할 수 있습니다.');
+          }
+        },
+      );
+    });
+  };
   handleItemOnPressSelect = async (articleData) => {
     const data = {
       riderId: articleData.riderId,
@@ -69,6 +93,7 @@ class DeliveryManScreen extends Component {
       .post(`/api/v1/order/rider?orderId=${this.state.orderID}`, data)
       .then((res) => {
         alert('매칭 신청이 완료 되었습니다.');
+        //this.insertRoomDB();
         this.props.navigation.goBack(null);
       })
       .catch((e) => {

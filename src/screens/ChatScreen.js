@@ -6,47 +6,102 @@ import * as socketio from 'socket.io-client';
 const socket = socketio.connect('http://deliversity.co.kr:81/api/v1/chat/io', {
   transports: ['websocket'],
 });
-import {openDatabase} from 'react-native-sqlite-storage';
-var db = openDatabase({name: 'chatDB.db'});
-
+import SQLite from 'react-native-sqlite-storage';
+let db;
+db = SQLite.openDatabase({
+  name: 'sqlite.db',
+  createFromLocation: 1,
+});
+ChatScreen.navigationOptions = {
+  tabBarVisible: false,
+};
 export default function ChatScreen(props) {
   //navigation.setOptions({tabBarVisible: false});
   let [messages, setMessages] = useState([]);
-  let [userData, setUserData] = useState({});
-  ChatScreen.navigationOptions = {
-    tabBarVisible: false,
-  };
-  console.log(props.route.params.password);
   useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM user', [], (tx, results) => {
-        var len = results.rows.length;
-        console.log('len', len);
-        if (len > 0) {
-          setUserData(results.rows.item(0));
-          console.log(results.rows.item(0).id);
-          let memo = [
-            {_id: '', createdAt: '', text: '', user: {_id: '', roomId: ''}},
-          ];
-          //let text=[{"_id": "6a1414ad-7271-4baa-ab33-d01a07132e28", "createdAt": "2020-11-09T16:33:48.283Z", "text": "seyeon", "user": {"_id": "20", "roomId": "e9e202c30d4a5598772d59738d3f7e2ade91343ba0a3742fc7"}}]
-          //setMessages(GiftedChat.append(messages,text));
-        } else {
-          alert('No user found');
-        }
+    //이전 메시지 받아오기
+    console.log('here');
+    if (messages !== null) {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM message where room_id=?',
+          [props.route.params.room_id],
+          (tx, results) => {
+            let length = results.rows.length;
+            if (length > 0) {
+              let helpArray = [];
+              console.log('success');
+              for (let i = results.rows.length - 1; i >= 0; i--) {
+                let text = {
+                  _id: results.rows.item(i).text_id,
+                  createdAt: results.rows.item(i).createdAt,
+                  text: results.rows.item(i).text,
+                  user: {
+                    _id: results.rows.item(i).sender_id,
+                    roomId: results.rows.item(i).room_id,
+                    avatar: logo,
+                  },
+                };
+                helpArray.push(text);
+              }
+              console.log(helpArray);
+              setMessages(GiftedChat.append(messages, helpArray));
+            }
+          },
+        );
       });
-    });
+    }
   }, []);
+
   socket.on('rChat', (newMessage) => {
     let newMessaged = newMessage;
     newMessaged[0]._id = uuid.v4();
+    newMessaged[0].user.avatar = logo;
     setMessages(GiftedChat.append(messages, newMessaged));
+    onSendDB(newMessaged);
   });
   const onSend = (newMessage = []) => {
     let newMessaged = newMessage;
-    newMessaged[0]._id = uuid.v4();
+    //newMessaged[0]._id = uuid.v4();
+    newMessaged[0].createdAt = new Date();
     setMessages(GiftedChat.append(messages, newMessaged));
-    socket.emit('chat', newMessage);
-    console.log(newMessage);
+    socket.emit('chat', newMessaged);
+    onSendDB(newMessaged);
+  };
+  const onSendDB = (newMessage) => {
+    let beforeTime = new Date();
+    let month = beforeTime.getMonth() + 1;
+    let time =
+      beforeTime.getFullYear() +
+      '-' +
+      month +
+      '-' +
+      beforeTime.getDate() +
+      ' ' +
+      beforeTime.getHours() +
+      ':' +
+      beforeTime.getMinutes() +
+      ':' +
+      beforeTime.getSeconds();
+    let textId = newMessage[0]._id;
+    let createdAt = time;
+    let text = newMessage[0].text;
+    let senderId = newMessage[0].user._id;
+    let roomId = newMessage[0].user.roomId;
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO message (text_id, room_id, sender_id, createdAt, text) VALUES (?,?,?,?,?)',
+        [textId, roomId, senderId, createdAt, text],
+        (tx, results) => {
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            console.log('success');
+          } else {
+            console.log('fail');
+          }
+        },
+      );
+    });
   };
 
   return (
@@ -54,8 +109,8 @@ export default function ChatScreen(props) {
       messages={messages}
       onSend={(newMessage) => onSend(newMessage)}
       user={{
-        _id: props.route.params.userId,
-        roomId: props.route.params.password,
+        _id: props.route.params.owner_id,
+        roomId: props.route.params.room_id,
       }}
     />
   );

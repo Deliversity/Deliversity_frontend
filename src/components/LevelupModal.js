@@ -2,10 +2,8 @@
 import React, {Component} from 'react';
 import {
   Dimensions,
-  WebView,
+  View,
   Modal,
-  Share,
-  TouchableOpacity,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
@@ -24,8 +22,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
 import {RNS3} from 'react-native-aws3/src/RNS3';
-const webViewHeight = Dimensions.get('window').height - 56;
-
+import card from '../../assets/card.png';
+import dulicard from '../../assets/card.png';
 // create a component
 class LevelupModal extends Component {
   constructor(props) {
@@ -82,38 +80,48 @@ class LevelupModal extends Component {
         onRequestClose={this.handleClose}
         style={{justifyContent: 'space-between'}}>
         <Container
-          style={{margin: 15, marginBottom: 0, backgroundColor: '#fff'}}>
-          <Header style={{backgroundColor: '#e9967a'}}>
+          style={{margin: 20, marginBottom: 0, backgroundColor: '#fff'}}>
+          <Header style={{backgroundColor: '#f5f5f5', textAlign: 'center'}}>
             <Left>
               <Button onPress={this.handleClose} transparent>
-                <Icon name="close" style={{color: 'white', fontSize: 20}} />
+                <Icon name="close" style={{color: 'black', fontSize: 20}} />
               </Button>
             </Left>
             <Body>
               <Title
-                children="등업 신청"
-                style={{color: 'white', textAlign: 'center'}}
+                children="📷 신분증 등록하세요"
+                style={{color: 'black', fontSize: 15}}
               />
             </Body>
           </Header>
           <Content
             contentContainerStyle={{
-              height: 200,
-              backgroundColor: '#faf0e6',
+              height: 450,
+              backgroundColor: '#f5f5f5',
               justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <TouchableOpacity
-              style={styles.center}
-              onPress={() => {
-                this.onClickPicture();
-              }}>
-              <Text style={styles.textSize}>📷 신분증 등록하세요.</Text>
-            </TouchableOpacity>
             <ImageBackground
-              source={{uri: this.state.imageSrc}}
-              style={{height: 100, width: 100}}
-              imageStyle={{borderRadius: 15}}
+              source={require('../../assets/dulicard.png')}
+              style={{height: 200, width: 300}}
             />
+            <Text style={{fontSize: 12, marginTop: 10, textAlign: 'center'}}>
+              자신의 얼굴과 주민번호 앞 7자리만 보이도록 사진을 찍어주세요.
+            </Text>
+            <View style={{justifyContent: 'center'}}>
+              <ImageBackground
+                source={{uri: this.state.imageSrc}}
+                style={{height: 100, width: 100}}
+                imageStyle={{borderRadius: 15}}
+              />
+              <Button
+                bordered
+                onPress={() => {
+                  this.onClickPicture();
+                }}>
+                <Text>사진 업로드</Text>
+              </Button>
+            </View>
           </Content>
         </Container>
       </Modal>

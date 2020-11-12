@@ -11,7 +11,7 @@ class ManageDeliveryList extends Component {
     } else if (this.data.orderStatus === '2') {
       this.text = '배달중';
     } else if (this.data.orderStatus === '3') {
-      this.text = '배달 완료';
+      this.text = '후기 작성 하기';
     } else {
       this.text = '후기 작성 완료';
     }
