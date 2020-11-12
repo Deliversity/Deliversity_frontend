@@ -94,7 +94,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('기타');
+                    this.onClickCategory('point_of_interest');
                   }}>
                   <View style={styles.profile}>
                     <Icon name="add" color={'#ffff'} size={50} />

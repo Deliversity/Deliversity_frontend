@@ -23,6 +23,7 @@ import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
 import {NavigationContainer} from '@react-navigation/native';
+import Mapping from './Mapping';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -176,6 +177,11 @@ function ConsumerStack() {
         options={{headerShown: false}}
         name="Explore"
         component={ExploreScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Map"
+        component={Mapping}
       />
       <Stack.Screen
         name="Order"

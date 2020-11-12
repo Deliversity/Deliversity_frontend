@@ -21,6 +21,7 @@ class OrderScreen extends Component {
       orderType: '',
       hour: '',
       min: '',
+      name: this.props.route.params ? this.props.route.params.name : '',
     };
   }
   render() {
@@ -28,7 +29,7 @@ class OrderScreen extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>요청할 가게</Text>
-          <Text>세모약국</Text>
+          <Text>{this.state.name}</Text>
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 요청 하기</Text>
