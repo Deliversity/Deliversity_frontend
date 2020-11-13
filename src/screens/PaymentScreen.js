@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {Text} from 'native-base';
+import {Text, Button} from 'native-base';
 import {connect} from 'react-redux';
 import axios from '../axiosConfig';
 class PaymentScreen extends Component {
@@ -29,6 +29,7 @@ class PaymentScreen extends Component {
       cost: '',
     };
     this.getMyPoint();
+    this.getTotalFee();
   }
   getMyPoint = async () => {
     await axios
@@ -41,6 +42,7 @@ class PaymentScreen extends Component {
       });
   };
   getTotalFee = async () => {
+    console.log(this.state.orderNum);
     await axios
       .get(`/api/v1/order/price?orderId=${this.state.orderNum}`)
       .then((res) => {
@@ -92,9 +94,9 @@ class PaymentScreen extends Component {
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
-            <View style={styles.reservationBox}>
-              <Text style={styles.bookingStyle2}>충전</Text>
-            </View>
+            <Button rounded success>
+              <Text style={{color: '#fff'}}>충전</Text>
+            </Button>
           </View>
         </View>
         {this.props.user === '배달원' ? (
@@ -127,11 +129,11 @@ class PaymentScreen extends Component {
             <Text style={styles.imageUserTitle}>
               거리 배달비 + 추가 배달비 + 주문 금액을 합한 금액입니다.
             </Text>
-            <Text style={styles.imageCostTitle}>거리 배달비: 3000원</Text>
-            <Text style={styles.imageCostTitle}>추가 배달비: 3000원</Text>
-            <Text style={styles.imageCostTitle}>주문 금액: 3000원</Text>
+            <Text style={styles.imageCostTitle}>거리 배달비: {this.state.deliveryFee}원</Text>
+            <Text style={styles.imageCostTitle}>추가 배달비: {this.state.extraFee}원</Text>
+            <Text style={styles.imageCostTitle}>주문 금액: {this.state.cost}원</Text>
             <View style={styles.rightBox}>
-              <Text style={styles.imageTitle}>총 9,000 point</Text>
+              <Text style={styles.imageTitle}>총 {this.state.totalCost} point</Text>
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -218,5 +220,6 @@ const mapStateToProps = (state) => ({
   owner: state.authentication.owner,
   guest: state.authentication.guest,
   name: state.authentication.name,
+  orderNum: state.authentication.orderNum,
 });
 export default connect(mapStateToProps, {})(PaymentScreen);

@@ -40,6 +40,7 @@ export const getUserStorage = async (key) => {
     //
     //   return config;
     // });
+    return userData;
   } catch (e) {
     alert('error: ' + e);
   }
@@ -108,6 +109,7 @@ export const requestKakaoLogin = (data) => {
             setUserStorage('userToken', response.data.data.token);
             setUserStorage('firebaseToken', response.data.data.firebaseToken);
             let decoded = jwt_decode(response.data.data.token);
+            setUserStorage('id', decoded.id.toString());
             auth().signInWithCustomToken(response.data.data.firebaseToken);
             const userData = {
               token: response.data.data.token,
@@ -145,6 +147,8 @@ export const requestLogin = (data) => {
             setUserStorage('userToken', response.data.data.token);
             setUserStorage('firebaseToken', response.data.data.firebaseToken);
             let decoded = jwt_decode(response.data.data.token);
+            setUserStorage('id', decoded.id.toString());
+            console.log(decoded.id.toString());
             auth().signInWithCustomToken(response.data.data.firebaseToken);
             const userData = {
               token: response.data.data.token,
