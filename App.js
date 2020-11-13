@@ -68,7 +68,7 @@ export default class App extends React.Component {
         //채팅방 생성
         await this.onSendDB(orderId, roomId, userId, riderId);
       }
-      Alert.alert('A new FCM message arrived!', message);
+      Alert.alert('A new FCM message arrived!', remoteMessage.data.test);
 
       console.log('foreground', remoteMessage);
     });

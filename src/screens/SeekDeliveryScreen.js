@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import ChangeButton from '../components/ChangeButton';
 import axios from '../axiosConfig';
-import OrderItem from '../components/OrderItem';
-import HotOrderItem from '../components/HotOrderItem';
-import {List} from 'native-base';
+import Card from '../components/seekDeliveryCard';
 class SeekDeliveryScreen extends Component {
   constructor(props) {
     super(props);
@@ -12,16 +18,19 @@ class SeekDeliveryScreen extends Component {
       HotOrderList: '',
       DefaultOrderList: '',
       isHotDeal: true,
+      refreshing: false,
     };
+  }
+  componentDidMount(): void {
     this.onClickGetHotDeal();
     this.onClickGetDefault();
   }
-  handleItemDataonSelect = (articleData) => {
-    this.props.navigation.navigate('DetailDelivery', {
-      orderID: articleData.id,
-    });
+  handleRefresh = async () => {
+    await this.onClickGetHotDeal();
+    await this.onClickGetDefault();
   };
   onClickGetHotDeal = async () => {
+    await this.setState({refreshing: true});
     await axios
       .get('/api/v1/order/orders')
       .then((res) => {
@@ -29,11 +38,12 @@ class SeekDeliveryScreen extends Component {
         const HotDealList = orderList.filter(function (ele) {
           return ele.hotDeal === true;
         });
-        this.setState({HotOrderList: HotDealList});
+        this.setState({HotOrderList: HotDealList, refreshing: false});
       })
       .catch((e) => {});
   };
   onClickGetDefault = async () => {
+    await this.setState({refreshing: true});
     await axios
       .get('/api/v1/order/orders')
       .then((res) => {
@@ -42,13 +52,24 @@ class SeekDeliveryScreen extends Component {
         const DefaultOrderList = orderList.filter(function (ele) {
           return ele.hotDeal === false;
         });
-        this.setState({DefaultOrderList: DefaultOrderList});
+        this.setState({DefaultOrderList: DefaultOrderList, refreshing: false});
       })
       .catch((e) => {
         alert(e.response.data.message);
       });
   };
-
+  renderItem = ({item}) => {
+    return (
+      <Card
+        itemData={item}
+        onPress={() =>
+          this.props.navigation.navigate('DetailDelivery', {
+            orderID: item.id,
+          })
+        }
+      />
+    );
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -64,30 +85,30 @@ class SeekDeliveryScreen extends Component {
         </View>
         <View style={styles.footer}>
           {this.state.isHotDeal === true ? (
-            <List
-              dataArray={this.state.HotOrderList}
-              keyExtractor={(item, index) => index.toString()}
-              renderRow={(item) => {
-                return (
-                  <HotOrderItem
-                    onSelect={this.handleItemDataonSelect}
-                    data={item}
-                  />
-                );
-              }}
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh}
+                />
+              }
+              extraData={this.state}
+              data={this.state.HotOrderList}
+              renderItem={this.renderItem}
+              keyExtractor={(item) => item.id}
             />
           ) : (
-            <List
-              dataArray={this.state.DefaultOrderList}
-              keyExtractor={(item, index) => index.toString()}
-              renderRow={(item) => {
-                return (
-                  <OrderItem
-                    onSelect={this.handleItemDataonSelect}
-                    data={item}
-                  />
-                );
-              }}
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh}
+                />
+              }
+              extraData={this.state}
+              data={this.state.DefaultOrderList}
+              renderItem={this.renderItem}
+              keyExtractor={(item) => item.id}
             />
           )}
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -137,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   panelButtonTitle: {
     fontSize: 15,

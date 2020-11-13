@@ -10,7 +10,6 @@ import StoreScreen from './StoreScreen';
 import MyPageScreen from './MyPageScreen';
 import SeekDeliveryScreen from './SeekDeliveryScreen';
 import DetailDeliveryScreen from './DetailDeliveryScreen';
-import MatchingScreen from './MatchingScreen';
 import ChatScreen from './ChatScreen';
 import ChatHomeScreen from './ChatHomeScreen';
 import DeliveryManScreen from './DeliveryManScreen';
@@ -18,6 +17,7 @@ import CourierReviewScreen from './CourierReviewScreen';
 import ManageDeliveryScreen from './ManageDeliveryScreen';
 import ViewUser from './ViewUser';
 import PaymentScreen from './PaymentScreen';
+import ManageOrderScreen from './ManageOrderScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -148,11 +148,11 @@ function ChatStack({navigation}) {
 }
 function OrderManageStack() {
   return (
-    <Stack.Navigator initialRouteName="Matching">
+    <Stack.Navigator initialRouteName="ManageOrder">
       <Stack.Screen
         options={{headerShown: false}}
-        name="Matching"
-        component={MatchingScreen}
+        name="ManageOrder"
+        component={ManageOrderScreen}
       />
       <Stack.Screen
         name="DeliveryMan"
@@ -327,7 +327,7 @@ function ConsumerTabStack() {
         }}
       />
       <Tab.Screen
-        name="Matching"
+        name="ManageOrder"
         component={OrderManageStack}
         options={{
           tabBarLabel: '주문 관리',
