@@ -1,5 +1,10 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {GiftedChat, Bubble, Message} from 'react-native-gifted-chat';
+import {GiftedChat, Actions, ActionsProps} from 'react-native-gifted-chat';
+import {LogBox} from 'react-native';
+LogBox.ignoreWarnings([
+  'Animated.event now requires a second argument for options',
+]);
+import ImagePicker from 'react-native-image-picker';
 import uuid from 'uuid';
 import logo from '../../assets/logo_colorD.png';
 import * as socketio from 'socket.io-client';
@@ -7,6 +12,11 @@ const socket = socketio.connect('http://deliversity.co.kr:81/api/v1/chat/io', {
   transports: ['websocket'],
 });
 import SQLite from 'react-native-sqlite-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {currentRelation} from '../store/actions/action';
+import {connect} from 'react-redux';
+import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
+import {RNS3} from 'react-native-aws3/src/RNS3';
 let db;
 db = SQLite.openDatabase({
   name: 'sqlite.db',
@@ -15,12 +25,18 @@ db = SQLite.openDatabase({
 ChatScreen.navigationOptions = {
   tabBarVisible: false,
 };
-export default function ChatScreen(props) {
+function ChatScreen(props) {
   //navigation.setOptions({tabBarVisible: false});
   let [messages, setMessages] = useState([]);
+  let [avatar, setAvatar] = useState('logo');
   useEffect(() => {
     //이전 메시지 받아오기
     console.log('here');
+    props.currentRelation(
+      props.route.params.owner_id,
+      props.route.params.guest_id,
+      props.route.params.order_id,
+    );
     if (messages !== null) {
       db.transaction((tx) => {
         tx.executeSql(
@@ -36,6 +52,8 @@ export default function ChatScreen(props) {
                   _id: results.rows.item(i).text_id,
                   createdAt: results.rows.item(i).createdAt,
                   text: results.rows.item(i).text,
+                  image: results.rows.item(i).image,
+                  messageType: results.rows.item(i).messageType,
                   user: {
                     _id: results.rows.item(i).sender_id,
                     roomId: results.rows.item(i).room_id,
@@ -52,7 +70,60 @@ export default function ChatScreen(props) {
       });
     }
   }, []);
-
+  function handlePickImage() {
+    ImagePicker.showImagePicker({}, (response) => {
+      let file = {
+        uri: response.uri,
+        name: response.fileName,
+        type: response.type,
+      };
+      console.log(file);
+      const config = {
+        keyPrefix: 'Identification/',
+        bucket: 'deliversity',
+        region: 'ap-northeast-2',
+        accessKey: AWS_ACCESSKEY,
+        secretKey: AWS_SECRETKEY,
+        successActionStatus: 201,
+      };
+      RNS3.put(file, config)
+        .then((response) => {
+          let helpArray = [];
+          const message = {};
+          message._id = uuid.v4();
+          //  message.createdAt = new Date();
+          message.user = {
+            _id: props.route.params.owner_id,
+            roomId: props.route.params.room_id,
+          };
+          message.image = response.headers.Location;
+          message.messageType = 'image';
+          helpArray.push(message);
+          onSend(helpArray);
+        })
+        .catch(function (error) {
+          console.log(
+            'There has been a problem with your fetch operation: ' +
+              error.message,
+          );
+          // ADD THIS THROW error
+          throw error;
+        });
+    });
+  }
+  function renderActions(props: Readonly<ActionsProps>) {
+    return (
+      <Actions
+        {...props}
+        options={{
+          ['Send Image']: handlePickImage,
+          useNativeDriver: false,
+        }}
+        icon={() => <Icon name="perm-media" color="#f4da6c" size={25} />}
+        onSend={(args) => console.log(args)}
+      />
+    );
+  }
   socket.on('rChat', (newMessage) => {
     let newMessaged = newMessage;
     newMessaged[0]._id = uuid.v4();
@@ -61,15 +132,16 @@ export default function ChatScreen(props) {
     onSendDB(newMessaged);
   });
   const onSend = (newMessage = []) => {
+    console.log(newMessage);
     let newMessaged = newMessage;
     //newMessaged[0]._id = uuid.v4();
-    newMessaged[0].createdAt = new Date();
+    newMessaged[0].createdAt = Date.now();
     setMessages(GiftedChat.append(messages, newMessaged));
     socket.emit('chat', newMessaged);
     onSendDB(newMessaged);
   };
   const onSendDB = (newMessage) => {
-    let beforeTime = new Date();
+    let beforeTime = Date.now();
     let month = beforeTime.getMonth() + 1;
     let time =
       beforeTime.getFullYear() +
@@ -88,12 +160,13 @@ export default function ChatScreen(props) {
     let text = newMessage[0].text;
     let senderId = newMessage[0].user._id;
     let roomId = newMessage[0].user.roomId;
+    let image = newMessage[0].image;
+    let messageType = newMessage[0].messageType;
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO message (text_id, room_id, sender_id, createdAt, text) VALUES (?,?,?,?,?)',
-        [textId, roomId, senderId, createdAt, text],
+        'INSERT INTO message (text_id, room_id, sender_id, createdAt, text, image, messageType) VALUES (?,?,?,?,?,?,?)',
+        [textId, roomId, senderId, createdAt, text, image, messageType],
         (tx, results) => {
-          console.log(results.rowsAffected);
           if (results.rowsAffected > 0) {
             console.log('success');
           } else {
@@ -103,15 +176,24 @@ export default function ChatScreen(props) {
       );
     });
   };
-
   return (
     <GiftedChat
       messages={messages}
-      onSend={(newMessage) => onSend(newMessage)}
       user={{
         _id: props.route.params.owner_id,
         roomId: props.route.params.room_id,
       }}
+      onSend={(newMessage) => onSend(newMessage)}
+      renderActions={renderActions}
+      //renderComposer={renderComposer}
     />
   );
 }
+const mapStateToProps = (state) => ({
+  user: state.authentication.user,
+});
+const mapDispatchToProps = (dispatch) => ({
+  currentRelation: (owner, guest, orderNum) =>
+    dispatch(currentRelation(owner, guest, orderNum)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);
