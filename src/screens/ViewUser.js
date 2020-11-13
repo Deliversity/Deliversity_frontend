@@ -82,7 +82,7 @@ export default class App extends Component {
     });
   }
   onClickDelete() {
-    let order = 1;
+    let order = 2;
     db.transaction((tx) => {
       tx.executeSql(
         'DELETE FROM consumerRoom where id=?',
@@ -131,10 +131,10 @@ export default class App extends Component {
     });
   }
   onClickOrder() {
-    let room = '664e4b4a0f8f37dfc636f8296992e08b5639a2f539115e9a51';
+    let room = '21';
     let sender = 20;
     let receive = 30;
-    let order = 35;
+    let order = 3;
     console.log(room);
     db.transaction((tx) => {
       tx.executeSql(

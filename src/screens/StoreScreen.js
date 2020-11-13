@@ -27,7 +27,7 @@ class StoreScreen extends Component {
     console.log(this.state.category); // 카테고리명: 카테고리로 주변찾기 검색할 때 쓰세요
     this.onClickGetAddress();
   }
-  onClickPostCode = async () => {
+  onClickPostCode = () => {
     this.props.navigation.navigate('Explore');
   };
   onClickGetAddress = async () => {
