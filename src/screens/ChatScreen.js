@@ -1,9 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {GiftedChat, Actions, ActionsProps} from 'react-native-gifted-chat';
-import {LogBox} from 'react-native';
-LogBox.ignoreWarnings([
-  'Animated.event now requires a second argument for options',
-]);
 import ImagePicker from 'react-native-image-picker';
 import uuid from 'uuid';
 import logo from '../../assets/logo_colorD.png';
@@ -117,7 +113,6 @@ function ChatScreen(props) {
         {...props}
         options={{
           ['Send Image']: handlePickImage,
-          useNativeDriver: false,
         }}
         icon={() => <Icon name="perm-media" color="#f4da6c" size={25} />}
         onSend={(args) => console.log(args)}
