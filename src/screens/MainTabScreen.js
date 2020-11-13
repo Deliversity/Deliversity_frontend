@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import {Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -17,13 +17,13 @@ import DeliveryManScreen from './DeliveryManScreen';
 import CourierReviewScreen from './CourierReviewScreen';
 import ManageDeliveryScreen from './ManageDeliveryScreen';
 import ViewUser from './ViewUser';
+import PaymentScreen from './PaymentScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
 import {NavigationContainer} from '@react-navigation/native';
-import Mapping from './Mapping';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -91,7 +91,7 @@ function AuthStack() {
     </Stack.Navigator>
   );
 }
-function ChatStack() {
+function ChatStack({navigation}) {
   return (
     <Stack.Navigator initialRouteName="ChatHome">
       <Stack.Screen
@@ -109,6 +109,17 @@ function ChatStack() {
             fontWeight: 'bold',
             fontSize: 16,
           },
+          headerRight: () => (
+            <View style={{flexDirection: 'row', marginRight: 10}}>
+              <TouchableOpacity
+                style={{paddingHorizontal: 10, marginTop: 5}}
+                onPress={() => {
+                  navigation.navigate('Payment');
+                }}>
+                <Text>💰</Text>
+              </TouchableOpacity>
+            </View>
+          ),
         }}
         name="Chat"
         component={ChatScreen}
@@ -117,6 +128,20 @@ function ChatStack() {
         options={{headerShown: false}}
         name="View"
         component={ViewUser}
+      />
+      <Stack.Screen
+        options={{
+          title: '정산하기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        name="Payment"
+        component={PaymentScreen}
       />
     </Stack.Navigator>
   );
@@ -177,11 +202,6 @@ function ConsumerStack() {
         options={{headerShown: false}}
         name="Explore"
         component={ExploreScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Map"
-        component={Mapping}
       />
       <Stack.Screen
         name="Order"

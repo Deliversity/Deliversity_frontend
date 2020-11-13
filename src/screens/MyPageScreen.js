@@ -10,12 +10,14 @@ import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
 import firebase from 'react-native-firebase';
+import axios from '../axiosConfig';
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userGrade: '',
       setModalVisible: false,
+      point: '',
     };
     console.log(props.grade);
     if (props.grade == 0) {
@@ -23,6 +25,7 @@ class MyPageScreen extends Component {
     } else {
       this.state.userGrade = '정회원';
     }
+    this.getMyPoint();
   }
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
@@ -38,6 +41,16 @@ class MyPageScreen extends Component {
     this.setState({
       setModalVisible: true,
     });
+  };
+  getMyPoint = async () => {
+    await axios
+      .get('/api/v1/point')
+      .then((res) => {
+        this.setState({point: res.data.data.point});
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
   };
   render() {
     return (
@@ -70,9 +83,33 @@ class MyPageScreen extends Component {
               <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
             </Button>
           </View>
-          <Text style={styles.textSize}>
-            {this.props.name}님은 {this.state.userGrade}입니다!
-          </Text>
+          <View style={styles.box}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                borderBottomWidth: 1,
+                marginBottom: 10,
+              }}>
+              <Text style={styles.imageTitle}>{this.props.name}님</Text>
+              <Text style={styles.imageUserTitle}>
+                {this.state.userGrade} 등급
+              </Text>
+            </View>
+            <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Button rounded success style={{marginRight: 5}}>
+                  <Text style={{color: '#fff'}}>충전</Text>
+                </Button>
+                <Button rounded success>
+                  <Text style={{color: '#fff'}}>환급</Text>
+                </Button>
+              </View>
+            </View>
+          </View>
           <View style={{justifyContent: 'center'}}>
             <LevelupModal
               showModal={this.state.setModalVisible}
@@ -116,6 +153,51 @@ const styles = StyleSheet.create({
   },
   center: {
     justifyContent: 'center',
+    marginBottom: 10,
+  },
+  box: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#fffaf0',
+    flexDirection: 'column',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    marginBottom: 5,
+    marginTop: 2,
+    backgroundColor: 'white',
+  },
+  imageTitle: {
+    fontWeight: 'bold',
+    fontSize: 17,
+    backgroundColor: 'transparent',
+    marginBottom: 10,
+  },
+  pointTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  imageSubTitle: {
+    marginTop: 5,
+    fontSize: 15,
+    color: 'green',
+  },
+  reservationBox: {
+    backgroundColor: '#ff7f50',
+    marginLeft: 6,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    paddingHorizontal: 7,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  bookingStyle2: {
+    fontSize: 13,
+    color: '#fff',
+  },
+  imageUserTitle: {
+    marginTop: 5,
+    fontSize: 12,
+    color: 'gray',
     marginBottom: 10,
   },
 });
