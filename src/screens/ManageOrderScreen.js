@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
+import {Text, View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import axios from '../axiosConfig';
 import Card from '../components/manageOrderCard';
 class ManageOrderScreen extends Component {
@@ -34,11 +28,16 @@ class ManageOrderScreen extends Component {
     return (
       <Card
         itemData={item}
-        onPress={() =>
-          this.props.navigation.navigate('DeliveryMan', {
-            orderID: item.id,
-          })
-        }
+        onPress={() => {
+          item.orderStatus === '3'
+            ? this.props.navigation.navigate('WriteReview', {
+                orderID: item.id,
+                riderID: item.riderId,
+              })
+            : this.props.navigation.navigate('DeliveryMan', {
+                orderID: item.id,
+              });
+        }}
       />
     );
   };

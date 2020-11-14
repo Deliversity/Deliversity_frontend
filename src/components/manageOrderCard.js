@@ -2,22 +2,45 @@ import React, {useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const manageOrderCard = ({itemData, onPress}) => {
-
   return (
-    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 25, paddingVertical: 20, borderBottomWidth: 2, borderBottomColor:'#fffafa'}}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        paddingHorizontal: 25,
+        paddingVertical: 20,
+        borderBottomWidth: 2,
+        borderBottomColor: '#fffafa',
+      }}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text style={{fontSize: 18, fontWeight: 'bold'}}>
           주문번호: {itemData.id}
         </Text>
         <View style={styles.reservationBox}>
-          {itemData.orderStatus === '0' ? (
+          {itemData.orderStatus === '0' && (
             <Text style={styles.bookingStyle}>주문접수 완료</Text>
-          ) : (
+          )}
+          {itemData.orderStatus === '1' && (
             <Text style={styles.bookingStyle}>배달원 선택 완료</Text>
+          )}
+          {itemData.orderStatus === '2' && (
+            <Text style={styles.bookingStyle}>배달중</Text>
+          )}
+          {itemData.orderStatus === '3' && (
+            <Text style={styles.bookingStyle}>후기 작성 하기</Text>
+          )}
+          {itemData.orderStatus === '4' && (
+            <Text style={styles.bookingStyle}>후기 작성 완료</Text>
           )}
         </View>
       </View>
-      <View style={{borderTopWidth: 4, borderTopColor: '#4682b4', width:'35%', borderTopRightRadius: 15}} />
+      <View
+        style={{
+          borderTopWidth: 4,
+          borderTopColor: '#4682b4',
+          width: '35%',
+          borderTopRightRadius: 15,
+        }}
+      />
       <Text style={styles.textSize}>{itemData.storeName}</Text>
       <Text style={{fontSize: 13}}>{itemData.content}</Text>
     </TouchableOpacity>

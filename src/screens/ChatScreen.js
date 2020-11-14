@@ -130,13 +130,14 @@ function ChatScreen(props) {
     console.log(newMessage);
     let newMessaged = newMessage;
     //newMessaged[0]._id = uuid.v4();
-    newMessaged[0].createdAt = Date.now();
+    newMessaged[0].createdAt = new Date();
     setMessages(GiftedChat.append(messages, newMessaged));
     socket.emit('chat', newMessaged);
     onSendDB(newMessaged);
   };
   const onSendDB = (newMessage) => {
-    let beforeTime = Date.now();
+    let beforeTime = newMessage[0].createdAt;
+    console.log(beforeTime);
     let month = beforeTime.getMonth() + 1;
     let time =
       beforeTime.getFullYear() +
