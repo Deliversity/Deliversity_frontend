@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
-import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import {List, Text} from 'native-base';
-import ManageDeliveryList from '../components/ManageDeliveryList';
+import Card from '../components/manageDeliveryCard';
 import axios from '../axiosConfig';
 class ManageDeliveryScreen extends Component {
   constructor(props) {
@@ -11,24 +17,40 @@ class ManageDeliveryScreen extends Component {
       isLoading: false,
       deliveryList: '',
       orderId: '',
+      refreshing: false,
     };
+  }
+  componentDidMount() {
     this.onClickGetDelivery();
   }
   onClickGetDelivery = async () => {
+    await this.setState({refreshing: true});
     await axios
       .get('/api/v1/order/deliverList')
       .then((res) => {
         const deliveryList = res.data.data;
-        this.setState({deliveryList: deliveryList});
+        this.setState({deliveryList: deliveryList, refreshing: false});
       })
-      .catch((e) => {});
-  };
-  handleItemDataOnPress = (articleData) => {
-    this.setState({
-      orderId: articleData.id,
-    });
+      .catch((e) => {
+        alert(e);
+      });
   };
 
+  handleRefresh = async () => {
+    await this.onClickGetDelivery();
+  };
+  renderItem = ({item}) => {
+    return (
+      <Card
+        itemData={item}
+        onPress={() =>
+          this.setState({
+            orderId: item.id,
+          })
+        }
+      />
+    );
+  };
   render() {
     let view = this.state.isLoading ? (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -36,17 +58,17 @@ class ManageDeliveryScreen extends Component {
         <Text style={{marginTop: 10}} children="Please Wait.." />
       </View>
     ) : (
-      <List
-        keyExtractor={(item, index) => index.toString()}
-        dataArray={this.state.deliveryList}
-        renderRow={(item) => {
-          return (
-            <ManageDeliveryList
-              onPress={this.handleItemDataOnPress}
-              data={item}
-            />
-          );
-        }}
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
+        extraData={this.state}
+        data={this.state.deliveryList}
+        renderItem={this.renderItem}
+        keyExtractor={(item) => item.id}
       />
     );
 
