@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Alert, View, ActivityIndicator, StyleSheet, Image} from 'react-native';
-import {Container, Content, List, Text} from 'native-base';
-import ChatList from '../components/ChatList';
+import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {Text} from 'native-base';
 import SQLite from 'react-native-sqlite-storage';
 import {connect} from 'react-redux';
+import Card from '../components/chatCard';
 let db;
 class ChatHomeScreen extends Component {
   constructor(props) {
@@ -13,12 +13,14 @@ class ChatHomeScreen extends Component {
       createFromLocation: 1,
     });
     this.state = {
-      isLoading: false,
+      refreshing: false,
       data: [],
       userId: '',
       password: '',
       backColor: '',
     };
+  }
+  componentDidMount(): void {
     this.getRoomInfo();
   }
   getRiderRoomInfo() {
@@ -56,35 +58,46 @@ class ChatHomeScreen extends Component {
     });
   }
   getRoomInfo() {
+    this.setState({refreshing: true});
     if (this.props.user === '배달원') {
       this.getRiderRoomInfo();
     }
     if (this.props.user === '사용자') {
       this.getConsumerRoomInfo();
     }
+    this.setState({refreshing: false});
   }
-  handleItemDataOnPress = (articleData) => {
-    this.props.navigation.navigate('Chat', {
-      room_id: articleData.room_id,
-      owner_id: articleData.owner_id,
-      guest_id: articleData.guest_id,
-      order_id: articleData.order_id,
-    });
+  handleRefresh = async () => {
+    await this.getRoomInfo();
   };
-
+  renderItem = ({item}) => {
+    return (
+      <Card
+        itemData={item}
+        onPress={() =>
+          this.props.navigation.navigate('Chat', {
+            room_id: item.room_id,
+            owner_id: item.owner_id,
+            guest_id: item.guest_id,
+            order_id: item.order_id,
+          })
+        }
+      />
+    );
+  };
   render() {
-    let view = this.state.isLoading ? (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <ActivityIndicator animating={this.state.isLoading} color="#00f0ff" />
-        <Text style={{marginTop: 10}} children="Please Wait.." />
-      </View>
-    ) : (
-      <List
-        keyExtractor={(item, index) => index.toString()}
-        dataArray={this.state.data}
-        renderRow={(item) => {
-          return <ChatList onPress={this.handleItemDataOnPress} data={item} />;
-        }}
+    let view = (
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
+        extraData={this.state}
+        data={this.state.data}
+        renderItem={this.renderItem}
+        keyExtractor={(item) => item.id}
       />
     );
 

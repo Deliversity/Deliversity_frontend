@@ -84,7 +84,7 @@ class Signup extends Component {
 
   onClickSign = async () => {
     try {
-      
+
       const data = {
         id: this.state.id,
         pw: this.state.pw,
@@ -125,6 +125,7 @@ class Signup extends Component {
               placeholder="PW"
               style={styles.textInput}
               value={this.state.pw}
+              secureTextEntry={true}
               onChangeText={(text) => this.setState({pw: text})}
             />
           </View>
