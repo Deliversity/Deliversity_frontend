@@ -5,9 +5,12 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint ."
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native"
   },
   "dependencies": {
     "-": "0.0.1",
@@ -15,7 +18,8 @@
     "@react-native-community/google-signin": "5.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-firebase/app": "8.4.6",
-    "@react-native-firebase/auth": "9.3.1",
+    "@react-native-firebase/auth": "9.3.2",
+    "@react-native-firebase/messaging": "7.9.2",
     "@react-native-seoul/kakao-login": "2.10.1",
     "@react-navigation/bottom-tabs": "5.9.1",
     "@react-navigation/native": "5.7.5",
@@ -27,10 +31,12 @@
     "react-native": "0.63.2",
     "react-native-aws3": "0.0.9",
     "react-native-daum-postcode": "1.0.9",
+    "react-native-firebase": "^5.6.0",
     "react-native-gesture-handler": "1.8.0",
     "react-native-gifted-chat": "0.16.3",
     "react-native-image-picker": "2.3.4",
     "react-native-maps": "0.27.1",
+    "react-native-nmap": "0.0.54",
     "react-native-paper": "4.2.0",
     "react-native-reanimated": "1.13.1",
     "react-native-safe-area-context": "3.1.8",
@@ -43,22 +49,17 @@
     "react-redux": "7.2.1",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
-    "save": "2.4.0"
+    "save": "2.4.0",
+    "socket.io-client": "2.3.1"
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
     "@babel/runtime": "7.11.2",
     "@react-native-community/eslint-config": "2.0.0",
-    "@react-native-firebase/messaging": "^7.9.2",
     "babel-jest": "26.3.0",
     "eslint": "7.8.1",
     "jest": "26.4.2",
     "metro-react-native-babel-preset": "0.63.0",
-    "react-native-firebase": "^5.6.0",
-    "react-test-renderer": "16.13.1",
-    "socket.io-client": "2.3.1"
-  },
-  "jest": {
-    "preset": "react-native"
+    "react-test-renderer": "16.13.1"
   }
 }
