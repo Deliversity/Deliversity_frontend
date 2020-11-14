@@ -30,8 +30,8 @@ class StoreScreen extends Component {
   onClickPostCode = async () => {
     this.props.navigation.navigate('Explore');
   };
-  onClickGetAddress = async () => {
-    await axios
+  onClickGetAddress = () => {
+    axios
       .get('/api/v1/myinfo/address')
       .then((res) => {
         const address =
@@ -70,12 +70,12 @@ class StoreScreen extends Component {
           <ScrollView style={styles.scro}>
             {this.state.markers.map((marker, index) => (
               <View style={styles.listCon}>
-                <Text style={styles.txt2}>{marker.name}</Text>
+                <Text style={styles.txt2}>{marker.place_name}</Text>
                 <TouchableOpacity
                   style={styles.store}
                   onPress={() => {
                     this.props.navigation.navigate('Order', {
-                      name: marker.name,
+                      name: marker.place_name,
                     });
                   }}>
                   <Text style={styles.txt}>선택</Text>
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
+    zIndex:1,
   },
   listCon: {
     flex: 1,

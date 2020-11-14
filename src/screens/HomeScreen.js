@@ -83,7 +83,7 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('문구점');
+                    this.onClickCategory('문구');
                   }}>
                   <View style={styles.profile}>
                     <Icon name="local-printshop" color={'#000000'} size={50} />
