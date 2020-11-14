@@ -3,7 +3,7 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const manageDeliveryCard = ({itemData, onPress}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 25, paddingVertical: 20, borderBottomWidth: 2, borderBottomColor:'#fffafa'}}>
+    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 25, paddingVertical: 20}}>
       <View
         style={{
           flexDirection: 'row',
@@ -24,7 +24,7 @@ const manageDeliveryCard = ({itemData, onPress}) => {
             {itemData.orderStatus === '3' && (
               <Text style={styles.bookingStyle}>후기 작성 하기</Text>
             )}
-            {itemData.orderStatus === '3' && (
+            {itemData.orderStatus === '4' && (
               <Text style={styles.bookingStyle}>후기 작성 완료</Text>
             )}
           </View>
@@ -38,15 +38,17 @@ const manageDeliveryCard = ({itemData, onPress}) => {
           )}
         </View>
       </View>
-      <View style={styles.cardBox}>
-        <Text note>가게명: {itemData.storeName}</Text>
-        <Text note>
-          {itemData.storeAddress} {itemData.storeDetailAddress}
-        </Text>
+      <View style={{borderTopWidth: 4, borderTopColor: '#4682b4', width:'35%', borderTopRightRadius: 15}} />
+      <View style={{marginTop: 5}}>
+        <Text style={{fontSize: 16}}>{itemData.storeName} </Text>
+        <Text>{itemData.storeAddress} {itemData.storeDetailAddress}</Text>
       </View>
       <View style={styles.cardBox}>
-        <Text note style={{color: '#ff7f50'}}>
-          {itemData.address} {itemData.detailAddress}
+        <Text style={{backgroundColor: '#f5f5f5', textAlign: 'center', paddingVertical: 5,}}>{itemData.content}</Text>
+      </View>
+      <View style={styles.cardBox}>
+        <Text note style={{fontWeight: 'bold'}}>
+          🏠{itemData.address} {itemData.detailAddress}
         </Text>
       </View>
     </TouchableOpacity>
@@ -58,12 +60,12 @@ export default manageDeliveryCard;
 const styles = StyleSheet.create({
   bookingStyle: {
     fontSize: 13,
-    color: '#6495ed',
+    color: '#ff7f50', //ff7f50
     paddingHorizontal: 5,
   },
   reservationBox: {
     borderWidth: 2,
-    borderColor: '#6495ed',
+    borderColor: '#ff7f50',
     paddingHorizontal: 2,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
   },
   bookingStyle2: {
     fontSize: 13,
-    color: '#6495ed',
+    color: '#ff7f50',
   },
   cardBox: {
     flex: 1,
