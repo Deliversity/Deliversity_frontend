@@ -25,6 +25,7 @@
     "@react-navigation/native": "5.7.5",
     "@react-navigation/stack": "5.9.2",
     "axios": "0.20.0",
+    "iamport-react-native": "^1.5.2",
     "jwt-decode": "3.0.0",
     "native-base": "2.13.14",
     "react": "16.13.1",

@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import {Container, Header, Content, Button, Text} from 'native-base';
-import {requestLogout} from '../store/actions/action';
-import {connect} from 'react-redux';
+import { Container, Header, Content, Button, Text } from 'native-base';
+import { requestLogout } from '../store/actions/action';
+import { connect } from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
+import RefundModal from '../components/RefundModal';
+import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
 import axios from '../axiosConfig';
 class MyPageScreen extends Component {
@@ -17,6 +19,8 @@ class MyPageScreen extends Component {
     this.state = {
       userGrade: '',
       setModalVisible: false,
+      setModal1Visible: false,
+      setModal2Visible: false,
       point: '',
     };
     console.log(props.grade);
@@ -37,16 +41,38 @@ class MyPageScreen extends Component {
       setModalVisible: false,
     });
   };
+  handleModal1Close = () => {
+    this.setState({
+      setModal1Visible: false,
+    });
+  };
+  handleModal2Close = () => {
+    this.setState({
+      setModal2Visible: false,
+    });
+  };
   onClickLevelUp = () => {
     this.setState({
       setModalVisible: true,
+    });
+  };
+  onClickCharge = () => {
+    console.log('충전');
+    this.setState({
+      setModal1Visible: true,
+    });
+  };
+  onClickRefund = () => {
+    console.log('환급');
+    this.setState({
+      setModal2Visible: true,
     });
   };
   getMyPoint = async () => {
     await axios
       .get('/api/v1/point')
       .then((res) => {
-        this.setState({point: res.data.data.point});
+        this.setState({ point: res.data.data.point });
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -68,11 +94,11 @@ class MyPageScreen extends Component {
             <Button
               rounded
               warning
-              style={{marginRight: 5}}
+              style={{ marginRight: 5 }}
               onPress={() => {
                 this.onClickLevelUp();
               }}>
-              <Text style={{color: '#fff'}}>등업 신청</Text>
+              <Text style={{ color: '#fff' }}>등업 신청</Text>
             </Button>
             <Button
               rounded
@@ -80,7 +106,7 @@ class MyPageScreen extends Component {
               onPress={() => {
                 this.onClickLogout();
               }}>
-              <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
+              <Text style={{ color: '#fff' }}>🔐 LOGOUT</Text>
             </Button>
           </View>
           <View style={styles.box}>
@@ -98,22 +124,42 @@ class MyPageScreen extends Component {
             </View>
             <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
-              <View style={{flexDirection: 'row'}}>
-                <Button rounded success style={{marginRight: 5}}>
-                  <Text style={{color: '#fff'}}>충전</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Button
+                  rounded
+                  success
+                  style={{ marginRight: 5 }}
+                  onPress={() => {
+                    this.onClickCharge();
+                  }}>
+                  <Text style={{ color: '#fff' }}>충전</Text>
                 </Button>
-                <Button rounded success>
-                  <Text style={{color: '#fff'}}>환급</Text>
+                <Button
+                  rounded
+                  success
+                  style={{ marginRight: 5 }}
+                  onPress={() => {
+                    this.onClickRefund();
+                  }}>
+                  <Text style={{ color: '#fff' }}>환급</Text>
                 </Button>
               </View>
             </View>
           </View>
-          <View style={{justifyContent: 'center'}}>
+          <View style={{ justifyContent: 'center' }}>
             <LevelupModal
               showModal={this.state.setModalVisible}
               onClose={this.handleModalClose}
+            />
+            <ChargeModal
+              showModal={this.state.setModal1Visible}
+              onClose={this.handleModal1Close}
+            />
+            <RefundModal
+              showModal={this.state.setModal2Visible}
+              onClose={this.handleModal2Close}
             />
           </View>
         </View>
