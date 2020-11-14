@@ -213,7 +213,6 @@ function ConsumerStack() {
           headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: 16,
-            textAlign: 'center',
           },
         }}
         component={OrderScreen}
