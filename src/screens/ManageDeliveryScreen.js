@@ -43,11 +43,14 @@ class ManageDeliveryScreen extends Component {
     return (
       <Card
         itemData={item}
-        onPress={() =>
-          this.setState({
-            orderId: item.id,
-          })
-        }
+        onPress={() => {
+          item.orderStatus === '3'
+            ? this.props.navigation.navigate('WriteReview', {
+                orderID: item.id,
+                riderID: item.riderId,
+              })
+            : null;
+        }}
       />
     );
   };

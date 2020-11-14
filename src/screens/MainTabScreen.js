@@ -18,6 +18,7 @@ import ManageDeliveryScreen from './ManageDeliveryScreen';
 import ViewUser from './ViewUser';
 import PaymentScreen from './PaymentScreen';
 import ManageOrderScreen from './ManageOrderScreen';
+import WriteReviewScreen from './WriteReviewScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -146,6 +147,31 @@ function ChatStack({navigation}) {
     </Stack.Navigator>
   );
 }
+function DeliveryManageStack() {
+  return (
+    <Stack.Navigator initialRouteName="ManageDelivery">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="ManageDelivery"
+        component={ManageDeliveryScreen}
+      />
+      <Stack.Screen
+        name="WriteReview"
+        options={{
+          title: '주문자 리뷰 쓰기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        component={WriteReviewScreen}
+      />
+    </Stack.Navigator>
+  );
+}
 function OrderManageStack() {
   return (
     <Stack.Navigator initialRouteName="ManageOrder">
@@ -182,6 +208,20 @@ function OrderManageStack() {
         }}
         component={CourierReviewScreen}
       />
+      <Stack.Screen
+        name="WriteReview"
+        options={{
+          title: '배달원 리뷰 쓰기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        component={WriteReviewScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -217,16 +257,6 @@ function ConsumerStack() {
         }}
         component={OrderScreen}
       />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="OrderManage"
-        component={OrderManageStack}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Chat"
-        component={ChatStack}
-      />
     </Stack.Navigator>
   );
 }
@@ -252,11 +282,6 @@ function CourierStack() {
         }}
         component={DetailDeliveryScreen}
       />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Chat"
-        component={ChatStack}
-      />
     </Stack.Navigator>
   );
 }
@@ -277,7 +302,7 @@ function CourierTabStack() {
       />
       <Tab.Screen
         name="ManageDelivery"
-        component={ManageDeliveryScreen}
+        component={DeliveryManageStack}
         options={{
           tabBarLabel: '배달 관리',
           tabBarColor: '#ff7f50',
