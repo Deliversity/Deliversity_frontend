@@ -29,7 +29,7 @@ class ManageOrderScreen extends Component {
       <Card
         itemData={item}
         onPress={() => {
-          item.orderStatus === '3'
+          item.orderStatus === '3' && item.reviewedByUser === 0
             ? this.props.navigation.navigate('WriteReview', {
                 orderID: item.id,
                 riderID: item.riderId,
