@@ -24,7 +24,6 @@ class Signup extends Component {
       name: '',
       email: '',
       nickName: '',
-      gender: '',
       age: '',
       phone: '',
       modalVisible: false,
@@ -91,7 +90,6 @@ class Signup extends Component {
         name: this.state.name,
         email: this.state.email,
         nickName: this.state.nickName,
-        gender: this.state.gender,
         age: this.state.age,
         phone: this.state.phone
       };
@@ -179,7 +177,7 @@ class Signup extends Component {
                     />
                   </View>
 
-                  <View style={styles.buttonArea2}>
+                  <View style={styles.buttonArea}>
                     <TouchableOpacity
                       style={styles.modalButton}
                       onPress={() => {
@@ -227,22 +225,6 @@ class Signup extends Component {
               value={this.state.nickName}
               onChangeText={(text) => this.setState({nickName: text})}
             />
-          </View>
-
-          <Text style={styles.text_footer}>Gender</Text>
-          <View style={styles.action}>
-            <RadioButton
-              value="male"
-              status={this.state.gender == 'male' ? 'checked' : 'unchecked'}
-              onPress={() => this.setState({gender: 'male'})}
-            />
-            <Text style={styles.text_opt}>male</Text>
-            <RadioButton
-              value="female"
-              status={this.state.gender == 'female' ? 'checked' : 'unchecked'}
-              onPress={() => this.setState({gender: 'female'})}
-            />
-            <Text style={styles.text_opt}>female</Text>
           </View>
 
           <Text style={styles.text_footer}>Age</Text>
@@ -334,7 +316,8 @@ const styles = StyleSheet.create({
   buttonArea: {
     width: '100%',
     height: 40,
-    marginTop: 5,
+    marginBottom: 7,
+    
   },
   buttonArea2: {
     width: '100%',
@@ -407,7 +390,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
   modalView: {
     margin: 20,
