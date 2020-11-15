@@ -12,6 +12,8 @@ import {
   ADDRESS_CHANGE,
   LINK_ACCOUNT,
   CURRENT_RELATION,
+  ORDER_SUCCESS,
+  ORDER_FAIL
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
@@ -183,6 +185,23 @@ export const requestSignup = (data) => {
       });
   };
 };
+export const requestOrder = (data) => {
+  console.log(data);
+  return (dispatch) => {
+    return axios
+      .post('/api/v1/order', data)
+      .then((response) => {
+        console.log("res");
+        alert(response.data.data.userId + '님. 주문이 접수되었습니다.');
+        dispatch(OrderSuccess());
+      })
+      .catch((error) => {
+        alert('Order Failed : ' + error);
+        dispatch(OrderFailure(error));
+      });
+  };
+};
+
 export const requestChangeUser = (user) => {
   return {
     type: USER_CHANGE,
@@ -272,5 +291,17 @@ export const signupFailure = (error) => {
   return {
     type: SIGNUP_FAIL,
     error,
+  };
+};
+
+export const OrderSuccess = () => {
+  return {
+    type: ORDER_SUCCESS,
+  };
+};
+
+export const OrderFailure = () => {
+  return {
+    type: ORDER_FAIL,
   };
 };

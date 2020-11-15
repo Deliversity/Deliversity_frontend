@@ -9,6 +9,8 @@ import {
 import {RadioButton} from 'react-native-paper';
 import {Text} from 'native-base';
 import {connect} from 'react-redux';
+import axios from '../axiosConfig';
+import {requestOrder} from '../store/actions/action';
 class OrderScreen extends Component {
   static navigationOptions = {
     title: 'Order',
@@ -21,24 +23,104 @@ class OrderScreen extends Component {
       orderType: '',
       hour: '',
       min: '',
-      name: this.props.route.params ? this.props.route.params.name : '',
+      mark: this.props.route.params ? this.props.route.params.mk : '',
+      lat:'',
+      lng:'',
+      money: '',
+      ad: '',
+      content:'ex) 감자핫도그 3개요',
+      reservation:false,
+      ge: 0
     };
+    this.onClickGetAddress();
+  }
+
+  onClickGetAddress = async () => {
+    await axios
+      .get('/api/v1/myinfo/address')
+      .then((res) => {
+        const lat =res.data.data.locX;
+        const lng=res.data.data.locY;
+        this.state.ad=res.data.data.address + ' ' + res.data.data.detailAddress;
+        this.setState({lat: lat, lng:lng});
+      })
+      .catch((e) => {
+        alert('배달 받을 주소를 등록해주세요!');
+      });
+      this.getMoney();
+  };
+
+  getMoney(){
+    var mo=(this.getDistanceFromLatLonInKm(this.state.mark.y, 
+      this.state.mark.x,this.state.lat, this.state.lng ))/0.5 * 550;
+    if(this.state.hotDeal==true) mo+=1000;
+    this.setState({money:parseInt(mo+3000)});
+    console.log(this.state.money);
+  }
+
+  getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
+    function deg2rad(deg) {
+      return deg * (Math.PI/180);
+    }
+
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(parseFloat(lat2)-parseFloat(lat1));  // deg2rad below
+    const dLon = deg2rad(parseFloat(lng2)-parseFloat(lng1));
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(parseFloat(lat1))) * Math.cos(deg2rad(parseFloat(lat2))) * Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const d = R * c; // Distance in km
+    return d;
+  }
+  onClickOrder= async ()=>{
+    try{
+      if(this.state.orderType=="booking"){
+        this.setState({reservation: true});
+      }
+      if(this.state.gender==true){
+        this.setState({ge:1});
+      }
+    const data={
+      storeName: this.state.mark.place_name,
+      storeAddress: this.state.mark.address_name,
+      storeDetailAddress: '',
+      gender: this.state.ge,
+      hotDeal: this.state.hotDeal,
+      expHour: this.state.hour,
+      expMinute: this.state.min,
+      content: this.state.content,
+      categoryName: this.state.mark.category_group_name,
+      reservation: this.state.reservation
+    }
+    await this.props.requestOrder(data);
+    this.props.navigation.goBack(null);
+  }catch(e){
+    alert("error : "+ e);
+  }
+  }
+  changeMoney(){
+    this.setState({hotDeal: !this.state.hotDeal})
+    if(this.state.hotDeal==1) {
+      this.setState({money: this.state.money-1000})
+    }
+    else{
+      this.setState({money: this.state.money+1000})
+    }
   }
   render() {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>요청할 가게</Text>
-          <Text>{this.state.name}</Text>
+          <Text>{this.state.mark.place_name}</Text>
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 요청 하기</Text>
-          <Text style={styles.imageSubTitle}>ex)감자 핫도그 3개요</Text>
-          <TextInput style={styles.textInputBox} />
+          <TextInput style={styles.textInputBox} onChangeText={(content) => this.setState({content})}
+        value={this.state.content} />
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 받을 장소</Text>
-          <Text>{this.props.address}</Text>
+          <Text>{this.state.ad}</Text>
         </View>
         <View style={styles.box}>
           <View
@@ -69,7 +151,7 @@ class OrderScreen extends Component {
             <RadioButton
               value="hotDeal"
               status={this.state.hotDeal === true ? 'checked' : 'unchecked'}
-              onPress={() => this.setState({hotDeal: !this.state.hotDeal})}
+              onPress={() => this.changeMoney()}
             />
           </View>
         </View>
@@ -132,7 +214,7 @@ class OrderScreen extends Component {
         <View style={styles.rightBox}>
           <View style={{alignSelf: 'flex-end'}}>
             <Text style={styles.imageTitle}>예상 배달비</Text>
-            <Text>3,000 won</Text>
+            <Text>{this.state.money}원</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -145,6 +227,13 @@ class OrderScreen extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  address: state.authentication.address,
+});
+const mapDispatchToProps = (dispatch) => ({
+  requestOrder: (data) => dispatch(requestOrder(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
 
 const styles = StyleSheet.create({
   box: {
@@ -218,8 +307,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-const mapStateToProps = (state) => ({
-  address: state.authentication.address,
-});
-export default connect(mapStateToProps, {})(OrderScreen);

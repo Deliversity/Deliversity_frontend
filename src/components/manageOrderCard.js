@@ -25,10 +25,11 @@ const manageOrderCard = ({itemData, onPress}) => {
           {itemData.orderStatus === '2' && (
             <Text style={styles.bookingStyle}>배달중</Text>
           )}
-          {itemData.orderStatus === '3' && (
-            <Text style={styles.bookingStyle}>후기 작성 하기</Text>
-          )}
-          {itemData.orderStatus === '4' && (
+          {itemData.orderStatus === '3' &&
+            itemData.reviewedByUser === false && (
+              <Text style={styles.bookingStyle}>후기 작성 하기</Text>
+            )}
+          {itemData.orderStatus === '3' && itemData.reviewedByUser === true && (
             <Text style={styles.bookingStyle}>후기 작성 완료</Text>
           )}
         </View>

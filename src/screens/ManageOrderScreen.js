@@ -29,7 +29,7 @@ class ManageOrderScreen extends Component {
       <Card
         itemData={item}
         onPress={() => {
-          item.orderStatus === '3'
+          item.orderStatus === '3' && item.reviewedByUser === 0
             ? this.props.navigation.navigate('WriteReview', {
                 orderID: item.id,
                 riderID: item.riderId,
@@ -58,7 +58,7 @@ class ManageOrderScreen extends Component {
             extraData={this.state}
             data={this.state.orderInfo}
             renderItem={this.renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       </View>

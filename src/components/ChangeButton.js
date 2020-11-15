@@ -9,6 +9,24 @@ class ChangeButton extends Component {
   constructor(props) {
     super(props);
   }
+
+  geo = ()=>{
+    Geolocation.getCurrentPosition((position)=>{
+      axios.post('/api/v1/myinfo/currentLocation',position)
+      .then(()=>true)
+    })
+  }
+
+  async startPostPosition(){
+    const timerId = setInterval(this.geo,5*60000);
+    await setUserStorage('timerId',timerId.toString());
+  }
+
+  async stopPostPosition(){
+    const timerId = parseInt(await getUserStorage('timerId'));
+    clearInterval(timerId)
+  }
+  
   onClickChange = async () => {
     // console.log(this.props.user);
     const data = '';

@@ -5,14 +5,15 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import { Container, Header, Content, Button, Text } from 'native-base';
-import { requestLogout } from '../store/actions/action';
-import { connect } from 'react-redux';
+import {Container, Right, Header, Content, Body, Button, Text} from 'native-base';
+import {requestLogout} from '../store/actions/action';
+import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
 import RefundModal from '../components/RefundModal';
 import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
 import axios from '../axiosConfig';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 class MyPageScreen extends Component {
   constructor(props) {
     super(props);
@@ -142,7 +143,10 @@ class MyPageScreen extends Component {
                 {this.state.userGrade} 등급
               </Text>
             </View>
-            <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
+              <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
+              <Icon name="refresh" size={30} />
+            </View>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
@@ -168,7 +172,15 @@ class MyPageScreen extends Component {
               </View>
             </View>
           </View>
-          <View style={{ justifyContent: 'center' }}>
+          <View style={styles.box}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
+              <Button transparent onPress={this.handleSelect}>
+                <Icon name="chevron-right" size={30} />
+              </Button>
+            </View>
+          </View>
+          <View style={{justifyContent: 'center'}}>
             <LevelupModal
               showModal={this.state.setModalVisible}
               onClose={this.handleModalClose}
@@ -226,14 +238,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   box: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#fffaf0',
     flexDirection: 'column',
     paddingHorizontal: 20,
     paddingVertical: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     marginBottom: 5,
     marginTop: 2,
-    backgroundColor: 'white',
+    backgroundColor: '#F8F8FF',
   },
   imageTitle: {
     fontWeight: 'bold',

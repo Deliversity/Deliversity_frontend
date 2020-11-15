@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+//import {HeaderBackButton} from 'react-navigation';
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import SignupScreen from './SignupScreen';
@@ -36,6 +36,19 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   storeData: (data) => dispatch(storeData(data)),
 });
+
+function getTabBarVisibility (route){
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : '';
+
+  if (routeName === 'Chat') {
+    return false;
+  }
+
+  return true;
+}
+
 class MainTabScreen extends Component {
   constructor(props) {
     super(props);
@@ -314,13 +327,14 @@ function CourierTabStack() {
       <Tab.Screen
         name="ChatHome"
         component={ChatStack}
-        options={{
+        options={({route})=>({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="chat" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="MyPage"
@@ -364,13 +378,14 @@ function ConsumerTabStack() {
       <Tab.Screen
         name="ChatHome"
         component={ChatStack}
-        options={{
+        options={({route})=>({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="chat" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="MyPage"

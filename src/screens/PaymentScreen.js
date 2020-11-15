@@ -76,7 +76,7 @@ class PaymentScreen extends Component {
       riderId: this.state.guest,
     };
     await axios
-      .post('/api/v1/point/pay', data)
+      .post('/api/v1/order/pay', data)
       .then((res) => {
         alert('배달원에게 전달되었습니다.');
         this.getMyPoint();

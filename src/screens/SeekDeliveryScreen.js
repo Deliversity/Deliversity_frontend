@@ -95,7 +95,7 @@ class SeekDeliveryScreen extends Component {
               extraData={this.state}
               data={this.state.HotOrderList}
               renderItem={this.renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
             />
           ) : (
             <FlatList
@@ -108,7 +108,7 @@ class SeekDeliveryScreen extends Component {
               extraData={this.state}
               data={this.state.DefaultOrderList}
               renderItem={this.renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index.toString()}
             />
           )}
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
