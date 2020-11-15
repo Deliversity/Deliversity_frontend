@@ -28,7 +28,7 @@ class OrderScreen extends Component {
       lng:'',
       money: '',
       ad: '',
-      content:'ex) 감자핫도그 3개요',
+      content:'',
       reservation:false,
       ge: 0
     };
@@ -51,7 +51,7 @@ class OrderScreen extends Component {
   };
 
   getMoney(){
-    var mo=(this.getDistanceFromLatLonInKm(this.state.mark.y, 
+    var mo=(this.getDistanceFromLatLonInKm(this.state.mark.y,
       this.state.mark.x,this.state.lat, this.state.lng ))/0.5 * 550;
     if(this.state.hotDeal==true) mo+=1000;
     this.setState({money:parseInt(mo+3000)});
@@ -115,7 +115,7 @@ class OrderScreen extends Component {
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 요청 하기</Text>
-          <TextInput style={styles.textInputBox} onChangeText={(content) => this.setState({content})}
+          <TextInput placeholder="ex) 감자핫도그 3개요" style={styles.textInputBox} onChangeText={(content) => this.setState({content:content})}
         value={this.state.content} />
         </View>
         <View style={styles.box}>

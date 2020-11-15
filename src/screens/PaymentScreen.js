@@ -9,6 +9,7 @@ import {
 import {Text, Button} from 'native-base';
 import {connect} from 'react-redux';
 import axios from '../axiosConfig';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 class PaymentScreen extends Component {
   static navigationOptions = {
     title: 'Payment',
@@ -89,9 +90,10 @@ class PaymentScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.box}>
-          <Text style={styles.imageTitle}>
-            {this.state.name}님의 잔여 포인트 🌱
-          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 13}}>
+            <Text style={styles.imageTitle}>{this.state.name}님의 잔여 포인트 🌱</Text>
+            <Icon name="refresh" size={30} />
+          </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
             <Button rounded success>
