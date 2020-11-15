@@ -97,7 +97,6 @@ class DeliveryManScreen extends Component {
           roomInfo.riderId,
           roomInfo.orderId,
         );
-
         this.props.navigation.goBack(null);
       })
       .catch((e) => {

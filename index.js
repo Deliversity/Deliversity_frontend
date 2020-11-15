@@ -43,7 +43,7 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
     //채팅방 생성
     await onSendDB(orderId, roomId, userId, riderId);
   }
-  Alert.alert('A new FCM message arrived!', message);
+  // Alert.alert('A new FCM message arrived!', message);
 });
 
 AppRegistry.registerComponent(appName, () => App);
