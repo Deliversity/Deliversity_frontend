@@ -74,16 +74,12 @@ function ChatScreen(props) {
                 };
                 helpArray.push(text);
               }
-              console.log(messages)
-              console.log(helpArray);
               setMessages((previous)=>GiftedChat.append(previous, helpArray));
-              console.log(messages)
             }
           },
         );
       });
     }
-    console.log("ㄱㅍㅌㄷ",messages)
     return () =>{
       socket.emit('dscnt',props.route.params.room_id)
       socket.disconnect()

@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from '../axiosConfig';
 import {connect} from 'react-redux';
-import Mapping from './mapping';
+import Mapping from './Mapping';
 class StoreScreen extends Component {
   static navigationOptions = {
     title: 'Store',
@@ -23,6 +23,7 @@ class StoreScreen extends Component {
       category: this.props.route.params ? this.props.route.params.category : '', //카테고리 페이지에서 props로 가져온겁니다.
       address: this.props.address,
       markers: [],
+      st: false,
     };
     console.log(this.state.category); // 카테고리명: 카테고리로 주변찾기 검색할 때 쓰세요
     this.onClickGetAddress();
@@ -65,17 +66,17 @@ class StoreScreen extends Component {
             <Icon name="saved-search" size={30} />
           </TouchableOpacity>
         </View>
-        <Mapping cat={this.state.category} handler={this.handler} />
+        <Mapping cat={this.state.category} ad={this.props.address} handler={this.handler} />
         <View style={styles.listCon}>
           <ScrollView style={styles.scro}>
             {this.state.markers.map((marker, index) => (
-              <View style={styles.listCon}>
+              <View style={styles.listCon} key={index}>
                 <Text style={styles.txt2}>{marker.place_name}</Text>
                 <TouchableOpacity
                   style={styles.store}
                   onPress={() => {
                     this.props.navigation.navigate('Order', {
-                      name: marker.place_name,
+                      mk: marker
                     });
                   }}>
                   <Text style={styles.txt}>선택</Text>

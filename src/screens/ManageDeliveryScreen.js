@@ -43,11 +43,14 @@ class ManageDeliveryScreen extends Component {
     return (
       <Card
         itemData={item}
-        onPress={() =>
-          this.setState({
-            orderId: item.id,
-          })
-        }
+        onPress={() => {
+          item.orderStatus === '3' && item.reviewedByRider === 0
+            ? this.props.navigation.navigate('WriteReview', {
+                orderID: item.id,
+                riderID: item.riderId,
+              })
+            : null;
+        }}
       />
     );
   };
@@ -68,7 +71,7 @@ class ManageDeliveryScreen extends Component {
         extraData={this.state}
         data={this.state.deliveryList}
         renderItem={this.renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
       />
     );
 

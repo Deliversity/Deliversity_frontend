@@ -3,7 +3,9 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const manageDeliveryCard = ({itemData, onPress}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 25, paddingVertical: 20}}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{paddingHorizontal: 25, paddingVertical: 20}}>
       <View
         style={{
           flexDirection: 'row',
@@ -21,12 +23,14 @@ const manageDeliveryCard = ({itemData, onPress}) => {
             {itemData.orderStatus === '2' && (
               <Text style={styles.bookingStyle}>배달중</Text>
             )}
-            {itemData.orderStatus === '3' && (
-              <Text style={styles.bookingStyle}>후기 작성 하기</Text>
-            )}
-            {itemData.orderStatus === '4' && (
-              <Text style={styles.bookingStyle}>후기 작성 완료</Text>
-            )}
+            {itemData.orderStatus === '3' &&
+              itemData.reviewedByRider === false && (
+                <Text style={styles.bookingStyle}>후기 작성 하기</Text>
+              )}
+            {itemData.orderStatus === '3' &&
+              itemData.reviewedByRider === true && (
+                <Text style={styles.bookingStyle}>후기 작성 완료</Text>
+              )}
           </View>
           {itemData.reservation === false ? null : (
             <View style={styles.reservationBox}>
@@ -38,13 +42,29 @@ const manageDeliveryCard = ({itemData, onPress}) => {
           )}
         </View>
       </View>
-      <View style={{borderTopWidth: 4, borderTopColor: '#4682b4', width:'35%', borderTopRightRadius: 15}} />
+      <View
+        style={{
+          borderTopWidth: 4,
+          borderTopColor: '#4682b4',
+          width: '35%',
+          borderTopRightRadius: 15,
+        }}
+      />
       <View style={{marginTop: 5}}>
         <Text style={{fontSize: 16}}>{itemData.storeName} </Text>
-        <Text>{itemData.storeAddress} {itemData.storeDetailAddress}</Text>
+        <Text>
+          {itemData.storeAddress} {itemData.storeDetailAddress}
+        </Text>
       </View>
       <View style={styles.cardBox}>
-        <Text style={{backgroundColor: '#f5f5f5', textAlign: 'center', paddingVertical: 5,}}>{itemData.content}</Text>
+        <Text
+          style={{
+            backgroundColor: '#f5f5f5',
+            textAlign: 'center',
+            paddingVertical: 5,
+          }}>
+          {itemData.content}
+        </Text>
       </View>
       <View style={styles.cardBox}>
         <Text note style={{fontWeight: 'bold'}}>

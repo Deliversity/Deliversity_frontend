@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
+import {Text, View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import axios from '../axiosConfig';
 import Card from '../components/manageOrderCard';
 class ManageOrderScreen extends Component {
@@ -34,11 +28,16 @@ class ManageOrderScreen extends Component {
     return (
       <Card
         itemData={item}
-        onPress={() =>
-          this.props.navigation.navigate('DeliveryMan', {
-            orderID: item.id,
-          })
-        }
+        onPress={() => {
+          item.orderStatus === '3' && item.reviewedByUser === 0
+            ? this.props.navigation.navigate('WriteReview', {
+                orderID: item.id,
+                riderID: item.riderId,
+              })
+            : this.props.navigation.navigate('DeliveryMan', {
+                orderID: item.id,
+              });
+        }}
       />
     );
   };
@@ -59,7 +58,7 @@ class ManageOrderScreen extends Component {
             extraData={this.state}
             data={this.state.orderInfo}
             renderItem={this.renderItem}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       </View>
