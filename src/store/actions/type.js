@@ -13,3 +13,6 @@ export const USER_CHANGE = 'USER_CHANGE';
 
 export const ADDRESS_CHANGE = 'ADDRESS_CHANGE';
 export const CURRENT_RELATION = 'CURRENT_RELATION';
+
+export const ORDER_SUCCESS='ORDER_SUCCESS';
+export const ORDER_FAIL='ORDER_FAIL';
