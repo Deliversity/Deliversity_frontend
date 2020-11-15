@@ -8,6 +8,10 @@ target 'test' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+  pod 'IamportReactNative', :path => '../node_modules/iamport-react-native'
+
   target 'testTests' do
     inherit! :complete
     # Pods for testing
