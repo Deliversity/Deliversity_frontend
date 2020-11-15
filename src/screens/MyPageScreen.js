@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import {Container, Right, Body, Button, Text} from 'native-base';
+import {Container, Right, Header, Content, Body, Button, Text} from 'native-base';
 import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
+import RefundModal from '../components/RefundModal';
+import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
 import axios from '../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -18,7 +20,11 @@ class MyPageScreen extends Component {
     this.state = {
       userGrade: '',
       setModalVisible: false,
+      setModal1Visible: false,
+      setModal2Visible: false,
       point: '',
+      buyerName: '',
+      buyerTel: '',
     };
     console.log(props.grade);
     if (props.grade == 0) {
@@ -38,16 +44,56 @@ class MyPageScreen extends Component {
       setModalVisible: false,
     });
   };
+  handleModal1Close = () => {
+    this.setState({
+      setModal1Visible: false,
+    });
+  };
+  handleModal2Close = () => {
+    this.setState({
+      setModal2Visible: false,
+    });
+  };
   onClickLevelUp = () => {
     this.setState({
       setModalVisible: true,
     });
   };
+  onClickCharge = async () => {
+    console.log('충전');
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          setModal1Visible: true,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  onClickRefund = async () => {
+    console.log('환급');
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          setModal2Visible: true,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
   getMyPoint = async () => {
     await axios
       .get('/api/v1/point')
       .then((res) => {
-        this.setState({point: res.data.data.point});
+        this.setState({ point: res.data.data.point });
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -69,11 +115,11 @@ class MyPageScreen extends Component {
             <Button
               rounded
               warning
-              style={{marginRight: 5}}
+              style={{ marginRight: 5 }}
               onPress={() => {
                 this.onClickLevelUp();
               }}>
-              <Text style={{color: '#fff'}}>등업 신청</Text>
+              <Text style={{ color: '#fff' }}>등업 신청</Text>
             </Button>
             <Button
               rounded
@@ -81,7 +127,7 @@ class MyPageScreen extends Component {
               onPress={() => {
                 this.onClickLogout();
               }}>
-              <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
+              <Text style={{ color: '#fff' }}>🔐 LOGOUT</Text>
             </Button>
           </View>
           <View style={styles.box}>
@@ -102,14 +148,26 @@ class MyPageScreen extends Component {
               <Icon name="refresh" size={30} />
             </View>
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
-              <View style={{flexDirection: 'row'}}>
-                <Button rounded success style={{marginRight: 5}}>
-                  <Text style={{color: '#fff'}}>충전</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Button
+                  rounded
+                  success
+                  style={{ marginRight: 5 }}
+                  onPress={() => {
+                    this.onClickCharge();
+                  }}>
+                  <Text style={{ color: '#fff' }}>충전</Text>
                 </Button>
-                <Button rounded success>
-                  <Text style={{color: '#fff'}}>환급</Text>
+                <Button
+                  rounded
+                  success
+                  style={{ marginRight: 5 }}
+                  onPress={() => {
+                    this.onClickRefund();
+                  }}>
+                  <Text style={{ color: '#fff' }}>환급</Text>
                 </Button>
               </View>
             </View>
@@ -126,6 +184,18 @@ class MyPageScreen extends Component {
             <LevelupModal
               showModal={this.state.setModalVisible}
               onClose={this.handleModalClose}
+            />
+            <ChargeModal
+              showModal={this.state.setModal1Visible}
+              buyerName={this.state.buyerName}
+              buyerTel={this.state.buyerTel}
+              onClose={this.handleModal1Close}
+            />
+            <RefundModal
+              showModal={this.state.setModal2Visible}
+              buyerName={this.state.buyerName}
+              buyerTel={this.state.buyerTel}
+              onClose={this.handleModal2Close}
             />
           </View>
         </View>
