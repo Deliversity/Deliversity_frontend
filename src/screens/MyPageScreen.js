@@ -97,7 +97,10 @@ class MyPageScreen extends Component {
                 {this.state.userGrade} 등급
               </Text>
             </View>
-            <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
+              <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
+              <Icon name="refresh" size={30} />
+            </View>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
