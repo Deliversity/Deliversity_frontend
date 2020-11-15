@@ -23,7 +23,6 @@ import ImagePicker from 'react-native-image-picker';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
 import {RNS3} from 'react-native-aws3/src/RNS3';
 import card from '../../assets/card.png';
-import dulicard from '../../assets/card.png';
 // create a component
 class LevelupModal extends Component {
   constructor(props) {
@@ -102,7 +101,7 @@ class LevelupModal extends Component {
               alignItems: 'center',
             }}>
             <ImageBackground
-              source={require('../../assets/dulicard.png')}
+              source={require('../../assets/dulicard.jpg')}
               style={{height: 200, width: 300}}
             />
             <Text style={{fontSize: 12, marginTop: 10, textAlign: 'center'}}>

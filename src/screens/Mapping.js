@@ -31,6 +31,7 @@ class Mapping extends Component {
      //    longitudeDelta: 0.002,
      //  }),
       markers: [],
+      address: '',
     };
     this.check();
     this.getAddress();
@@ -62,6 +63,7 @@ class Mapping extends Component {
             latitude: parseFloat(res.data.data.locX),
             longitude: parseFloat(res.data.data.locY),
           },
+          address: res.data.data.address + ' ' + res.data.data.detailAddress
         });
       })
       .catch((e) => {
@@ -115,36 +117,16 @@ class Mapping extends Component {
           // console.log(response)
           let marker = [];
           for (let idx of response.documents) {
-               console.log(idx)
-               console.log(idx.place_name)
-               console.log(idx.category_name)
-               console.log(idx.category_name.includes(this.state.category))
+              // console.log(idx)
+              // console.log(idx.place_name)
+              // console.log(idx.category_name)
+              // console.log(idx.category_name.includes(this.state.category))
             if(!marker.find(t=>t===idx) && idx.category_name.includes(this.state.category)) marker.push(idx);
           }
           this.setState({markers: marker});
           this.sendMark();
           this.setState({dataIsRetruned: true});
      })
-//     fetch(url)
-//       .then((res) => {
-//         return res.json();
-//       })
-//       .then((res) => {
-//         //    console.log(res.results);
-     //    let marker = [];
-     //    for (let idx of res.results) {
-     //      console.log(idx.types);
-     //      if (idx.types.includes(this.check())) {
-     //        marker.push(idx);
-     //      }
-     //    }
-     //    this.setState({markers: marker});
-     //    this.sendMark();
-     //    this.setState({dataIsRetruned: true});
-//       })
-//       .catch((err) => {
-//         console.log('error is ' + err);
-//       });
   };
 
   sendMark = () => {
@@ -152,6 +134,9 @@ class Mapping extends Component {
   };
 
   render() {
+    if((this.state.address != this.props.ad ) && this.props.ad!=''){
+      this.getAddress();
+    }
     return (
       <View style={style.container} onChange={this.sendMark}>
         <View style={style.container}>
@@ -171,6 +156,7 @@ class Mapping extends Component {
                     }}
                     caption={{text:marker.place_name}}
                     subCaption={{text:marker.phone}}
+                    key={index}
                     />
                )}
           </NaverMapView>

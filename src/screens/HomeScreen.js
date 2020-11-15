@@ -18,7 +18,7 @@ export default class App extends Component<Props> {
         </View>
         <View style={styles.header}>
           <Image
-            source={require('../../assets/logo.png')}
+            source={require('../../assets/logo_D.png')}
             style={{width: 200, height: 200}}
           />
           <Text style={styles.text_header}>Deliversity</Text>

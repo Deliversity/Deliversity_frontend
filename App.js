@@ -16,7 +16,6 @@ import configureStore from './src/store/configureStore';
 import messaging from '@react-native-firebase/messaging';
 import {StyleSheet} from 'react-native';
 import {getUserStorage} from './src/store/actions/action';
-
 const Stack = createStackNavigator();
 const store = configureStore();
 import SQLite from 'react-native-sqlite-storage';
@@ -68,7 +67,7 @@ export default class App extends React.Component {
         //채팅방 생성
         await this.onSendDB(orderId, roomId, userId, riderId);
       }
-      Alert.alert('A new FCM message arrived!', remoteMessage.data.test);
+      // Alert.alert('A new FCM message arrived!', remoteMessage.data.test);
 
       console.log('foreground', remoteMessage);
     });

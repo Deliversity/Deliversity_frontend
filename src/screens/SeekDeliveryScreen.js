@@ -95,7 +95,7 @@ class SeekDeliveryScreen extends Component {
               extraData={this.state}
               data={this.state.HotOrderList}
               renderItem={this.renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
             />
           ) : (
             <FlatList
