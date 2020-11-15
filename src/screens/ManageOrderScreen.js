@@ -59,7 +59,7 @@ class ManageOrderScreen extends Component {
             extraData={this.state}
             data={this.state.orderInfo}
             renderItem={this.renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
           />
         </View>
       </View>

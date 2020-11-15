@@ -1,18 +1,19 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
+import {BackHandler} from 'react-native'
 import {GiftedChat, Actions, ActionsProps} from 'react-native-gifted-chat';
 import ImagePicker from 'react-native-image-picker';
 import uuid from 'uuid';
 import logo from '../../assets/logo_colorD.png';
-import * as socketio from 'socket.io-client';
-const socket = socketio.connect('http://deliversity.co.kr:81/api/v1/chat/io', {
-  transports: ['websocket'],
-});
 import SQLite from 'react-native-sqlite-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {currentRelation} from '../store/actions/action';
 import {connect} from 'react-redux';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
-import {RNS3} from 'react-native-aws3/src/RNS3';
+import {RNS3} from 'react-native-aws3/src/RNS3'
+import {io} from 'socket.io-client';
+const socket = new io('ws://192.168.219.105:3000', {
+  transports: ['websocket','polling'],
+});
 let db;
 db = SQLite.openDatabase({
   name: 'sqlite.db',
@@ -25,14 +26,16 @@ function ChatScreen(props) {
   //navigation.setOptions({tabBarVisible: false});
   let [messages, setMessages] = useState([]);
   let [avatar, setAvatar] = useState('logo');
+    
   useEffect(() => {
     //이전 메시지 받아오기
-    console.log('here');
     props.currentRelation(
       props.route.params.owner_id,
       props.route.params.guest_id,
       props.route.params.order_id,
     );
+    socket.emit('cnt',props.route.params.room_id);
+    console.log(props.route.params.room_id)
     if (messages !== null) {
       db.transaction((tx) => {
         tx.executeSql(
@@ -58,12 +61,16 @@ function ChatScreen(props) {
                 };
                 helpArray.push(text);
               }
-              console.log(helpArray);
+              // console.log(helpArray);
               setMessages(GiftedChat.append(messages, helpArray));
             }
           },
         );
       });
+    }
+    return () =>{
+      socket.emit('dscnt',props.route.params.room_id)
+
     }
   }, []);
   function handlePickImage() {
@@ -121,22 +128,22 @@ function ChatScreen(props) {
   }
   socket.on('rChat', (newMessage) => {
     let newMessaged = newMessage;
+    console.log("여기")
+    console.log("newMessaged",newMessaged)
     newMessaged[0]._id = uuid.v4();
     newMessaged[0].user.avatar = logo;
     setMessages(GiftedChat.append(messages, newMessaged));
     onSendDB(newMessaged);
   });
   const onSend = (newMessage = []) => {
-    console.log(newMessage);
-    let newMessaged = newMessage;
-    //newMessaged[0]._id = uuid.v4();
-    newMessaged[0].createdAt = Date.now();
-    setMessages(GiftedChat.append(messages, newMessaged));
-    socket.emit('chat', newMessaged);
-    onSendDB(newMessaged);
+    console.log("newMessage",newMessage);
+    setMessages(GiftedChat.append(messages, newMessage));
+    socket.emit('chat', newMessage);
+    
+    onSendDB(newMessage);
   };
   const onSendDB = (newMessage) => {
-    let beforeTime = Date.now();
+    let beforeTime = new Date();
     let month = beforeTime.getMonth() + 1;
     let time =
       beforeTime.getFullYear() +

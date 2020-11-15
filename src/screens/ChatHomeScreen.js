@@ -97,7 +97,7 @@ class ChatHomeScreen extends Component {
         extraData={this.state}
         data={this.state.data}
         renderItem={this.renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
     );
 

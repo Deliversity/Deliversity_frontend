@@ -68,10 +68,10 @@ class DeliveryManScreen extends Component {
       orderID: this.state.orderID,
     });
   };
-  insertRoomDB = () => {
-    let room = '1740beff4d828061bf9da9fc6203c24d3704ba482499f83b4d';
-    let sender = 20;
-    let receiver = 30;
+  insertRoomDB = (data) => {
+    let room = data.roomId;
+    let sender = data.ownerId;
+    let receiver = data.riderId;
     db.transaction((tx) => {
       tx.executeSql(
         'INSERT INTO consumerRoom (room_id, owner_id, guest_id, order_id) VALUES (?,?,?,?)',
@@ -93,7 +93,8 @@ class DeliveryManScreen extends Component {
       .post(`/api/v1/order/rider?orderId=${this.state.orderID}`, data)
       .then((res) => {
         alert('매칭 신청이 완료 되었습니다.');
-        //this.insertRoomDB();
+        this.insertRoomDB(res.data.data.room);
+        console.log(res.data.data)
         this.props.navigation.goBack(null);
       })
       .catch((e) => {

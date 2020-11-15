@@ -68,7 +68,7 @@ class ManageDeliveryScreen extends Component {
         extraData={this.state}
         data={this.state.deliveryList}
         renderItem={this.renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
     );
 

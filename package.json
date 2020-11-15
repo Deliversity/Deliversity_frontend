@@ -25,6 +25,8 @@
     "@react-navigation/native": "5.7.5",
     "@react-navigation/stack": "5.9.2",
     "axios": "0.20.0",
+    "component-inherit": "0.0.3",
+    "indexof": "0.0.1",
     "jwt-decode": "3.0.0",
     "native-base": "2.13.14",
     "react": "16.13.1",
@@ -50,7 +52,7 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "save": "2.4.0",
-    "socket.io-client": "2.3.1"
+    "socket.io-client": "3.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
