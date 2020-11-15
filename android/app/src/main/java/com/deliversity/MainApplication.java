@@ -18,8 +18,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-import com.iamport.IamportPackage; 
-import com.reactnativecommunity.webview.RNCWebViewPackage; 
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -36,8 +34,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           List<ReactPackage> packages = new PackageList(this).getPackages();
           packages.add(new RNFirebaseAuthPackage());
           packages.add(new RNFirebaseMessagingPackage());
-         // packages.add(new IamportPackage());
-         // packages.add(new RNCWebViewPackage());
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
          // packages.add(new RNKakaoLoginsPackage());
