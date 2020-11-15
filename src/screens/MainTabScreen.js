@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+//import {HeaderBackButton} from 'react-navigation';
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import SignupScreen from './SignupScreen';
