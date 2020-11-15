@@ -22,6 +22,8 @@ class MyPageScreen extends Component {
       setModal1Visible: false,
       setModal2Visible: false,
       point: '',
+      buyerName: '',
+      buyerTel: '',
     };
     console.log(props.grade);
     if (props.grade == 0) {
@@ -56,17 +58,35 @@ class MyPageScreen extends Component {
       setModalVisible: true,
     });
   };
-  onClickCharge = () => {
+  onClickCharge = async () => {
     console.log('충전');
-    this.setState({
-      setModal1Visible: true,
-    });
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          setModal1Visible: true,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
   };
-  onClickRefund = () => {
+  onClickRefund = async () => {
     console.log('환급');
-    this.setState({
-      setModal2Visible: true,
-    });
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          setModal2Visible: true,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
   };
   getMyPoint = async () => {
     await axios
@@ -155,10 +175,14 @@ class MyPageScreen extends Component {
             />
             <ChargeModal
               showModal={this.state.setModal1Visible}
+              buyerName={this.state.buyerName}
+              buyerTel={this.state.buyerTel}
               onClose={this.handleModal1Close}
             />
             <RefundModal
               showModal={this.state.setModal2Visible}
+              buyerName={this.state.buyerName}
+              buyerTel={this.state.buyerTel}
               onClose={this.handleModal2Close}
             />
           </View>

@@ -1,5 +1,5 @@
 //import libraries
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Dimensions,
   View,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ImageBackground,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Text,
@@ -32,10 +33,7 @@ class ChargeModal extends Component {
     this.state = {
       imageSrc: 'https://api.adorable.io/avatars/80/abott@adorable.png',
       chargeAmount: '0',
-      TenDollar: false,
-      ThDollar: false,
-      FifDollar: false,
-      BySelf: false,
+      chargeNum: '0',
     };
   }
 
@@ -43,50 +41,26 @@ class ChargeModal extends Component {
     return this.props.onClose();
   };
 
-  onClickButton = async () => {
-    ImagePicker.showImagePicker({}, (response) => {
-      const file = {
-        uri: response.uri,
-        name: response.fileName,
-        type: response.type,
-      };
-      console.log(file);
-      const config = {
-        keyPrefix: 'Identification/',
-        bucket: 'deliversity',
-        region: 'ap-northeast-2',
-        accessKey: AWS_ACCESSKEY,
-        secretKey: AWS_SECRETKEY,
-        successActionStatus: 201,
-      };
-      this.setState({ imageSrc: file.uri });
-      RNS3.put(file, config)
-        .then((response) => {
-          alert('사진 등록이 완료되었습니다.');
-          console.log(response.body.postResponse.location);
-        })
-        .catch(function (error) {
-          console.log(
-            'There has been a problem with your fetch operation: ' +
-            error.message,
-          );
-          // ADD THIS THROW error
-          throw error;
-        });
-    });
+  onClickPay = async () => {
+    console.log(this.state.chargeAmount);
+    console.log(this.state.chargeNum);
+    console.log(this.props.buyerName);
+    console.log(this.props.buyerTel);
+    /*
+    결제 모듈 코드
+    */
   };
 
   render() {
     const { showModal } = this.props;
     return (
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent
         visible={showModal}
         onRequestClose={this.handleClose}
         style={{ justifyContent: 'space-between' }}>
-        <Container
-          style={{ margin: 20, marginBottom: 290, backgroundColor: '#fff' }}>
+        <Container style={{ padding: 20, backgroundColor: '#fff' }}>
           <Header style={{ backgroundColor: '#f5f5f5', textAlign: 'center' }}>
             <Left>
               <Button onPress={this.handleClose} transparent>
@@ -102,81 +76,79 @@ class ChargeModal extends Component {
           </Header>
           <Content
             contentContainerStyle={{
-              height: 300,
+              height: 270,
               backgroundColor: '#f5f5f5',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={styles.radioaddbox}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                }}>
-                <RadioButton
-                  value="TenDollar"
-                  status={
-                    this.state.TenDollar === true ? 'checked' : 'unchecked'
-                  }
-                  onPress={() =>
-                    this.setState({ TenDollar: !this.state.TenDollar })
-                  }
-                />
-                <View>
-                  <Text style={styles.imageTitle}>1만원</Text>
-                </View>
-              </View>
-              {this.state.TenDollar === false ? null : (
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput
-                    placeholder="충전금액"
-                    placeholderTextColor="#e9967a"
-                    underlineColorAndroid="#e9967a"
-                    value={this.state.extraFee}
-                    style={{ marginTop: 10, width: '50%' }}
-                    onChangeText={(text) => this.setState({ extraFee: text })}
-                  />
-                  <TextInput
-                    value="만원"
-                    editable={false}
-                    style={{ color: 'black' }}
-                  />
-                </View>
-              )}
+            <View style={{ flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 1 ? 'checked' : 'unchecked'}
+                onPress={() =>
+                  this.setState({ chargeNum: 1, chargeAmount: 10000 })
+                }
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                {' '}
+                1 만원{' '}
+              </Text>
             </View>
-
-            <View style={styles.radioaddbox}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
+            <View style={{ flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 2 ? 'checked' : 'unchecked'}
+                onPress={() =>
+                  this.setState({ chargeNum: 2, chargeAmount: 30000 })
+                }
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                {' '}
+                3 만원{' '}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 3 ? 'checked' : 'unchecked'}
+                onPress={() =>
+                  this.setState({ chargeNum: 3, chargeAmount: 50000 })
+                }
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                {' '}
+                5 만원{' '}
+              </Text>
+            </View>
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 4 ? 'checked' : 'unchecked'}
+                onPress={() => this.setState({ chargeNum: 4 })}
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 15 }}> 기타</Text>
+              <TextInput
+                placeholder="충전금액"
+                placeholderTextColor="#919191"
+                underlineColorAndroid="#4f4f4f"
+                style={{ ...styles.moneyTitle, marginTop: -5 }}
+                onChangeText={(text) =>
+                  this.setState({ chargeAmount: parseInt(text) * 10000 })
+                }
+              />
+              <Text style={styles.moneyTitle}> 만원 </Text>
+              {/* </Fragment> */}
+              {/* ) : null} */}
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  this.onClickPay();
                 }}>
-                <RadioButton
-                  value="BySelf"
-                  status={this.state.BySelf === true ? 'checked' : 'unchecked'}
-                  onPress={() => this.setState({ BySelf: !this.state.BySelf })}
-                />
-                <View>
-                  <Text style={styles.imageTitle}>직접 입력</Text>
-                </View>
-              </View>
-              {this.state.BySelf === false ? null : (
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput
-                    placeholder="충전금액"
-                    placeholderTextColor="#e9967a"
-                    underlineColorAndroid="#e9967a"
-                    value={this.state.extraFee}
-                    style={{ marginTop: 10, width: '50%' }}
-                    onChangeText={(text) => this.setState({ extraFee: text })}
-                  />
-                  <TextInput
-                    value="만원"
-                    editable={false}
-                    style={{ color: 'black' }}
-                  />
-                </View>
-              )}
+                <Text style={{ ...styles.panelButtonTitle, marginTop: 30 }}>
+                  결제하기
+                </Text>
+              </TouchableOpacity>
             </View>
           </Content>
         </Container>
@@ -188,17 +160,19 @@ class ChargeModal extends Component {
 //make this component available to the app
 export default ChargeModal;
 const styles = StyleSheet.create({
-  center: {
+  panelButtonTitle: {
+    fontSize: 18,
+    color: 'black',
+    backgroundColor: '#fce06d',
+    width: '120%',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    textAlign: 'center',
+    alignSelf: 'center',
   },
-  radioaddbox: {
-    flexDirection: 'column',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    marginBottom: 5,
-    marginTop: 2,
-    height: 130,
-    backgroundColor: 'white',
+  moneyTitle: {
+    marginTop: 10,
+    fontSize: 15,
+    color: 'black',
   },
 });

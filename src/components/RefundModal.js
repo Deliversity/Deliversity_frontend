@@ -1,11 +1,13 @@
 //import libraries
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Dimensions,
   View,
   Modal,
   StyleSheet,
   ImageBackground,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Text,
@@ -21,15 +23,17 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import { AWS_ACCESSKEY, AWS_SECRETKEY } from '../../env/development';
+import { RadioButton } from 'react-native-paper';
 import { RNS3 } from 'react-native-aws3/src/RNS3';
 import card from '../../assets/card.png';
-import dulicard from '../../assets/card.png';
 // create a component
 class RefundModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imageSrc: 'https://api.adorable.io/avatars/80/abott@adorable.png',
+      chargeAmount: '0',
+      chargeNum: '0',
     };
   }
 
@@ -37,50 +41,27 @@ class RefundModal extends Component {
     return this.props.onClose();
   };
 
-  onClickPicture = async () => {
-    ImagePicker.showImagePicker({}, (response) => {
-      const file = {
-        uri: response.uri,
-        name: response.fileName,
-        type: response.type,
-      };
-      console.log(file);
-      const config = {
-        keyPrefix: 'Identification/',
-        bucket: 'deliversity',
-        region: 'ap-northeast-2',
-        accessKey: AWS_ACCESSKEY,
-        secretKey: AWS_SECRETKEY,
-        successActionStatus: 201,
-      };
-      this.setState({ imageSrc: file.uri });
-      RNS3.put(file, config)
-        .then((response) => {
-          alert('사진 등록이 완료되었습니다.');
-          console.log(response.body.postResponse.location);
-        })
-        .catch(function (error) {
-          console.log(
-            'There has been a problem with your fetch operation: ' +
-            error.message,
-          );
-          // ADD THIS THROW error
-          throw error;
-        });
-    });
+  onClickPay = async () => {
+    console.log(this.state.chargeAmount);
+    console.log(this.state.chargeNum);
+    console.log(this.props.buyerName);
+    console.log(this.props.buyerTel);
+    /*
+    결제 모듈 코드
+    */
   };
 
   render() {
     const { showModal } = this.props;
     return (
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent
         visible={showModal}
         onRequestClose={this.handleClose}
         style={{ justifyContent: 'space-between' }}>
         <Container
-          style={{ margin: 20, marginBottom: 0, backgroundColor: '#fff' }}>
+          style={{ padding: 20, backgroundColor: '#fff', }}>
           <Header style={{ backgroundColor: '#f5f5f5', textAlign: 'center' }}>
             <Left>
               <Button onPress={this.handleClose} transparent>
@@ -96,35 +77,72 @@ class RefundModal extends Component {
           </Header>
           <Content
             contentContainerStyle={{
-              height: 450,
+              height: 270,
               backgroundColor: '#f5f5f5',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <ImageBackground
-              source={require('../../assets/dulicard.png')}
-              style={{ height: 200, width: 300 }}
-            />
-            <Text style={{ fontSize: 12, marginTop: 10, textAlign: 'center' }}>
-              자신의 얼굴과 주민번호 앞 7자리만 보이도록 사진을 찍어주세요.
-            </Text>
-            <View style={{ justifyContent: 'center' }}>
-              <ImageBackground
-                source={{ uri: this.state.imageSrc }}
-                style={{ height: 100, width: 100 }}
-                imageStyle={{ borderRadius: 15 }}
+            <View style={{ flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 1 ? 'checked' : 'unchecked'}
+                onPress={() =>
+                  this.setState({ chargeNum: 1, chargeAmount: 10000 })
+                }
               />
-              <Button
-                bordered
+              <Text style={{ ...styles.moneyTitle, marginRight: 100 }}> 1 만원 </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 2 ? 'checked' : 'unchecked'}
+                onPress={() =>
+                  this.setState({ chargeNum: 2, chargeAmount: 30000 })
+                }
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 100 }}> 3 만원 </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 3 ? 'checked' : 'unchecked'}
+                onPress={() =>
+                  this.setState({ chargeNum: 3, chargeAmount: 50000 })
+                }
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 100 }}> 5 만원 </Text>
+            </View>
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <RadioButton
+                value="chargeNum"
+                status={this.state.chargeNum === 4 ? 'checked' : 'unchecked'}
+                onPress={() => this.setState({ chargeNum: 4 })}
+              />
+              <Text style={{ ...styles.moneyTitle, marginRight: 15 }}> 기타</Text>
+              <TextInput
+                placeholder="환급금액"
+                placeholderTextColor="#919191"
+                underlineColorAndroid="#4f4f4f"
+                style={{ ...styles.moneyTitle, marginTop: -5 }}
+                onChangeText={(text) =>
+                  this.setState({ chargeAmount: parseInt(text) * 10000 })
+                }
+              />
+              <Text style={styles.moneyTitle}> 만원 </Text>
+              {/* </Fragment> */}
+              {/* ) : null} */}
+            </View>
+            <View>
+              <TouchableOpacity
                 onPress={() => {
-                  this.onClickPicture();
+                  this.onClickPay();
                 }}>
-                <Text>사진 업로드</Text>
-              </Button>
+                <Text style={{ ...styles.panelButtonTitle, marginTop: 30 }}>환급받기</Text>
+              </TouchableOpacity>
             </View>
           </Content>
         </Container>
-      </Modal>
+      </Modal >
     );
   }
 }
@@ -132,8 +150,19 @@ class RefundModal extends Component {
 //make this component available to the app
 export default RefundModal;
 const styles = StyleSheet.create({
-  center: {
+  panelButtonTitle: {
+    fontSize: 18,
+    color: 'black',
+    backgroundColor: '#fce06d',
+    width: '120%',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  moneyTitle: {
+    marginTop: 10,
+    fontSize: 15,
+    color: 'black',
   },
 });
