@@ -7,6 +7,7 @@ import App from './App';
 import messaging from '@react-native-firebase/messaging';
 import {name as appName} from './app.json';
 import {getUserStorage} from './src/store/actions/action';
+import uuid from 'uuid';
 import SQLite from 'react-native-sqlite-storage';
 let db;
 db = SQLite.openDatabase({
@@ -31,6 +32,43 @@ const onSendDB = async (orderId, roomId, userId, riderId) => {
   }
 };
 
+function rChatDB (newMessage){
+  let beforeTime = new Date();
+  let month = beforeTime.getMonth() + 1;
+  let time =
+    beforeTime.getFullYear() +
+    '-' +
+    month +
+    '-' +
+    beforeTime.getDate() +
+    ' ' +
+    beforeTime.getHours() +
+    ':' +
+    beforeTime.getMinutes() +
+    ':' +
+    beforeTime.getSeconds();
+  let textId = uuid.v4();
+  let createdAt = time;
+  let text = newMessage.notification.body;
+  let senderId = newMessage.data.senderId
+  let roomId = newMessage.data.roomId;
+  let image = newMessage.data.image
+  let messageType = newMessage.data.messageType;
+  db.transaction((tx) => {
+    tx.executeSql(
+      'INSERT INTO message (text_id, room_id, sender_id, createdAt, text, image, messageType) VALUES (?,?,?,?,?,?,?)',
+      [textId, roomId, senderId, createdAt, text, image, messageType],
+      (tx, results) => {
+        if (results.rowsAffected > 0) {
+          console.log('success');
+        } else {
+          console.log('fail');
+        }
+      },
+    );
+  });
+};
+
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   // storing the message with redux
   console.log('Message handled in the background!', remoteMessage);
@@ -42,6 +80,9 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
     let riderId = remoteMessage.data.riderId;
     //채팅방 생성
     await onSendDB(orderId, roomId, userId, riderId);
+  }
+  else if(remoteMessage.data.type === 'Chat') {
+    rChatDB(remoteMessage)
   }
   // Alert.alert('A new FCM message arrived!', message);
 });

@@ -30,7 +30,6 @@ class OrderScreen extends Component {
       ad: '',
       content:'',
       reservation:false,
-      ge: 0
     };
     this.onClickGetAddress();
   }
@@ -51,18 +50,18 @@ class OrderScreen extends Component {
   };
 
   getMoney(){
-    var mo=(this.getDistanceFromLatLonInKm(this.state.mark.y,
-      this.state.mark.x,this.state.lat, this.state.lng ))/0.5 * 550;
-    if(this.state.hotDeal==true) mo+=1000;
-    this.setState({money:parseInt(mo+3000)});
-    console.log(this.state.money);
+    var cost=3000;
+    var fee=parseFloat(this.getDistanceFromLatLonInKm(this.state.mark.y,
+      this.state.mark.x,this.state.lat, this.state.lng))-1;
+    if(fee>0) cost += Math.round((550 * fee / 0.5)/100)*100;
+    if(this.state.hotDeal==true) cost+=1000;
+    this.setState({money:cost});
   }
 
   getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
     function deg2rad(deg) {
       return deg * (Math.PI/180);
     }
-
     const R = 6371; // Radius of the earth in km
     const dLat = deg2rad(parseFloat(lat2)-parseFloat(lat1));  // deg2rad below
     const dLon = deg2rad(parseFloat(lng2)-parseFloat(lng1));
@@ -76,20 +75,21 @@ class OrderScreen extends Component {
       if(this.state.orderType=="booking"){
         this.setState({reservation: true});
       }
-      if(this.state.gender==true){
-        this.setState({ge:1});
-      }
     const data={
       storeName: this.state.mark.place_name,
       storeAddress: this.state.mark.address_name,
       storeDetailAddress: '',
-      gender: this.state.ge,
+      gender: this.state.gender,
       hotDeal: this.state.hotDeal,
       expHour: this.state.hour,
       expMinute: this.state.min,
       content: this.state.content,
       categoryName: this.state.mark.category_group_name,
-      reservation: this.state.reservation
+      reservation: this.state.reservation,
+      storeLat:this.state.mark.y,
+      storeLng:this.state.mark.x,
+      userLat:this.state.lat,
+      userLng:this.state.lng
     }
     await this.props.requestOrder(data);
     this.props.navigation.goBack(null);

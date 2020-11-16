@@ -59,6 +59,7 @@ class LevelupModal extends Component {
           console.log(response.body.postResponse.location);
         })
         .catch(function (error) {
+          alert(error.response.data.message);
           console.log(
             'There has been a problem with your fetch operation: ' +
               error.message,

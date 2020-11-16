@@ -43,6 +43,7 @@ class ChangeButton extends Component {
         <TouchableOpacity
           onPress={() => {
             this.onClickChange();
+            this.props.onPress()
           }}>
           <Icon name="bubble-chart" color="#f4da6c" size={35} />
           <Text style={styles.text_header}>{this.props.user}</Text>

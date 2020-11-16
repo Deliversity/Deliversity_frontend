@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import ChangeButton from '../components/ChangeButton';
 import axios from '../axiosConfig';
+import {getUserStorage} from '../store/actions/action';
 import Card from '../components/seekDeliveryCard';
 class SeekDeliveryScreen extends Component {
   constructor(props) {
@@ -70,11 +71,17 @@ class SeekDeliveryScreen extends Component {
       />
     );
   };
+
+  stopPostPosition=async ()=>{
+    console.log("stop geo")
+    const timerId = parseInt(await getUserStorage('timerId'));
+    clearInterval(timerId)
+  }
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
-          <ChangeButton />
+          <ChangeButton onPress={this.stopPostPosition}/>
         </View>
         <View style={styles.header}>
           <Image

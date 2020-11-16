@@ -86,7 +86,7 @@ export const requestGoogleLogin = (data) => {
             dispatch(loginSuccess(userData));
           })
           .catch((error) => {
-            alert('Login Failed : ' + error);
+            alert(error.response.data.message);
             dispatch(linkAccount(error));
           });
       });
@@ -124,7 +124,7 @@ export const requestKakaoLogin = (data) => {
             dispatch(loginSuccess(userData));
           })
           .catch((error) => {
-            alert('Login Failed : ' + error);
+            alert(error.response.data.message);
             dispatch(linkAccount(error));
           });
       });
@@ -163,7 +163,7 @@ export const requestLogin = (data) => {
             dispatch(loginSuccess(userData));
           })
           .catch((error) => {
-            alert('Login Failed : ' + error);
+            alert(error.response.data.message);
             dispatch(loginFailure(error));
           });
       });
@@ -180,7 +180,7 @@ export const requestSignup = (data) => {
         dispatch(signupSuccess());
       })
       .catch((error) => {
-        alert('SIGN Failed : ' + error);
+        alert(error.response.data.message);
         dispatch(signupFailure(error));
       });
   };
@@ -196,7 +196,7 @@ export const requestOrder = (data) => {
         dispatch(OrderSuccess());
       })
       .catch((error) => {
-        alert('Order Failed : ' + error);
+        alert(error.response.data.message);
         dispatch(OrderFailure(error));
       });
   };
@@ -228,7 +228,7 @@ export const requestUpdateAddress = () => {
         dispatch(addressSuccess(address));
       })
       .catch((error) => {
-        alert('Failed : ' + error);
+        alert(error.response.data.message);
       });
   };
 };

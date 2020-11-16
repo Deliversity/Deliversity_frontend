@@ -32,8 +32,8 @@ class PaymentScreen extends Component {
     this.getMyPoint();
     this.getTotalFee();
   }
-  getMyPoint = async () => {
-    await axios
+  getMyPoint = () => {
+    axios
       .get('/api/v1/point')
       .then((res) => {
         this.setState({point: res.data.data.point});
@@ -42,9 +42,9 @@ class PaymentScreen extends Component {
         alert(e.response.data.message);
       });
   };
-  getTotalFee = async () => {
+  getTotalFee = () => {
     console.log(this.state.orderNum);
-    await axios
+    axios
       .get(`/api/v1/order/price?orderId=${this.state.orderNum}`)
       .then((res) => {
         this.setState({
@@ -58,11 +58,11 @@ class PaymentScreen extends Component {
         alert(e.response.data.message);
       });
   };
-  onClickSubmitCost = async () => {
+  onClickSubmitCost = () => {
     const data = {
       cost: this.state.requestCost,
     };
-    await axios
+    axios
       .post(`/api/v1/order/price?orderId=${this.state.orderNum}`, data)
       .then((res) => {
         alert('주문자에게 전달되었습니다.');
@@ -71,13 +71,13 @@ class PaymentScreen extends Component {
         alert(e.response.data.message);
       });
   };
-  onClickSendCost = async () => {
+  onClickSendCost = () => {
     const data = {
       price: this.state.totalCost,
-      riderId: this.state.guest,
+      riderId: this.state.guest
     };
-    await axios
-      .post('/api/v1/order/pay', data)
+    axios
+      .post(`/api/v1/order/pay?orderId=${this.state.orderNum}`, data)
       .then((res) => {
         alert('배달원에게 전달되었습니다.');
         this.getMyPoint();
