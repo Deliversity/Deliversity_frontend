@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Store from './StoreScreen';
+import axios from '../axiosConfig';
 import ChangeButton from '../components/ChangeButton';
+import Geolocation from '@react-native-community/geolocation';
+import {setUserStorage} from '../store/actions/action';
 type Props = {};
 export default class App extends Component<Props> {
   onClickCategory = async (data) => {
@@ -10,11 +13,24 @@ export default class App extends Component<Props> {
       category: data,
     });
   };
+
+  geo = async ()=>{
+    Geolocation.getCurrentPosition(async (position)=>{
+      await axios.post('/api/v1/myinfo/currentLocation',position)
+    })
+  }
+
+  startPostPosition = async ()=>{
+    console.log("geo")
+    const timerId = setInterval(this.geo,5000);
+    await setUserStorage('timerId',timerId.toString());
+  }
+  
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
-          <ChangeButton />
+          <ChangeButton onPress={this.startPostPosition}/>
         </View>
         <View style={styles.header}>
           <Image

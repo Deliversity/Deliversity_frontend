@@ -15,6 +15,7 @@
   "dependencies": {
     "-": "0.0.1",
     "@react-native-community/async-storage": "1.12.1",
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/google-signin": "5.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-firebase/app": "8.4.6",
@@ -53,7 +54,7 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "save": "2.4.0",
-    "socket.io-client": "3.0.1"
+    "socket.io-client": "2.3.1"
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
