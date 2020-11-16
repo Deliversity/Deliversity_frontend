@@ -12,6 +12,7 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainTabScreen from './src/screens/MainTabScreen';
 import {Provider} from 'react-redux';
+import uuid from 'uuid';
 import configureStore from './src/store/configureStore';
 import messaging from '@react-native-firebase/messaging';
 import {StyleSheet} from 'react-native';
@@ -53,11 +54,48 @@ export default class App extends React.Component {
       });
     }
   };
+
+  rChatDB = (newMessage) => {
+    let beforeTime = new Date();
+    let month = beforeTime.getMonth() + 1;
+    let time =
+      beforeTime.getFullYear() +
+      '-' +
+      month +
+      '-' +
+      beforeTime.getDate() +
+      ' ' +
+      beforeTime.getHours() +
+      ':' +
+      beforeTime.getMinutes() +
+      ':' +
+      beforeTime.getSeconds();
+    let textId = uuid.v4();
+    let createdAt = time;
+    let text = newMessage.notification.body;
+    let senderId = newMessage.data.senderId;
+    let roomId = newMessage.data.roomId;
+    let image = newMessage.data.image;
+    let messageType = newMessage.data.messageType;
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO message (text_id, room_id, sender_id, createdAt, text, image, messageType) VALUES (?,?,?,?,?,?,?)',
+        [textId, roomId, senderId, createdAt, text, image, messageType],
+        (tx, results) => {
+          if (results.rowsAffected > 0) {
+            console.log('success');
+          } else {
+            console.log('fail');
+          }
+        },
+      );
+    });
+  };
+
   componentDidMount() {
     (async () => await messaging().registerDeviceForRemoteMessages())();
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
       let message = remoteMessage.notification;
       if (remoteMessage.data.type === 'selected') {
         let orderId = remoteMessage.data.orderId;
@@ -66,6 +104,10 @@ export default class App extends React.Component {
         let riderId = remoteMessage.data.riderId;
         //채팅방 생성
         await this.onSendDB(orderId, roomId, userId, riderId);
+      } else if (remoteMessage.data.type === 'ManageDelivery') {
+        Alert.alert('새 배달건이 추가되었습니다.');
+      } else if (remoteMessage.data.type === 'Chat') {
+        this.rChatDB(remoteMessage);
       }
       // Alert.alert('A new FCM message arrived!', remoteMessage.data.test);
 

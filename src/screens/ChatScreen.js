@@ -8,9 +8,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {currentRelation} from '../store/actions/action';
 import {connect} from 'react-redux';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
-import {RNS3} from 'react-native-aws3/src/RNS3'
+import {RNS3} from 'react-native-aws3/src/RNS3';
 import * as io from 'socket.io-client';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 let db;
 db = SQLite.openDatabase({
   name: 'sqlite.db',
@@ -27,7 +27,7 @@ function ChatScreen(props) {
   let [avatar, setAvatar] = useState('logo');
   useEffect(() => {
     socket = io.connect('ws://deliversity.co.kr:81', {
-      transports: ['websocket','polling'],
+      transports: ['websocket', 'polling'],
     });
     //이전 메시지 받아오기
     props.currentRelation(
@@ -35,18 +35,17 @@ function ChatScreen(props) {
       props.route.params.guest_id,
       props.route.params.order_id,
     );
-    socket.emit('cnt',props.route.params.room_id);
-    console.log(props.route.params.room_id)
+    socket.emit('cnt', props.route.params.room_id);
+    console.log(props.route.params.room_id);
 
-    socket.on('pong', function(data) {
+    socket.on('pong', function (data) {
       Alert.alert('Received Pong: ', data);
     });
 
     socket.on('rChat', (newMessage) => {
       let newMessaged = newMessage;
       newMessaged[0].user.avatar = logo;
-      setMessages((previous)=>GiftedChat.append(previous, newMessaged));
-      onSendDB(newMessaged);
+      setMessages((previous) => GiftedChat.append(previous, newMessaged));
     });
 
     if (messages !== null) {
@@ -74,16 +73,16 @@ function ChatScreen(props) {
                 };
                 helpArray.push(text);
               }
-              setMessages((previous)=>GiftedChat.append(previous, helpArray));
+              setMessages((previous) => GiftedChat.append(previous, helpArray));
             }
           },
         );
       });
     }
-    return () =>{
-      socket.emit('dscnt',props.route.params.room_id)
-      socket.disconnect()
-    }
+    return () => {
+      socket.emit('dscnt', props.route.params.room_id);
+      socket.disconnect();
+    };
   }, []);
   function handlePickImage() {
     ImagePicker.showImagePicker({}, (response) => {
@@ -139,48 +138,11 @@ function ChatScreen(props) {
       />
     );
   }
-  function onSend(newMessage = []){;
+  function onSend(newMessage = []) {
     socket.emit('chat', newMessage);
     setMessages(GiftedChat.append(messages, newMessage));
-    onSendDB(newMessage);
-  };
-  function onSendDB (newMessage){
-    
-    let beforeTime = new Date();
-    let month = beforeTime.getMonth() + 1;
-    let time =
-      beforeTime.getFullYear() +
-      '-' +
-      month +
-      '-' +
-      beforeTime.getDate() +
-      ' ' +
-      beforeTime.getHours() +
-      ':' +
-      beforeTime.getMinutes() +
-      ':' +
-      beforeTime.getSeconds();
-    let textId = newMessage[0]._id;
-    let createdAt = time;
-    let text = newMessage[0].text;
-    let senderId = newMessage[0].user._id;
-    let roomId = newMessage[0].user.roomId;
-    let image = newMessage[0].image;
-    let messageType = newMessage[0].messageType;
-    db.transaction((tx) => {
-      tx.executeSql(
-        'INSERT INTO message (text_id, room_id, sender_id, createdAt, text, image, messageType) VALUES (?,?,?,?,?,?,?)',
-        [textId, roomId, senderId, createdAt, text, image, messageType],
-        (tx, results) => {
-          if (results.rowsAffected > 0) {
-            console.log('success');
-          } else {
-            console.log('fail');
-          }
-        },
-      );
-    });
-  };
+  }
+
   return (
     <GiftedChat
       messages={messages}

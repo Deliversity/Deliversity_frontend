@@ -40,7 +40,7 @@ function Payment({navigation, props}) {
     // amount: props.amount,
     // buyer_name: props.name,
     // buyer_tel: props.phone,
-    amount: '1000',
+    amount: '10000',
     buyer_name: '박수빈',
     buyer_tel: PSB_NUM,
     // buyer_email: 'iamport@siot.do',
@@ -58,9 +58,5 @@ function Payment({navigation, props}) {
     />
   );
 }
-const mapStateToProps = (state) => ({
-  name: state.authentication.name,
-  phone: state.authentication.phone,
-  amount: state.authentication.amount,
-});
-export default connect(mapStateToProps, {})(Payment);
+
+export default Payment;
