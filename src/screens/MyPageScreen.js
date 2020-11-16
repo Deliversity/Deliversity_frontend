@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   View,
+  Modal,
   TouchableOpacity,
+  TextInput,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import {Container, Right, Header, Content, Body, Button, Text} from 'native-base';
-import {requestLogout} from '../store/actions/action';
-import {connect} from 'react-redux';
+import { Container, Right, Header, Content, Body, Left, Title, Button, Text } from 'native-base';
+import { requestLogout } from '../store/actions/action';
+import { connect } from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
+import { RadioButton } from 'react-native-paper';
 import RefundModal from '../components/RefundModal';
-import ChargeModal from '../components/ChargeModal';
+// import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
 import axios from '../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -25,6 +28,8 @@ class MyPageScreen extends Component {
       point: '',
       buyerName: '',
       buyerTel: '',
+      chargeAmount: '0',
+      chargeNum: '0',
     };
     console.log(props.grade);
     if (props.grade == 0) {
@@ -34,6 +39,15 @@ class MyPageScreen extends Component {
     }
     this.getMyPoint();
   }
+  onClickPay = async () => {
+    console.log(this.state.chargeAmount);
+    console.log(this.state.chargeNum);
+    console.log(this.state.buyerName);
+    console.log(this.state.buyerTel);
+    /*
+    결제 모듈 코드
+    */
+  };
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
     firebase.messaging().deleteToken();
@@ -77,6 +91,9 @@ class MyPageScreen extends Component {
   onClickRefund = async () => {
     console.log('환급');
     await axios
+      /*
+      back에 신청하는 API
+      */
       .get('/api/v1/myinfo/')
       .then((res) => {
         this.setState({
@@ -143,7 +160,7 @@ class MyPageScreen extends Component {
                 {this.state.userGrade} 등급
               </Text>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
               <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
               <Icon name="refresh" size={30} />
             </View>
@@ -173,24 +190,123 @@ class MyPageScreen extends Component {
             </View>
           </View>
           <View style={styles.box}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
               <Button transparent onPress={this.handleSelect}>
                 <Icon name="chevron-right" size={30} />
               </Button>
             </View>
           </View>
-          <View style={{justifyContent: 'center'}}>
+          <View style={{ justifyContent: 'center' }}>
             <LevelupModal
               showModal={this.state.setModalVisible}
               onClose={this.handleModalClose}
             />
-            <ChargeModal
+            <Modal
+              animationType="fade"
+              transparent
+              visible={this.state.setModal1Visible}
+              onRequestClose={this.handleClose}
+              style={{ justifyContent: 'space-between' }}>
+              <Container style={{ padding: 20, backgroundColor: '#fff' }}>
+                <Header style={{ backgroundColor: '#f5f5f5', textAlign: 'center' }}>
+                  <Left>
+                    <Button onPress={this.handleClose} transparent>
+                      <Icon name="close" style={{ color: 'black', fontSize: 20 }} />
+                    </Button>
+                  </Left>
+                  <Body>
+                    <Title
+                      children="💰 충전 금액을 선택하세요."
+                      style={{ color: 'black', fontSize: 15 }}
+                    />
+                  </Body>
+                </Header>
+                <Content
+                  contentContainerStyle={{
+                    height: 270,
+                    backgroundColor: '#f5f5f5',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <RadioButton
+                      value="chargeNum"
+                      status={this.state.chargeNum === 1 ? 'checked' : 'unchecked'}
+                      onPress={() =>
+                        this.setState({ chargeNum: 1, chargeAmount: 10000 })
+                      }
+                    />
+                    <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                      {' '}
+                1 만원{' '}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <RadioButton
+                      value="chargeNum"
+                      status={this.state.chargeNum === 2 ? 'checked' : 'unchecked'}
+                      onPress={() =>
+                        this.setState({ chargeNum: 2, chargeAmount: 30000 })
+                      }
+                    />
+                    <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                      {' '}
+                3 만원{' '}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <RadioButton
+                      value="chargeNum"
+                      status={this.state.chargeNum === 3 ? 'checked' : 'unchecked'}
+                      onPress={() =>
+                        this.setState({ chargeNum: 3, chargeAmount: 50000 })
+                      }
+                    />
+                    <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                      {' '}
+                5 만원{' '}
+                    </Text>
+                  </View>
+                  <View style={{ display: 'flex', flexDirection: 'row' }}>
+                    <RadioButton
+                      value="chargeNum"
+                      status={this.state.chargeNum === 4 ? 'checked' : 'unchecked'}
+                      onPress={() => this.setState({ chargeNum: 4 })}
+                    />
+                    <Text style={{ ...styles.moneyTitle, marginRight: 15 }}> 기타</Text>
+                    <TextInput
+                      placeholder="충전금액"
+                      placeholderTextColor="#919191"
+                      underlineColorAndroid="#4f4f4f"
+                      style={{ ...styles.moneyTitle, marginTop: -5 }}
+                      onChangeText={(text) =>
+                        this.setState({ chargeAmount: parseInt(text) * 10000 })
+                      }
+                    />
+                    <Text style={styles.moneyTitle}> 만원 </Text>
+                    {/* </Fragment> */}
+                    {/* ) : null} */}
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.onClickPay();
+                      }}>
+                      <Text style={{ ...styles.panelButtonTitle, marginTop: 30 }}>
+                        결제하기
+                </Text>
+                    </TouchableOpacity>
+                  </View>
+                </Content>
+              </Container>
+            </Modal>
+            {/* <ChargeModal
               showModal={this.state.setModal1Visible}
               buyerName={this.state.buyerName}
               buyerTel={this.state.buyerTel}
               onClose={this.handleModal1Close}
-            />
+            /> */}
             <RefundModal
               showModal={this.state.setModal2Visible}
               buyerName={this.state.buyerName}
@@ -200,6 +316,8 @@ class MyPageScreen extends Component {
           </View>
         </View>
       </View>
+
+
     );
   }
 }
@@ -283,6 +401,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'gray',
     marginBottom: 10,
+  },
+  panelButtonTitle: {
+    fontSize: 18,
+    color: 'black',
+    backgroundColor: '#fce06d',
+    width: '120%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  moneyTitle: {
+    marginTop: 10,
+    fontSize: 15,
+    color: 'black',
   },
 });
 
