@@ -13,7 +13,8 @@ import {
   LINK_ACCOUNT,
   CURRENT_RELATION,
   ORDER_SUCCESS,
-  ORDER_FAIL
+  ORDER_FAIL,
+    SAVE_POINT
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
@@ -217,6 +218,7 @@ export const currentRelation = (owner, guest, orderNum) => {
     orderNum: orderNum,
   };
 };
+
 export const requestUpdateAddress = () => {
   return (dispatch) => {
     return axios

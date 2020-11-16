@@ -24,6 +24,7 @@ import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
+import iamport from '../components/iamport';
 import {NavigationContainer} from '@react-navigation/native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,12 +38,12 @@ const mapDispatchToProps = (dispatch) => ({
   storeData: (data) => dispatch(storeData(data)),
 });
 
-function getTabBarVisibility (route){
+function getTabBarVisibility(route) {
   const routeName = route.state
     ? route.state.routes[route.state.index].name
     : '';
 
-  if (routeName === 'Chat') {
+  if (routeName === 'Chat' || routeName === 'iamport') {
     return false;
   }
 
@@ -182,6 +183,11 @@ function DeliveryManageStack() {
         }}
         component={WriteReviewScreen}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="iamport"
+        component={iamport}
+      />
     </Stack.Navigator>
   );
 }
@@ -234,6 +240,22 @@ function OrderManageStack() {
           },
         }}
         component={WriteReviewScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+function myPageStack() {
+  return (
+    <Stack.Navigator initialRouteName="MyPage">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="MyPage"
+        component={MyPageScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="iamport"
+        component={iamport}
       />
     </Stack.Navigator>
   );
@@ -327,7 +349,7 @@ function CourierTabStack() {
       <Tab.Screen
         name="ChatHome"
         component={ChatStack}
-        options={({route})=>({
+        options={({route}) => ({
           tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
@@ -338,14 +360,15 @@ function CourierTabStack() {
       />
       <Tab.Screen
         name="MyPage"
-        component={MyPageScreen}
-        options={{
+        component={myPageStack}
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: 'Me',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
             <Icon name="face-retouching-natural" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
     </Tab.Navigator>
   );
@@ -378,7 +401,7 @@ function ConsumerTabStack() {
       <Tab.Screen
         name="ChatHome"
         component={ChatStack}
-        options={({route})=>({
+        options={({route}) => ({
           tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
@@ -389,14 +412,15 @@ function ConsumerTabStack() {
       />
       <Tab.Screen
         name="MyPage"
-        component={MyPageScreen}
-        options={{
+        component={myPageStack}
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: 'Me',
-          tabBarColor: '#ff7f50',
+          tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
-            <Icon name="face" color={'#e9967a'} size={26} />
+            <Icon name="face-retouching-natural" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
     </Tab.Navigator>
   );

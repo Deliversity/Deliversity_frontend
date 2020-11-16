@@ -2,18 +2,33 @@ import React from 'react';
 /* 아임포트 모듈을 불러옵니다. */
 import IMP from 'iamport-react-native';
 import {IAMPORT_CODE} from '../../env/development';
-export function Payment({navigation}) {
+import axios from '../axiosConfig';
+import {connect} from 'react-redux';
+import {PSB_NUM} from '../../env/development';
+function Payment({navigation, props}) {
+  //this.props.navigation.navigate
   /* [필수입력] 결제 종료 후, 라우터를 변경하고 결과를 전달합니다. */
   function callback(response) {
     console.log(response);
     var msg;
     if (response.imp_success === 'true') {
       msg = '결제가 완료되었습니다.';
+      let data = {
+        point: '10000',
+      };
+      axios
+        .post('/api/v1/point', data)
+        .then((res) => {
+          alert('포인트 충전이 완료 되었습니다.');
+        })
+        .catch((e) => {
+          alert(e.response.data.message);
+        });
     } else {
       msg = '결제에 실패하였습니다.' + response.error_msg;
     }
     alert(msg);
-    //navigation.goBack(null);
+    navigation.goBack(null);
   }
 
   /* [필수입력] 결제에 필요한 데이터를 입력합니다. */
@@ -22,12 +37,15 @@ export function Payment({navigation}) {
     pay_method: 'card',
     name: '아임포트 결제데이터 분석',
     merchant_uid: `mid_${new Date().getTime()}`,
-    amount: '100',
-    buyer_name: '홍길동',
-    buyer_tel: '01012345678',
-    buyer_email: 'iamport@siot.do',
-    buyer_addr: '서울시 강남구 신사동 661-16',
-    buyer_postcode: '06018',
+    // amount: props.amount,
+    // buyer_name: props.name,
+    // buyer_tel: props.phone,
+    amount: '1000',
+    buyer_name: '박수빈',
+    buyer_tel: PSB_NUM,
+    // buyer_email: 'iamport@siot.do',
+    // buyer_addr: '서울시 강남구 신사동 661-16',
+    // buyer_postcode: '06018',
     app_scheme: 'example',
     // [Deprecated v1.0.3]: m_redirect_url
   };
@@ -40,5 +58,9 @@ export function Payment({navigation}) {
     />
   );
 }
-
-export default Payment;
+const mapStateToProps = (state) => ({
+  name: state.authentication.name,
+  phone: state.authentication.phone,
+  amount: state.authentication.amount,
+});
+export default connect(mapStateToProps, {})(Payment);

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import {
   View,
   Modal,
@@ -7,11 +7,22 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import { Container, Right, Header, Content, Body, Left, Title, Button, Text } from 'native-base';
-import { requestLogout } from '../store/actions/action';
-import { connect } from 'react-redux';
+import {
+  Container,
+  Right,
+  Header,
+  Content,
+  Body,
+  Left,
+  Title,
+  Button,
+  Text,
+} from 'native-base';
+import {requestLogout} from '../store/actions/action';
+import {requestPoint} from '../store/actions/action';
+import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
-import { RadioButton } from 'react-native-paper';
+import {RadioButton} from 'react-native-paper';
 import RefundModal from '../components/RefundModal';
 // import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
@@ -39,7 +50,11 @@ class MyPageScreen extends Component {
     }
     this.getMyPoint();
   }
-  onClickPay = async () => {
+  handleClose = () => {
+    this.setState({setModal1Visible: false});
+  };
+  onClickPay = () => {
+    this.handleModal1Close();
     console.log(this.state.chargeAmount);
     console.log(this.state.chargeNum);
     console.log(this.state.buyerName);
@@ -47,6 +62,7 @@ class MyPageScreen extends Component {
     /*
     결제 모듈 코드
     */
+    this.props.navigation.navigate('iamport');
   };
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
@@ -74,6 +90,10 @@ class MyPageScreen extends Component {
     });
   };
   onClickCharge = async () => {
+    // this.props.navigation.navigate('iamport', {
+    //   buyerName: this.state.buyerName,
+    //   buyerTel: this.state.buyerTel,
+    // });
     console.log('충전');
     await axios
       .get('/api/v1/myinfo/')
@@ -87,6 +107,9 @@ class MyPageScreen extends Component {
       .catch((e) => {
         alert(e.response.data.message);
       });
+  };
+  handleReload = () => {
+    this.getMyPoint();
   };
   onClickRefund = async () => {
     console.log('환급');
@@ -110,7 +133,7 @@ class MyPageScreen extends Component {
     await axios
       .get('/api/v1/point')
       .then((res) => {
-        this.setState({ point: res.data.data.point });
+        this.setState({point: res.data.data.point});
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -132,11 +155,11 @@ class MyPageScreen extends Component {
             <Button
               rounded
               warning
-              style={{ marginRight: 5 }}
+              style={{marginRight: 5}}
               onPress={() => {
                 this.onClickLevelUp();
               }}>
-              <Text style={{ color: '#fff' }}>등업 신청</Text>
+              <Text style={{color: '#fff'}}>등업 신청</Text>
             </Button>
             <Button
               rounded
@@ -144,7 +167,7 @@ class MyPageScreen extends Component {
               onPress={() => {
                 this.onClickLogout();
               }}>
-              <Text style={{ color: '#fff' }}>🔐 LOGOUT</Text>
+              <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
             </Button>
           </View>
           <View style={styles.box}>
@@ -160,44 +183,52 @@ class MyPageScreen extends Component {
                 {this.state.userGrade} 등급
               </Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 10,
+              }}>
               <Text style={styles.pointTitle}>잔여 포인트 🌱</Text>
-              <Icon name="refresh" size={30} />
+              <Button transparent onPress={this.handleReload}>
+                <Icon name="refresh" size={30} />
+              </Button>
             </View>
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Button
                   rounded
                   success
-                  style={{ marginRight: 5 }}
+                  style={{marginRight: 5}}
                   onPress={() => {
                     this.onClickCharge();
                   }}>
-                  <Text style={{ color: '#fff' }}>충전</Text>
+                  <Text style={{color: '#fff'}}>충전</Text>
                 </Button>
                 <Button
                   rounded
                   success
-                  style={{ marginRight: 5 }}
+                  style={{marginRight: 5}}
                   onPress={() => {
                     this.onClickRefund();
                   }}>
-                  <Text style={{ color: '#fff' }}>환급</Text>
+                  <Text style={{color: '#fff'}}>환급</Text>
                 </Button>
               </View>
             </View>
           </View>
           <View style={styles.box}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
               <Button transparent onPress={this.handleSelect}>
                 <Icon name="chevron-right" size={30} />
               </Button>
             </View>
           </View>
-          <View style={{ justifyContent: 'center' }}>
+          <View style={{justifyContent: 'center'}}>
             <LevelupModal
               showModal={this.state.setModalVisible}
               onClose={this.handleModalClose}
@@ -207,18 +238,22 @@ class MyPageScreen extends Component {
               transparent
               visible={this.state.setModal1Visible}
               onRequestClose={this.handleClose}
-              style={{ justifyContent: 'space-between' }}>
-              <Container style={{ padding: 20, backgroundColor: '#fff' }}>
-                <Header style={{ backgroundColor: '#f5f5f5', textAlign: 'center' }}>
+              style={{justifyContent: 'space-between'}}>
+              <Container style={{padding: 20, backgroundColor: '#fff'}}>
+                <Header
+                  style={{backgroundColor: '#f5f5f5', textAlign: 'center'}}>
                   <Left>
                     <Button onPress={this.handleClose} transparent>
-                      <Icon name="close" style={{ color: 'black', fontSize: 20 }} />
+                      <Icon
+                        name="close"
+                        style={{color: 'black', fontSize: 20}}
+                      />
                     </Button>
                   </Left>
                   <Body>
                     <Title
                       children="💰 충전 금액을 선택하세요."
-                      style={{ color: 'black', fontSize: 15 }}
+                      style={{color: 'black', fontSize: 15}}
                     />
                   </Body>
                 </Header>
@@ -229,59 +264,70 @@ class MyPageScreen extends Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{flexDirection: 'row'}}>
                     <RadioButton
                       value="chargeNum"
-                      status={this.state.chargeNum === 1 ? 'checked' : 'unchecked'}
+                      status={
+                        this.state.chargeNum === 1 ? 'checked' : 'unchecked'
+                      }
                       onPress={() =>
-                        this.setState({ chargeNum: 1, chargeAmount: 10000 })
+                        this.setState({chargeNum: 1, chargeAmount: 10000})
                       }
                     />
-                    <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                    <Text style={{...styles.moneyTitle, marginRight: 100}}>
                       {' '}
-                1 만원{' '}
+                      1 만원{' '}
                     </Text>
                   </View>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{flexDirection: 'row'}}>
                     <RadioButton
                       value="chargeNum"
-                      status={this.state.chargeNum === 2 ? 'checked' : 'unchecked'}
+                      status={
+                        this.state.chargeNum === 2 ? 'checked' : 'unchecked'
+                      }
                       onPress={() =>
-                        this.setState({ chargeNum: 2, chargeAmount: 30000 })
+                        this.setState({chargeNum: 2, chargeAmount: 30000})
                       }
                     />
-                    <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                    <Text style={{...styles.moneyTitle, marginRight: 100}}>
                       {' '}
-                3 만원{' '}
+                      3 만원{' '}
                     </Text>
                   </View>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{flexDirection: 'row'}}>
                     <RadioButton
                       value="chargeNum"
-                      status={this.state.chargeNum === 3 ? 'checked' : 'unchecked'}
+                      status={
+                        this.state.chargeNum === 3 ? 'checked' : 'unchecked'
+                      }
                       onPress={() =>
-                        this.setState({ chargeNum: 3, chargeAmount: 50000 })
+                        this.setState({chargeNum: 3, chargeAmount: 50000})
                       }
                     />
-                    <Text style={{ ...styles.moneyTitle, marginRight: 100 }}>
+                    <Text style={{...styles.moneyTitle, marginRight: 100}}>
                       {' '}
-                5 만원{' '}
+                      5 만원{' '}
                     </Text>
                   </View>
-                  <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View style={{display: 'flex', flexDirection: 'row'}}>
                     <RadioButton
                       value="chargeNum"
-                      status={this.state.chargeNum === 4 ? 'checked' : 'unchecked'}
-                      onPress={() => this.setState({ chargeNum: 4 })}
+                      status={
+                        this.state.chargeNum === 4 ? 'checked' : 'unchecked'
+                      }
+                      onPress={() => this.setState({chargeNum: 4})}
                     />
-                    <Text style={{ ...styles.moneyTitle, marginRight: 15 }}> 기타</Text>
+                    <Text style={{...styles.moneyTitle, marginRight: 15}}>
+                      {' '}
+                      기타
+                    </Text>
                     <TextInput
                       placeholder="충전금액"
                       placeholderTextColor="#919191"
                       underlineColorAndroid="#4f4f4f"
-                      style={{ ...styles.moneyTitle, marginTop: -5 }}
+                      style={{...styles.moneyTitle, marginTop: -5}}
                       onChangeText={(text) =>
-                        this.setState({ chargeAmount: parseInt(text) * 10000 })
+                        this.setState({chargeAmount: parseInt(text) * 10000})
                       }
                     />
                     <Text style={styles.moneyTitle}> 만원 </Text>
@@ -293,9 +339,9 @@ class MyPageScreen extends Component {
                       onPress={() => {
                         this.onClickPay();
                       }}>
-                      <Text style={{ ...styles.panelButtonTitle, marginTop: 30 }}>
+                      <Text style={{...styles.panelButtonTitle, marginTop: 30}}>
                         결제하기
-                </Text>
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </Content>
@@ -316,8 +362,6 @@ class MyPageScreen extends Component {
           </View>
         </View>
       </View>
-
-
     );
   }
 }
@@ -426,5 +470,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogout: () => dispatch(requestLogout()),
+  requestPoint: (amount, phone) => dispatch(requestPoint(amount, phone)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MyPageScreen);
