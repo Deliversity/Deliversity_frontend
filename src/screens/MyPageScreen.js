@@ -19,7 +19,6 @@ import {
   Text,
 } from 'native-base';
 import {requestLogout} from '../store/actions/action';
-import {requestPoint} from '../store/actions/action';
 import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
 import {RadioButton} from 'react-native-paper';
@@ -470,6 +469,5 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogout: () => dispatch(requestLogout()),
-  requestPoint: (amount, phone) => dispatch(requestPoint(amount, phone)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MyPageScreen);
