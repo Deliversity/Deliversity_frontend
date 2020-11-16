@@ -22,10 +22,10 @@ export default class App extends Component<Props> {
 
   startPostPosition = async ()=>{
     console.log("geo")
-    const timerId = setInterval(this.geo,5000);
+    const timerId = setInterval(this.geo,1000*60*3);
     await setUserStorage('timerId',timerId.toString());
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
