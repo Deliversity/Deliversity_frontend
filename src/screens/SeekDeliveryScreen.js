@@ -85,7 +85,7 @@ class SeekDeliveryScreen extends Component {
         </View>
         <View style={styles.header}>
           <Image
-            source={require('../../assets/logo.png')}
+            source={require('../../assets/logo_D.png')}
             style={{width: 150, height: 150}}
           />
           <Text style={styles.text_header}>Deliversity</Text>
