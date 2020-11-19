@@ -14,23 +14,23 @@ export default class App extends Component<Props> {
     });
   };
 
-  geo = async ()=>{
-    Geolocation.getCurrentPosition(async (position)=>{
-      await axios.post('/api/v1/myinfo/currentLocation',position)
-    })
-  }
+  geo = async () => {
+    Geolocation.getCurrentPosition(async (position) => {
+      await axios.post('/api/v1/myinfo/currentLocation', position);
+    });
+  };
 
-  startPostPosition = async ()=>{
-    console.log("geo")
-    const timerId = setInterval(this.geo,1000*60*3);
-    await setUserStorage('timerId',timerId.toString());
-  }
+  startPostPosition = async () => {
+    console.log('geo');
+    const timerId = setInterval(this.geo, 1000 * 60 * 3);
+    await setUserStorage('timerId', timerId.toString());
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
-          <ChangeButton onPress={this.startPostPosition}/>
+          <ChangeButton onPress={this.startPostPosition} />
         </View>
         <View style={styles.header}>
           <Image
@@ -60,14 +60,27 @@ export default class App extends Component<Props> {
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onClickCategory('약국');
+                    this.onClickCategory('커피전문점');
                   }}>
                   <View style={styles.profile}>
-                    <Icon name="local-pharmacy" color={'#000000'} size={50} />
-                    <Text style={styles.name}>약국</Text>
+                    <Icon name="local-cafe" color={'#000000'} size={50} />
+                    <Text style={styles.name}>카페</Text>
                   </View>
                 </TouchableOpacity>
               </View>
+              <View style={styles.userInfo}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onClickCategory('음식점');
+                  }}>
+                  <View style={styles.profile}>
+                    <Icon name="local-restaurant" color={'#000000'} size={50} />
+                    <Text style={styles.name}>음식점</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.elem}>
               <View style={styles.userInfo}>
                 <TouchableOpacity
                   onPress={() => {
@@ -79,20 +92,7 @@ export default class App extends Component<Props> {
                       color={'#000000'}
                       size={50}
                     />
-                    <Text style={styles.name}>세탁물</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.elem}>
-              <View style={styles.userInfo}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.onClickCategory('음식점');
-                  }}>
-                  <View style={styles.profile}>
-                    <Icon name="local-restaurant" color={'#000000'} size={50} />
-                    <Text style={styles.name}>음식</Text>
+                    <Text style={styles.name}>세탁소</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -166,11 +166,6 @@ const styles = StyleSheet.create({
   userInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  userComment: {
-    padding: 8,
-    backgroundColor: '#ffd700',
-    borderRadius: 5,
   },
   profile: {
     width: 100,
