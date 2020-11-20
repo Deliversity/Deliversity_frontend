@@ -16,7 +16,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       usersList: [],
-    };
+    }; //tt
     db = SQLite.openDatabase(
       {
         name: 'sqlite.db',
