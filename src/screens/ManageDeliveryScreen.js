@@ -5,8 +5,9 @@ import {
   StyleSheet,
   FlatList,
   RefreshControl,
+  Alert,
 } from 'react-native';
-import {List, Text} from 'native-base';
+import {Text} from 'native-base';
 import Card from '../components/manageDeliveryCard';
 import axios from '../axiosConfig';
 class ManageDeliveryScreen extends Component {
@@ -35,6 +36,17 @@ class ManageDeliveryScreen extends Component {
         alert(e);
       });
   };
+  onClickConfirmDelivery = async (orderId) => {
+    await axios
+      .get(`/api/v1/order/complete?orderId=${orderId}`)
+      .then((res) => {
+        alert('배달 완료 신청이 완료 되었습니다.');
+        this.onClickGetDelivery();
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
 
   handleRefresh = async () => {
     await this.onClickGetDelivery();
@@ -44,12 +56,27 @@ class ManageDeliveryScreen extends Component {
       <Card
         itemData={item}
         onPress={() => {
-          item.orderStatus == 3 && item.reviewedByRider == false
-            ? this.props.navigation.navigate('WriteReview', {
-                orderID: item.id,
-                riderID: item.riderId,
-              })
-            : null;
+          if (item.orderStatus == 3 && item.reviewedByRider == false) {
+            this.props.navigation.navigate('WriteReview', {
+              orderID: item.id,
+              riderID: item.riderId,
+            });
+          } else if (item.orderStatus == 2) {
+            Alert.alert(
+              'Alert',
+              '배달완료를 처리 하시겠습니까?',
+              [
+                {
+                  text: 'Cancel',
+                },
+                {
+                  text: 'OK',
+                  onPress: () => this.onClickConfirmDelivery(item.id),
+                },
+              ],
+              {cancelable: false},
+            );
+          }
         }}
       />
     );
