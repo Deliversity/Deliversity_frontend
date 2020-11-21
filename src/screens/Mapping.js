@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {Component, PropTypes, useState} from 'react';
+import {View, StyleSheet, Alert} from 'react-native';
 // import MapView, {
 //   PROVIDER_GOOGLE,
 //   Marker,
@@ -24,12 +24,6 @@ class Mapping extends Component {
       dataIsRetruned: false,
       category: this.props.cat,
       region:{latitude: 37.2794469469635, longitude: 127.047519717452},
-     //  region: new AnimatedRegion({
-     //    latitude: 37.2794469469635,
-     //    longitude: 127.047519717452,
-     //    latitudeDelta: 0.01,
-     //    longitudeDelta: 0.002,
-     //  }),
       markers: [],
       address: '',
     };
@@ -41,8 +35,8 @@ class Mapping extends Component {
     if (this.state.category == '편의점') {
       return 'CS2';
     }
-    if (this.state.category == '약국') {
-      return 'PM9';
+    if (this.state.category == '카페') {
+      return 'CE7';
     }
     if (this.state.category == '세탁소') {
       return null;
@@ -72,15 +66,30 @@ class Mapping extends Component {
     this.fetchNearestPlacesFromKakao();
   };
 
+  
   fetchNearestPlacesFromKakao = (current) => {
     if (current) {
-         console.log("map move")
+         console.log("map move" + current.x+ " "+current.y)
       this.setState({
         region: {
           latitude: current.latitude,
           longitude: current.longitude,
         }
       });
+      if(this.state.category=='기타'){
+        Alert.alert( "", "Marker?", [  { text: 'Cancel'},
+        { text: 'OK', onPress: () => {
+           console.log('chagne);');
+           var p=this.state.markers;
+           p.push({x: current.longitude,
+            y: current.latitude, place_name: '사용자 지정'})
+            this.setState({markers:p});
+            this.sendMark();
+           
+        }}],
+        { cancelable: false }
+        )
+      }
     }
 
     const latitude = this.state.region.latitude; // you can update it with user's latitude & Longitude
@@ -104,7 +113,7 @@ class Mapping extends Component {
      },
      params:{
           query:this.state.category,
-          x:this.state.region.longitude,
+          x:this.state.region.longitude, 
           y:this.state.region.latitude,
           radius: radMetter,
           sort: "distance",
@@ -137,6 +146,9 @@ class Mapping extends Component {
     if((this.state.address != this.props.ad ) && this.props.ad!=''){
       this.getAddress();
     }
+   
+   // console.log(this.state.markers);
+
     return (
       <View style={style.container} onChange={this.sendMark}>
         <View style={style.container}>
@@ -144,21 +156,22 @@ class Mapping extends Component {
                     showsMyLocationButton={true}
                     useTextureView={true}
                     center={{...this.state.region, zoom: 15}}
-                    // onCameraChange={this.fetchNearestPlacesFromKakao}
-                    // onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
+                    //onCameraChange={this.fetchNearestPlacesFromKakao}
+                    //onCameraChange={e => this.fetchNearestPlacesFromKakao(e)}
                     onMapClick={this.fetchNearestPlacesFromKakao}
+                    //onTouch={this.fetchNearestPlacesFromKakao}
                     >
                {this.state.markers.map((marker,index)=>
-                    <Marker
-                    coordinate={{
-                              latitude:parseFloat(marker.y),
-                              longitude:parseFloat(marker.x)
-                    }}
-                    caption={{text:marker.place_name}}
-                    subCaption={{text:marker.phone}}
-                    key={index}
-                    />
-               )}
+          <Marker
+          coordinate={{
+                    latitude:parseFloat(marker.y),
+                    longitude:parseFloat(marker.x)
+          }}
+         caption={{text:marker.place_name}}
+          subCaption={{text:marker.phone}}
+          key={index}
+          />
+               ) }
           </NaverMapView>
         </View>
       </View>
