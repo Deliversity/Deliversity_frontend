@@ -26,6 +26,8 @@ import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
 import iamport from '../components/iamport';
 import {NavigationContainer} from '@react-navigation/native';
+import QApage from './QApage';
+import Report from './Report';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -246,11 +248,11 @@ function OrderManageStack() {
 }
 function myPageStack() {
   return (
-    <Stack.Navigator initialRouteName="MyPage">
+    <Stack.Navigator initialRouteName="MyStack">
       <Stack.Screen
         options={{headerShown: false}}
-        name="MyPage"
-        component={MyPageScreen}
+        name="MyStack"
+        component={MyStack}
       />
       <Stack.Screen
         options={{headerShown: false}}
@@ -259,6 +261,28 @@ function myPageStack() {
       />
     </Stack.Navigator>
   );
+}
+function MyStack(){
+  return(
+    <Stack.Navigator initialRouteName="MyPage">
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="MyPage"
+        component={MyPageScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="QApage"
+        component={QApage}
+      />
+       <Stack.Screen
+        options={{headerShown: false}}
+        name="Report"
+        component={Report}
+      />
+    </Stack.Navigator>
+
+  )
 }
 function ConsumerStack() {
   return (

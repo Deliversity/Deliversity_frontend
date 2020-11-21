@@ -14,6 +14,10 @@ import {
   CURRENT_RELATION,
   ORDER_SUCCESS,
   ORDER_FAIL,
+  QA_SUCCESS,
+  QA_FAIL,
+  REPORT_SUCCESS,
+  REPORT_FAIL
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
@@ -201,7 +205,36 @@ export const requestOrder = (data) => {
       });
   };
 };
-
+export const requestQna =(data)=>{
+  return (dispatch) => {
+    console.log(data);
+    return axios
+      .post('/api/v1/myinfo/qna', data)
+      .then(() => {
+        alert('문의 사항이 접수되었습니다.');
+        dispatch(QASuccess());
+      })
+      .catch((error) => {
+        alert(error);
+        dispatch(QAFailure(error));
+      });
+  };
+}
+export const requestReport =(data)=>{
+  return (dispatch) => {
+    console.log(data);
+    return axios
+      .post('/api/v1/myinfo/report', data)
+      .then(() => {
+        alert('신고 사항이 접수되었습니다.');
+        dispatch(ReportSuccess());
+      })
+      .catch((error) => {
+        alert(error);
+        dispatch(ReportFailure(error));
+      });
+  };
+}
 export const requestChangeUser = (user) => {
   return {
     type: USER_CHANGE,
@@ -304,5 +337,29 @@ export const OrderSuccess = () => {
 export const OrderFailure = () => {
   return {
     type: ORDER_FAIL,
+  };
+};
+
+export const QASuccess = () => {
+  return {
+    type: QA_SUCCESS,
+  };
+};
+
+export const QAFailure = () => {
+  return {
+    type: QA_FAIL,
+  };
+};
+
+export const ReportSuccess=()=>{
+  return{
+    type: REPORT_SUCCESS
+  };
+};
+
+export const ReportFailure = () => {
+  return {
+    type: REPORT_FAIL,
   };
 };

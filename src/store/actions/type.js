@@ -16,3 +16,9 @@ export const CURRENT_RELATION = 'CURRENT_RELATION';
 
 export const ORDER_SUCCESS='ORDER_SUCCESS';
 export const ORDER_FAIL='ORDER_FAIL';
+
+export const QA_SUCCESS='QA_SUCCESS';
+export const QA_FAIL='QA_FAIL';
+
+export const REPORT_SUCCESS='REPORT_SUCCESS';
+export const REPORT_FAIL='REPORT_FAIL';
