@@ -103,7 +103,7 @@ class OrderScreen extends Component {
     alert("error : "+ e);
   }
   }
-  changeMoney(){
+  changeMoney=()=>{
     this.setState({hotDeal: !this.state.hotDeal})
     if(this.state.hotDeal==1) {
       this.setState({money: this.state.money-1000})
@@ -112,17 +112,30 @@ class OrderScreen extends Component {
       this.setState({money: this.state.money+1000})
     }
   }
+  storeFunc=()=>{
+    if(this.state.mark.place_name=='사용자 지정'){
+      return(
+        <TextInput placeholder="자세한 가게이름을 입력해주세요." style={styles.martTt}></TextInput>
+      )
+    }
+    else{
+      console.log("iun");
+      return(
+          <Text>{this.state.mark.place_name}</Text>
+      )
+    }
+  }
   render() {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>요청할 가게</Text>
-          <Text>{this.state.mark.place_name}</Text>
+          {this.storeFunc()}
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 요청 하기</Text>
           <TextInput placeholder="ex) 감자핫도그 3개요" style={styles.textInputBox} onChangeText={(content) => this.setState({content:content})}
-        value={this.state.content} />
+        value={this.state.content} multiline={true} numberOfLines={5}/>
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 받을 장소</Text>
@@ -287,9 +300,18 @@ const styles = StyleSheet.create({
     fontSize: 17,
     backgroundColor: 'transparent',
   },
+  martTt:{
+    backgroundColor: '#fafad2',
+    borderWidth: 3,
+    borderColor: 'gray',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    marginTop: 10,
+  },
   textInputBox: {
     width: '100%',
-    height: 100,
     backgroundColor: '#fafad2',
     borderWidth: 3,
     borderColor: 'gray',
