@@ -93,7 +93,15 @@ class Signup extends Component {
         age: this.state.age,
         phone: this.state.phone
       };
-      await this.props.requestSignup(data);
+      await axios
+            .post('/api/v1/auth/signup', data)
+            .then((response) => {
+              alert(response.data.data.name + '님. 환영합니다.');
+            })
+            .catch((error) => {
+              alert(error.response.data.message);
+            });
+      
       this.props.navigation.goBack(null);
     } catch (e) {
       alert('error' + e);

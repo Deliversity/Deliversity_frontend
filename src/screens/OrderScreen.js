@@ -10,7 +10,6 @@ import {RadioButton} from 'react-native-paper';
 import {Text} from 'native-base';
 import {connect} from 'react-redux';
 import axios from '../axiosConfig';
-import {requestOrder} from '../store/actions/action';
 class OrderScreen extends Component {
   static navigationOptions = {
     title: 'Order',
@@ -91,7 +90,14 @@ class OrderScreen extends Component {
       userLat:this.state.lat,
       userLng:this.state.lng
     }
-    await this.props.requestOrder(data);
+    await axios
+          .post('/api/v1/order', data)
+          .then((response) => {
+            alert(response.data.data.userId + '님. 주문이 접수되었습니다.');
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
     this.props.navigation.goBack(null);
   }catch(e){
     alert("error : "+ e);

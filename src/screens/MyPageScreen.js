@@ -358,6 +358,28 @@ class MyPageScreen extends Component {
               buyerTel={this.state.buyerTel}
               onClose={this.handleModal2Close}
             />
+            <View style={styles.box}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.imageTitle}>문의사항</Text>
+              <Button transparent onPress={() => {
+                this.props.navigation.navigate('QApage');
+              }}>
+                <Icon name="chevron-right" size={30} />
+              </Button>
+            </View>
+          </View>
+          <View style={styles.box}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.imageTitle}>신고하기</Text>
+              <Button transparent onPress={() => {
+                this.props.navigation.navigate('Report');
+              }}>
+                <Icon name="chevron-right" size={30} />
+              </Button>
+            </View>
+          </View>
           </View>
         </View>
       </View>
@@ -401,7 +423,7 @@ const styles = StyleSheet.create({
   box: {
     flexDirection: 'column',
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
