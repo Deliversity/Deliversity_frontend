@@ -9,6 +9,7 @@ import {Container, Right, Header, Content, Body, Button, Text} from 'native-base
 import {requestQna} from '../store/actions/action';
 import {connect} from 'react-redux';
 import { TextInput } from 'react-native-paper';
+import axios from '../axiosConfig';
 class QApage extends Component {
     static navigationOptions = {
         title: 'QApage',
@@ -27,7 +28,14 @@ class QApage extends Component {
           qnaKind: this.state.selectedValue,
           content:this.state.content
         };
-        await this.props.requestQna(data);
+        await axios
+        .post('/api/v1/myinfo/qna', data)
+        .then(() => {
+          alert('문의 사항이 접수되었습니다.');
+        })
+        .catch((error) => {
+          alert(error);
+        });
         this.setState({selectedValue:'선택하세요', content:''})
         this.props.navigation.goBack(null);
       } catch (e) {

@@ -9,6 +9,7 @@ import {Container, Right, Header, Content, Body, Button, Text} from 'native-base
 import {requestReport} from '../store/actions/action';
 import {connect} from 'react-redux';
 import { TextInput } from 'react-native-paper';
+import axios from '../axiosConfig';
 class Report extends Component {
     static navigationOptions = {
         title: 'Report',
@@ -30,8 +31,14 @@ class Report extends Component {
           content:this.state.content,
           upload_chat:this.state.upload_chat,
         };
-        console.log("1"+data);
-        await this.props.requestReport(data);
+        await axios
+              .post('/api/v1/myinfo/report', data)
+              .then(() => {
+                alert('신고 사항이 접수되었습니다.');
+              })
+              .catch((error) => {
+                alert(error);
+              });
          this.props.navigation.goBack(null);
       } catch (e) {
         alert('error' + e);

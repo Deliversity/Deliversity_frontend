@@ -5,19 +5,10 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   STORE_DATA,
-  SIGNUP,
-  SIGNUP_FAIL,
-  SIGNUP_SUCCESS,
   USER_CHANGE,
   ADDRESS_CHANGE,
   LINK_ACCOUNT,
   CURRENT_RELATION,
-  ORDER_SUCCESS,
-  ORDER_FAIL,
-  QA_SUCCESS,
-  QA_FAIL,
-  REPORT_SUCCESS,
-  REPORT_FAIL
 } from './type';
 import axios from '../../axiosConfig';
 import jwt_decode from 'jwt-decode';
@@ -174,67 +165,6 @@ export const requestLogin = (data) => {
   };
 };
 
-export const requestSignup = (data) => {
-  console.log(data);
-  return (dispatch) => {
-    return axios
-      .post('/api/v1/auth/signup', data)
-      .then((response) => {
-        alert(response.data.data.name + '님. 환영합니다.');
-        dispatch(signupSuccess());
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-        dispatch(signupFailure(error));
-      });
-  };
-};
-export const requestOrder = (data) => {
-  console.log(data);
-  return (dispatch) => {
-    return axios
-      .post('/api/v1/order', data)
-      .then((response) => {
-        console.log("res");
-        alert(response.data.data.userId + '님. 주문이 접수되었습니다.');
-        dispatch(OrderSuccess());
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-        dispatch(OrderFailure(error));
-      });
-  };
-};
-export const requestQna =(data)=>{
-  return (dispatch) => {
-    console.log(data);
-    return axios
-      .post('/api/v1/myinfo/qna', data)
-      .then(() => {
-        alert('문의 사항이 접수되었습니다.');
-        dispatch(QASuccess());
-      })
-      .catch((error) => {
-        alert(error);
-        dispatch(QAFailure(error));
-      });
-  };
-}
-export const requestReport =(data)=>{
-  return (dispatch) => {
-    console.log(data);
-    return axios
-      .post('/api/v1/myinfo/report', data)
-      .then(() => {
-        alert('신고 사항이 접수되었습니다.');
-        dispatch(ReportSuccess());
-      })
-      .catch((error) => {
-        alert(error);
-        dispatch(ReportFailure(error));
-      });
-  };
-}
 export const requestChangeUser = (user) => {
   return {
     type: USER_CHANGE,
@@ -315,51 +245,3 @@ export const logout = () => {
   };
 };
 
-export const signupSuccess = () => {
-  return {
-    type: SIGNUP_SUCCESS,
-  };
-};
-
-export const signupFailure = (error) => {
-  return {
-    type: SIGNUP_FAIL,
-    error,
-  };
-};
-
-export const OrderSuccess = () => {
-  return {
-    type: ORDER_SUCCESS,
-  };
-};
-
-export const OrderFailure = () => {
-  return {
-    type: ORDER_FAIL,
-  };
-};
-
-export const QASuccess = () => {
-  return {
-    type: QA_SUCCESS,
-  };
-};
-
-export const QAFailure = () => {
-  return {
-    type: QA_FAIL,
-  };
-};
-
-export const ReportSuccess=()=>{
-  return{
-    type: REPORT_SUCCESS
-  };
-};
-
-export const ReportFailure = () => {
-  return {
-    type: REPORT_FAIL,
-  };
-};
