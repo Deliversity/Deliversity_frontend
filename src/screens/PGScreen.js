@@ -8,9 +8,7 @@ function Payment(props) {
   /* [필수입력] 결제 종료 후, 라우터를 변경하고 결과를 전달합니다. */
   function callback(response) {
     console.log(response);
-    var msg;
     if (response.imp_success === 'true') {
-      msg = '결제가 완료되었습니다.';
       let data = {
         point: props.route.params.chargeAmount,
         imp_uid: response.imp_uid,
@@ -22,12 +20,11 @@ function Payment(props) {
           alert('포인트 충전이 완료 되었습니다.');
         })
         .catch((e) => {
-          alert(e.response.data.message);
+          alert('포인트 충전이 실패되었습니다. ' + e.response.data.message);
         });
     } else {
-      msg = '결제에 실패하였습니다.' + response.error_msg;
+      alert(response.error_msg);
     }
-    alert(msg);
     props.navigation.goBack(null);
   }
 
