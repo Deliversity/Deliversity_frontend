@@ -24,7 +24,7 @@ import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
-import iamport from '../components/iamport';
+import iamport from './PGScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import QApage from './QApage';
 import Report from './Report';
@@ -251,8 +251,18 @@ function myPageStack() {
     <Stack.Navigator initialRouteName="MyStack">
       <Stack.Screen
         options={{headerShown: false}}
-        name="MyStack"
-        component={MyStack}
+        name="MyPage"
+        component={MyPageScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="QApage"
+        component={QApage}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Report"
+        component={Report}
       />
       <Stack.Screen
         options={{headerShown: false}}
@@ -262,28 +272,7 @@ function myPageStack() {
     </Stack.Navigator>
   );
 }
-function MyStack(){
-  return(
-    <Stack.Navigator initialRouteName="MyPage">
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="MyPage"
-        component={MyPageScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="QApage"
-        component={QApage}
-      />
-       <Stack.Screen
-        options={{headerShown: false}}
-        name="Report"
-        component={Report}
-      />
-    </Stack.Navigator>
 
-  )
-}
 function ConsumerStack() {
   return (
     <Stack.Navigator initialRouteName="Home">

@@ -61,7 +61,11 @@ class MyPageScreen extends Component {
     /*
     결제 모듈 코드
     */
-    this.props.navigation.navigate('iamport');
+    this.props.navigation.navigate('iamport', {
+      chargeAmount: this.state.chargeAmount,
+      buyerName: this.state.buyerName,
+      buyerTel: this.state.buyerTel,
+    });
   };
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
@@ -359,27 +363,31 @@ class MyPageScreen extends Component {
               onClose={this.handleModal2Close}
             />
             <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>문의사항</Text>
-              <Button transparent onPress={() => {
-                this.props.navigation.navigate('QApage');
-              }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>문의사항</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('QApage');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
             </View>
-          </View>
-          <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>신고하기</Text>
-              <Button transparent onPress={() => {
-                this.props.navigation.navigate('Report');
-              }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>신고하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('Report');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
             </View>
-          </View>
           </View>
         </View>
       </View>
