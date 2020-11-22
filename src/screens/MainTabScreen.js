@@ -160,6 +160,11 @@ function ChatStack({navigation}) {
         name="Payment"
         component={PaymentScreen}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="iamport"
+        component={iamport}
+      />
     </Stack.Navigator>
   );
 }
@@ -184,11 +189,6 @@ function DeliveryManageStack() {
           },
         }}
         component={WriteReviewScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="iamport"
-        component={iamport}
       />
     </Stack.Navigator>
   );

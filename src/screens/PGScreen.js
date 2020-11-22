@@ -12,7 +12,7 @@ function Payment(props) {
     if (response.imp_success === 'true') {
       msg = '결제가 완료되었습니다.';
       let data = {
-        point: '10000',
+        point: props.route.params.chargeAmount,
       };
       axios
         .post('/api/v1/point', data)

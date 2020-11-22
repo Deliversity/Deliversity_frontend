@@ -93,10 +93,6 @@ class MyPageScreen extends Component {
     });
   };
   onClickCharge = async () => {
-    // this.props.navigation.navigate('iamport', {
-    //   buyerName: this.state.buyerName,
-    //   buyerTel: this.state.buyerTel,
-    // });
     console.log('충전');
     await axios
       .get('/api/v1/myinfo/')
@@ -350,12 +346,6 @@ class MyPageScreen extends Component {
                 </Content>
               </Container>
             </Modal>
-            {/* <ChargeModal
-              showModal={this.state.setModal1Visible}
-              buyerName={this.state.buyerName}
-              buyerTel={this.state.buyerTel}
-              onClose={this.handleModal1Close}
-            /> */}
             <RefundModal
               showModal={this.state.setModal2Visible}
               buyerName={this.state.buyerName}
