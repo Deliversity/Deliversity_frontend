@@ -13,6 +13,8 @@ function Payment(props) {
       msg = '결제가 완료되었습니다.';
       let data = {
         point: props.route.params.chargeAmount,
+        imp_uid: response.imp_uid,
+        merchant_uid: response.merchant_uid,
       };
       axios
         .post('/api/v1/point', data)
