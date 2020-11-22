@@ -42,12 +42,12 @@ class MyPageScreen extends Component {
       chargeNum: '0',
     };
     console.log(props.grade);
-    if (props.grade === 0) {
-      this.state.userGrade = '준회원';
-    } else if (props.grade === 1) {
+    if (props.grade === 2) {
       this.state.userGrade = '정회원';
-    } else if (props.grade === 2) {
+    } else if (props.grade === 3) {
       this.state.userGrade = '배달원';
+    } else {
+      this.state.userGrade = '준회원';
     }
     this.getMyPoint();
   }

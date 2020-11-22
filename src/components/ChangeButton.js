@@ -29,7 +29,7 @@ class ChangeButton extends Component {
   onClickChange = async () => {
     // console.log(this.props.user);
     if (this.props.user === '사용자') {
-      if (this.props.grade !== 2) {
+      if (this.props.grade !== 3) {
         alert('등업 신청을 하세요!');
       } else {
         await this.props.requestChangeUser('배달원');
