@@ -3,18 +3,16 @@ import React from 'react';
 import IMP from 'iamport-react-native';
 import {IAMPORT_CODE} from '../../env/development';
 import axios from '../axiosConfig';
-import {connect} from 'react-redux';
-import {PSB_NUM} from '../../env/development';
-function Payment({navigation, props}) {
+function Payment(props) {
   //this.props.navigation.navigate
   /* [필수입력] 결제 종료 후, 라우터를 변경하고 결과를 전달합니다. */
   function callback(response) {
     console.log(response);
-    var msg;
     if (response.imp_success === 'true') {
-      msg = '결제가 완료되었습니다.';
       let data = {
-        point: '10000',
+        point: props.route.params.chargeAmount,
+        imp_uid: response.imp_uid,
+        merchant_uid: response.merchant_uid,
       };
       axios
         .post('/api/v1/point', data)
@@ -22,13 +20,12 @@ function Payment({navigation, props}) {
           alert('포인트 충전이 완료 되었습니다.');
         })
         .catch((e) => {
-          alert(e.response.data.message);
+          alert('포인트 충전이 실패되었습니다. ' + e.response.data.message);
         });
     } else {
-      msg = '결제에 실패하였습니다.' + response.error_msg;
+      alert(response.error_msg);
     }
-    alert(msg);
-    navigation.goBack(null);
+    props.navigation.goBack(null);
   }
 
   /* [필수입력] 결제에 필요한 데이터를 입력합니다. */
@@ -40,9 +37,9 @@ function Payment({navigation, props}) {
     // amount: props.amount,
     // buyer_name: props.name,
     // buyer_tel: props.phone,
-    amount: '10000',
-    buyer_name: '박수빈',
-    buyer_tel: PSB_NUM,
+    amount: props.route.params.chargeAmount,
+    buyer_name: props.route.params.buyerName,
+    buyer_tel: props.route.params.buyerTel,
     // buyer_email: 'iamport@siot.do',
     // buyer_addr: '서울시 강남구 신사동 661-16',
     // buyer_postcode: '06018',

@@ -42,10 +42,12 @@ class MyPageScreen extends Component {
       chargeNum: '0',
     };
     console.log(props.grade);
-    if (props.grade == 0) {
-      this.state.userGrade = '준회원';
-    } else {
+    if (props.grade === 2) {
       this.state.userGrade = '정회원';
+    } else if (props.grade === 3) {
+      this.state.userGrade = '배달원';
+    } else {
+      this.state.userGrade = '준회원';
     }
     this.getMyPoint();
   }
@@ -61,7 +63,11 @@ class MyPageScreen extends Component {
     /*
     결제 모듈 코드
     */
-    this.props.navigation.navigate('iamport');
+    this.props.navigation.navigate('iamport', {
+      chargeAmount: this.state.chargeAmount,
+      buyerName: this.state.buyerName,
+      buyerTel: this.state.buyerTel,
+    });
   };
   onClickLogout = async () => {
     alert('로그아웃 되었습니다.');
@@ -89,10 +95,6 @@ class MyPageScreen extends Component {
     });
   };
   onClickCharge = async () => {
-    // this.props.navigation.navigate('iamport', {
-    //   buyerName: this.state.buyerName,
-    //   buyerTel: this.state.buyerTel,
-    // });
     console.log('충전');
     await axios
       .get('/api/v1/myinfo/')
@@ -151,15 +153,17 @@ class MyPageScreen extends Component {
               marginBottom: 10,
               justifyContent: 'flex-end',
             }}>
-            <Button
-              rounded
-              warning
-              style={{marginRight: 5}}
-              onPress={() => {
-                this.onClickLevelUp();
-              }}>
-              <Text style={{color: '#fff'}}>등업 신청</Text>
-            </Button>
+            {this.state.userGrade === '준회원' ? (
+              <Button
+                rounded
+                warning
+                style={{marginRight: 5}}
+                onPress={() => {
+                  this.onClickLevelUp();
+                }}>
+                <Text style={{color: '#fff'}}>등업 신청</Text>
+              </Button>
+            ) : null}
             <Button
               rounded
               warning
@@ -346,12 +350,6 @@ class MyPageScreen extends Component {
                 </Content>
               </Container>
             </Modal>
-            {/* <ChargeModal
-              showModal={this.state.setModal1Visible}
-              buyerName={this.state.buyerName}
-              buyerTel={this.state.buyerTel}
-              onClose={this.handleModal1Close}
-            /> */}
             <RefundModal
               showModal={this.state.setModal2Visible}
               buyerName={this.state.buyerName}
@@ -359,27 +357,31 @@ class MyPageScreen extends Component {
               onClose={this.handleModal2Close}
             />
             <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>문의사항</Text>
-              <Button transparent onPress={() => {
-                this.props.navigation.navigate('QApage');
-              }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>문의사항</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('QApage');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
             </View>
-          </View>
-          <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>신고하기</Text>
-              <Button transparent onPress={() => {
-                this.props.navigation.navigate('Report');
-              }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>신고하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('Report');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
             </View>
-          </View>
           </View>
         </View>
       </View>

@@ -4,12 +4,22 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  Modal,
 } from 'react-native';
-import {Text, Button} from 'native-base';
+import {
+  Text,
+  Button,
+  Container,
+  Header,
+  Left,
+  Body,
+  Title,
+  Content,
+} from 'native-base';
 import {connect} from 'react-redux';
 import axios from '../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {RadioButton} from 'react-native-paper';
 class PaymentScreen extends Component {
   static navigationOptions = {
     title: 'Payment',
@@ -28,6 +38,11 @@ class PaymentScreen extends Component {
       extraFee: '',
       deliveryFee: '',
       cost: '',
+      setModalVisible: false,
+      buyerName: '',
+      buyerTel: '',
+      chargeAmount: '',
+      chargeNum: '',
     };
     this.getMyPoint();
     this.getTotalFee();
@@ -74,7 +89,7 @@ class PaymentScreen extends Component {
   onClickSendCost = () => {
     const data = {
       price: this.state.totalCost,
-      riderId: this.state.guest
+      riderId: this.state.guest,
     };
     axios
       .post(`/api/v1/order/pay?orderId=${this.state.orderNum}`, data)
@@ -86,20 +101,180 @@ class PaymentScreen extends Component {
         alert(e.response.data.message);
       });
   };
+  handleClose = () => {
+    this.setState({setModalVisible: false});
+  };
+  onClickCharge = async () => {
+    console.log('충전');
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          setModalVisible: true,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  onClickPay = () => {
+    this.handleClose();
+    console.log(this.state.chargeAmount);
+    console.log(this.state.chargeNum);
+    console.log(this.state.buyerName);
+    console.log(this.state.buyerTel);
+    /*
+    결제 모듈 코드
+    */
+    this.props.navigation.navigate('iamport', {
+      chargeAmount: this.state.chargeAmount,
+      buyerName: this.state.buyerName,
+      buyerTel: this.state.buyerTel,
+    });
+  };
+  handleReload = () => {
+    this.getMyPoint();
+  };
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.box}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 13}}>
-            <Text style={styles.imageTitle}>{this.state.name}님의 잔여 포인트 🌱</Text>
-            <Icon name="refresh" size={30} />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: 13,
+            }}>
+            <Text style={styles.imageTitle}>
+              {this.state.name}님의 잔여 포인트 🌱
+            </Text>
+            <Button transparent onPress={this.handleReload}>
+              <Icon name="refresh" size={30} />
+            </Button>
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.imageSubTitle}>{this.state.point} 점</Text>
-            <Button rounded success>
+            <Button
+              rounded
+              success
+              onPress={() => {
+                this.onClickCharge();
+              }}>
               <Text style={{color: '#fff'}}>충전</Text>
             </Button>
           </View>
+        </View>
+        <View style={{justifyContent: 'center'}}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.setModalVisible}
+            onRequestClose={this.handleClose}
+            style={{justifyContent: 'space-between'}}>
+            <Container style={{padding: 20, backgroundColor: '#fff'}}>
+              <Header style={{backgroundColor: '#f5f5f5', textAlign: 'center'}}>
+                <Left>
+                  <Button onPress={this.handleClose} transparent>
+                    <Icon name="close" style={{color: 'black', fontSize: 20}} />
+                  </Button>
+                </Left>
+                <Body>
+                  <Title
+                    children="💰 충전 금액을 선택하세요."
+                    style={{color: 'black', fontSize: 15}}
+                  />
+                </Body>
+              </Header>
+              <Content
+                contentContainerStyle={{
+                  height: 270,
+                  backgroundColor: '#f5f5f5',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={{flexDirection: 'row'}}>
+                  <RadioButton
+                    value="chargeNum"
+                    status={
+                      this.state.chargeNum === 1 ? 'checked' : 'unchecked'
+                    }
+                    onPress={() =>
+                      this.setState({chargeNum: 1, chargeAmount: 10000})
+                    }
+                  />
+                  <Text style={{...styles.moneyTitle, marginRight: 100}}>
+                    {' '}
+                    1 만원{' '}
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <RadioButton
+                    value="chargeNum"
+                    status={
+                      this.state.chargeNum === 2 ? 'checked' : 'unchecked'
+                    }
+                    onPress={() =>
+                      this.setState({chargeNum: 2, chargeAmount: 30000})
+                    }
+                  />
+                  <Text style={{...styles.moneyTitle, marginRight: 100}}>
+                    {' '}
+                    3 만원{' '}
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <RadioButton
+                    value="chargeNum"
+                    status={
+                      this.state.chargeNum === 3 ? 'checked' : 'unchecked'
+                    }
+                    onPress={() =>
+                      this.setState({chargeNum: 3, chargeAmount: 50000})
+                    }
+                  />
+                  <Text style={{...styles.moneyTitle, marginRight: 100}}>
+                    {' '}
+                    5 만원{' '}
+                  </Text>
+                </View>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <RadioButton
+                    value="chargeNum"
+                    status={
+                      this.state.chargeNum === 4 ? 'checked' : 'unchecked'
+                    }
+                    onPress={() => this.setState({chargeNum: 4})}
+                  />
+                  <Text style={{...styles.moneyTitle, marginRight: 15}}>
+                    {' '}
+                    기타
+                  </Text>
+                  <TextInput
+                    placeholder="충전금액"
+                    placeholderTextColor="#919191"
+                    underlineColorAndroid="#4f4f4f"
+                    style={{...styles.moneyTitle, marginTop: -5}}
+                    onChangeText={(text) =>
+                      this.setState({chargeAmount: parseInt(text) * 10000})
+                    }
+                  />
+                  <Text style={styles.moneyTitle}> 만원 </Text>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.onClickPay();
+                    }}>
+                    <Text style={{...styles.panelButtonTitle, marginTop: 30}}>
+                      결제하기
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </Content>
+            </Container>
+          </Modal>
         </View>
         {this.props.user === '배달원' ? (
           <View style={styles.box}>
@@ -131,11 +306,19 @@ class PaymentScreen extends Component {
             <Text style={styles.imageUserTitle}>
               거리 배달비 + 추가 배달비 + 주문 금액을 합한 금액입니다.
             </Text>
-            <Text style={styles.imageCostTitle}>거리 배달비: {this.state.deliveryFee}원</Text>
-            <Text style={styles.imageCostTitle}>추가 배달비: {this.state.extraFee}원</Text>
-            <Text style={styles.imageCostTitle}>주문 금액: {this.state.cost}원</Text>
+            <Text style={styles.imageCostTitle}>
+              거리 배달비: {this.state.deliveryFee}원
+            </Text>
+            <Text style={styles.imageCostTitle}>
+              추가 배달비: {this.state.extraFee}원
+            </Text>
+            <Text style={styles.imageCostTitle}>
+              주문 금액: {this.state.cost}원
+            </Text>
             <View style={styles.rightBox}>
-              <Text style={styles.imageTitle}>총 {this.state.totalCost} point</Text>
+              <Text style={styles.imageTitle}>
+                총 {this.state.totalCost} point
+              </Text>
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -214,6 +397,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     alignSelf: 'flex-end',
+  },
+  moneyTitle: {
+    marginTop: 10,
+    fontSize: 15,
+    color: 'black',
   },
 });
 const mapStateToProps = (state) => ({

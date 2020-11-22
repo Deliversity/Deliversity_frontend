@@ -1,12 +1,6 @@
 //import libraries
 import React, {Component} from 'react';
-import {
-  Dimensions,
-  View,
-  Modal,
-  StyleSheet,
-  ImageBackground,
-} from 'react-native';
+import {View, Modal, StyleSheet, ImageBackground} from 'react-native';
 import {
   Text,
   Container,
@@ -22,7 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import {AWS_ACCESSKEY, AWS_SECRETKEY} from '../../env/development';
 import {RNS3} from 'react-native-aws3/src/RNS3';
-import card from '../../assets/card.png';
+import axios from '../axiosConfig';
 // create a component
 class LevelupModal extends Component {
   constructor(props) {
@@ -55,8 +49,18 @@ class LevelupModal extends Component {
       this.setState({imageSrc: file.uri});
       RNS3.put(file, config)
         .then((response) => {
-          alert('사진 등록이 완료되었습니다.');
           console.log(response.body.postResponse.location);
+          let data = {
+            idCard: response.body.postResponse.location,
+          };
+          axios
+            .post('/api/v1/myinfo/upload', data)
+            .then((res) => {
+              alert('사진 등록이 완료되었습니다.');
+            })
+            .catch((e) => {
+              alert(e.response.data.message);
+            });
         })
         .catch(function (error) {
           alert(error.response.data.message);
