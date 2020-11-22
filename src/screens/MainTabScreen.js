@@ -45,7 +45,11 @@ function getTabBarVisibility(route) {
     ? route.state.routes[route.state.index].name
     : '';
 
-  if (routeName === 'Chat' || routeName === 'iamport') {
+  if (
+    routeName === 'Chat' ||
+    routeName === 'iamport' ||
+    routeName === 'Payment'
+  ) {
     return false;
   }
 
