@@ -42,10 +42,12 @@ class MyPageScreen extends Component {
       chargeNum: '0',
     };
     console.log(props.grade);
-    if (props.grade == 0) {
+    if (props.grade === 0) {
       this.state.userGrade = '준회원';
-    } else {
+    } else if (props.grade === 1) {
       this.state.userGrade = '정회원';
+    } else if (props.grade === 2) {
+      this.state.userGrade = '배달원';
     }
     this.getMyPoint();
   }
@@ -151,15 +153,17 @@ class MyPageScreen extends Component {
               marginBottom: 10,
               justifyContent: 'flex-end',
             }}>
-            <Button
-              rounded
-              warning
-              style={{marginRight: 5}}
-              onPress={() => {
-                this.onClickLevelUp();
-              }}>
-              <Text style={{color: '#fff'}}>등업 신청</Text>
-            </Button>
+            {this.state.userGrade === '준회원' ? (
+              <Button
+                rounded
+                warning
+                style={{marginRight: 5}}
+                onPress={() => {
+                  this.onClickLevelUp();
+                }}>
+                <Text style={{color: '#fff'}}>등업 신청</Text>
+              </Button>
+            ) : null}
             <Button
               rounded
               warning
