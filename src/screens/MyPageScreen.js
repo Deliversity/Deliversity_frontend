@@ -44,8 +44,6 @@ class MyPageScreen extends Component {
     console.log(props.grade);
     if (props.grade === 2) {
       this.state.userGrade = '정회원';
-    } else if (props.grade === 3) {
-      this.state.userGrade = '배달원';
     } else {
       this.state.userGrade = '준회원';
     }
