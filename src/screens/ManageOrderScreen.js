@@ -29,14 +29,21 @@ class ManageOrderScreen extends Component {
       <Card
         itemData={item}
         onPress={() => {
-          item.orderStatus == 3 && item.reviewedByUser == false
-            ? this.props.navigation.navigate('WriteReview', {
-                orderID: item.id,
-                riderID: item.riderId,
-              })
-            : this.props.navigation.navigate('DeliveryMan', {
-                orderID: item.id,
-              });
+          if (item.orderStatus == 3 && item.reviewedByUser == false) {
+            this.props.navigation.navigate('WriteReview', {
+              orderID: item.id,
+              riderID: item.riderId,
+            });
+          } else if (item.orderStatus == 3 && item.reviewedByUser == true) {
+            this.props.navigation.navigate('OrderReview', {
+              orderID: item.id,
+              riderID: item.riderId,
+            });
+          } else {
+            this.props.navigation.navigate('DeliveryMan', {
+              orderID: item.id,
+            });
+          }
         }}
       />
     );

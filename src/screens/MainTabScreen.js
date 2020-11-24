@@ -20,6 +20,7 @@ import PaymentScreen from './PaymentScreen';
 import ManageOrderScreen from './ManageOrderScreen';
 import WriteReviewScreen from './WriteReviewScreen';
 import MyReviewScreen from './MyReviewScreen';
+import OrderReviewScreen from './OrderReviewScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -247,6 +248,20 @@ function OrderManageStack() {
           },
         }}
         component={WriteReviewScreen}
+      />
+      <Stack.Screen
+        name="OrderReview"
+        options={{
+          title: '내가 작성한 리뷰',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        component={OrderReviewScreen}
       />
     </Stack.Navigator>
   );

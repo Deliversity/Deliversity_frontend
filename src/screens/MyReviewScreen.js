@@ -1,14 +1,5 @@
 import React, {Component, useState} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Picker,
-  RefreshControl,
-  FlatList,
-} from 'react-native';
-import {Text} from 'native-base';
-import {TextInput} from 'react-native-paper';
+import {View, StyleSheet, RefreshControl, FlatList} from 'react-native';
 import axios from '../axiosConfig';
 import Card from '../components/myReviewCard';
 class MyReviewScreen extends Component {
@@ -20,7 +11,7 @@ class MyReviewScreen extends Component {
 
     this.state = {
       content: '',
-      score: '',
+      score: '0',
       refreshing: false,
     };
     this.getReview();
@@ -35,8 +26,7 @@ class MyReviewScreen extends Component {
         .get('/api/v1/myinfo/review/written')
         .then((res) => {
           this.setState({
-            score: res.data.data.rating,
-            content: res.data.data.reviews,
+            content: res.data.data,
             refreshing: false,
           });
         })
@@ -56,9 +46,6 @@ class MyReviewScreen extends Component {
       <View style={styles.container}>
         <View style={styles.footer}>
           <View style={styles.write}>
-            <View>
-              <Text>총 평점 : {this.state.score}점</Text>
-            </View>
             <FlatList
               refreshControl={
                 <RefreshControl
@@ -87,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 8,
     backgroundColor: '#fff',
     paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     flexDirection: 'column',
   },
   write: {

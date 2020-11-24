@@ -29,8 +29,8 @@ class WriteReviewScreen extends Component {
         })
         .catch((e) => {
           alert(e.response.data.message);
-          this.props.navigation.goBack(null);
         });
+      this.props.navigation.goBack(null);
     }
     if (this.props.user === '배달원') {
       await axios
@@ -40,8 +40,8 @@ class WriteReviewScreen extends Component {
         })
         .catch((e) => {
           alert(e.response.data.message);
-          this.props.navigation.goBack(null);
         });
+      this.props.navigation.goBack(null);
     }
   };
   render() {
