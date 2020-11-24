@@ -59,7 +59,12 @@ class ManageDeliveryScreen extends Component {
           if (item.orderStatus == 3 && item.reviewedByRider == false) {
             this.props.navigation.navigate('WriteReview', {
               orderID: item.id,
-              riderID: item.riderId,
+              riderID: item.userId,
+            });
+          } else if (item.orderStatus == 3 && item.reviewedByRider == true) {
+            this.props.navigation.navigate('OrderReview', {
+              orderID: item.id,
+              riderID: item.userId,
             });
           } else if (item.orderStatus == 2) {
             Alert.alert(
