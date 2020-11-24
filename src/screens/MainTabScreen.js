@@ -19,6 +19,7 @@ import ViewUser from './ViewUser';
 import PaymentScreen from './PaymentScreen';
 import ManageOrderScreen from './ManageOrderScreen';
 import WriteReviewScreen from './WriteReviewScreen';
+import MyReviewScreen from './MyReviewScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -257,6 +258,20 @@ function myPageStack() {
         options={{headerShown: false}}
         name="MyPage"
         component={MyPageScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: '받은 전체 후기',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        name="MyReview"
+        component={MyReviewScreen}
       />
       <Stack.Screen
         options={{headerShown: false}}

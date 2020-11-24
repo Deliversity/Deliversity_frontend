@@ -224,7 +224,11 @@ class MyPageScreen extends Component {
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
-              <Button transparent onPress={this.handleSelect}>
+              <Button
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('MyReview');
+                }}>
                 <Icon name="chevron-right" size={30} />
               </Button>
             </View>
