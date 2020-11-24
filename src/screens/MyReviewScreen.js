@@ -21,7 +21,7 @@ class MyReviewScreen extends Component {
   };
   getReview = async () => {
     try {
-      this.setState({refreshing: true});
+      await this.setState({refreshing: true});
       await axios
         .get('/api/v1/myinfo/review/written')
         .then((res) => {

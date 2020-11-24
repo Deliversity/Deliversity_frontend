@@ -196,6 +196,20 @@ function DeliveryManageStack() {
         }}
         component={WriteReviewScreen}
       />
+      <Stack.Screen
+        name="OrderReview"
+        options={{
+          title: '내가 작성한 리뷰',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        component={OrderReviewScreen}
+      />
     </Stack.Navigator>
   );
 }
