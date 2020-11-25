@@ -9,9 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {TextInput, RadioButton} from 'react-native-paper';
-import {connect} from 'react-redux';
 import axios from '../axiosConfig';
-import {requestSignup} from '../store/actions/action';
 class Signup extends Component {
   static navigationOptions = {
     title: 'Signup',
@@ -101,7 +99,7 @@ class Signup extends Component {
             .catch((error) => {
               alert(error.response.data.message);
             });
-      
+
       this.props.navigation.goBack(null);
     } catch (e) {
       alert('error' + e);
@@ -258,10 +256,8 @@ class Signup extends Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  requestSignup: (data) => dispatch(requestSignup(data)),
-});
-export default connect(null, mapDispatchToProps)(Signup);
+
+export default Signup;
 
 const styles = StyleSheet.create({
   container: {
@@ -325,7 +321,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     marginBottom: 7,
-    
+
   },
   buttonArea2: {
     width: '100%',

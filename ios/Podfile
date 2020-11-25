@@ -12,6 +12,8 @@ target 'test' do
 
   pod 'IamportReactNative', :path => '../node_modules/iamport-react-native'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'testTests' do
     inherit! :complete
     # Pods for testing
