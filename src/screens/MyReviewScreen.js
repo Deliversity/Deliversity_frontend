@@ -14,14 +14,17 @@ class MyReviewScreen extends Component {
       score: '0',
       refreshing: false,
     };
+  }
+  componentDidMount(): void {
     this.getReview();
   }
+
   onRefresh = async () => {
     await this.getReview();
   };
   getReview = async () => {
     try {
-      await this.setState({refreshing: true});
+      this.setState({refreshing: true});
       await axios
         .get('/api/v1/myinfo/review/written')
         .then((res) => {
