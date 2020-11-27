@@ -226,7 +226,7 @@ class MyPageScreen extends Component {
               <Button
                 transparent
                 onPress={() => {
-                  this.props.navigation.navigate('QApage');
+                  alert('구현전입니다');
                 }}>
                 <Icon name="chevron-right" size={30} />
               </Button>
@@ -288,7 +288,7 @@ class MyPageScreen extends Component {
                         this.state.chargeNum === 1 ? 'checked' : 'unchecked'
                       }
                       onPress={() =>
-                        this.setState({chargeNum: 1, chargeAmount: 100})
+                        this.setState({chargeNum: 1, chargeAmount: 10000})
                       }
                     />
                     <Text style={{...styles.moneyTitle, marginRight: 100}}>
