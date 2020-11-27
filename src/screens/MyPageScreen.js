@@ -284,7 +284,7 @@ class MyPageScreen extends Component {
                         this.state.chargeNum === 1 ? 'checked' : 'unchecked'
                       }
                       onPress={() =>
-                        this.setState({chargeNum: 1, chargeAmount: 100})
+                        this.setState({chargeNum: 1, chargeAmount: 10000})
                       }
                     />
                     <Text style={{...styles.moneyTitle, marginRight: 100}}>
