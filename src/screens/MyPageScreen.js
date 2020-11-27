@@ -40,15 +40,14 @@ class MyPageScreen extends Component {
       buyerTel: '',
       chargeAmount: '0',
       chargeNum: '0',
+      grade: '',
     };
-    console.log(props.grade);
-    if (props.grade === 2) {
-      this.state.userGrade = '정회원';
-    } else {
-      this.state.userGrade = '준회원';
-    }
+  }
+  componentDidMount(): void {
+    this.getMyInfo();
     this.getMyPoint();
   }
+
   handleClose = () => {
     this.setState({setModal1Visible: false});
   };
@@ -94,45 +93,45 @@ class MyPageScreen extends Component {
   };
   onClickCharge = async () => {
     console.log('충전');
-    await axios
-      .get('/api/v1/myinfo/')
-      .then((res) => {
-        this.setState({
-          setModal1Visible: true,
-          buyerName: res.data.data.name,
-          buyerTel: res.data.data.phone,
-        });
-      })
-      .catch((e) => {
-        alert(e.response.data.message);
-      });
+    this.setState({
+      setModal1Visible: true,
+    });
   };
   handleReload = () => {
     this.getMyPoint();
+    this.getMyInfo();
   };
   onClickRefund = async () => {
     console.log('환급');
-    await axios
-      /*
-      back에 신청하는 API
-      */
-      .get('/api/v1/myinfo/')
-      .then((res) => {
-        this.setState({
-          setModal2Visible: true,
-          buyerName: res.data.data.name,
-          buyerTel: res.data.data.phone,
-        });
-      })
-      .catch((e) => {
-        alert(e.response.data.message);
-      });
+    this.setState({
+      setModal2Visible: true,
+    });
   };
   getMyPoint = async () => {
     await axios
       .get('/api/v1/point')
       .then((res) => {
         this.setState({point: res.data.data.point});
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  getMyInfo = async () => {
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          grade: res.data.data.grade,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+        console.log(res.data.data.grade);
+        if (res.data.data.grade === 2) {
+          this.state.userGrade = '정회원';
+        } else {
+          this.state.userGrade = '준회원';
+        }
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -223,6 +222,19 @@ class MyPageScreen extends Component {
           <View style={styles.box}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.imageTitle}>결제 내역 조회 하기</Text>
+              <Button
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('QApage');
+                }}>
+                <Icon name="chevron-right" size={30} />
+              </Button>
+            </View>
+          </View>
+          <View style={styles.box}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
               <Button
                 transparent
@@ -276,7 +288,7 @@ class MyPageScreen extends Component {
                         this.state.chargeNum === 1 ? 'checked' : 'unchecked'
                       }
                       onPress={() =>
-                        this.setState({chargeNum: 1, chargeAmount: 10000})
+                        this.setState({chargeNum: 1, chargeAmount: 100})
                       }
                     />
                     <Text style={{...styles.moneyTitle, marginRight: 100}}>
@@ -490,8 +502,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   name: state.authentication.name,
-  grade: state.authentication.grade,
-  token: state.authentication.token,
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogout: () => dispatch(requestLogout()),
