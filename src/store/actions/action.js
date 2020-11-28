@@ -50,79 +50,27 @@ export const removeUserStorage = async (key) => {
     alert('err : ', e);
   }
 };
-export const requestGoogleLogin = (data) => {
+export const socialLogin = (data) => {
   return (dispatch) => {
-    return firebase
-      .messaging()
-      .getToken()
-      .then((fcmToken) => {
-        data.fcmToken = fcmToken;
-        axios
-          .post('/api/v1/auth/login/google', data)
-          .then((response) => {
-            myInterceptor = axios.interceptors.request.use(function (config) {
-              const token = response.data.data.token;
-              config.headers['x-access-token'] = token;
-              return config;
-            });
-            setUserStorage('userToken', response.data.data.token);
-            setUserStorage('firebaseToken', response.data.data.firebaseToken);
-            let decoded = jwt_decode(response.data.data.token);
-            setUserStorage('id', decoded.id.toString());
-            auth().signInWithCustomToken(response.data.data.firebaseToken);
-            const userData = {
-              token: response.data.data.token,
-              name: decoded.name,
-              grade: response.data.data.grade,
-              id: response.data.data.id,
-              nickName: response.data.data.nickName,
-            };
-            alert(decoded.name + '님 반갑습니다.');
-            dispatch(loginSuccess(userData));
-          })
-          .catch((error) => {
-            alert(error.response.data.message);
-            dispatch(linkAccount(error));
-          });
-      });
-  };
-};
-
-export const requestKakaoLogin = (data) => {
-  return (dispatch) => {
-    return firebase
-      .messaging()
-      .getToken()
-      .then((fcmToken) => {
-        data.fcmToken = fcmToken;
-        axios
-          .post('/api/v1/auth/login/kakao', data)
-          .then((response) => {
-            myInterceptor = axios.interceptors.request.use(function (config) {
-              const token = response.data.data.token;
-              config.headers['x-access-token'] = token;
-              return config;
-            });
-            setUserStorage('userToken', response.data.data.token);
-            setUserStorage('firebaseToken', response.data.data.firebaseToken);
-            let decoded = jwt_decode(response.data.data.token);
-            setUserStorage('id', decoded.id.toString());
-            auth().signInWithCustomToken(response.data.data.firebaseToken);
-            const userData = {
-              token: response.data.data.token,
-              name: decoded.name,
-              grade: response.data.data.grade,
-              id: response.data.data.id,
-              nickName: response.data.data.nickName,
-            };
-            alert(decoded.name + '님 반갑습니다.');
-            dispatch(loginSuccess(userData));
-          })
-          .catch((error) => {
-            alert(error.response.data.message);
-            dispatch(linkAccount(error));
-          });
-      });
+    myInterceptor = axios.interceptors.request.use(function (config) {
+      const token = data.data.data.token;
+      config.headers['x-access-token'] = token;
+      return config;
+    });
+    setUserStorage('userToken', data.data.data.token);
+    setUserStorage('firebaseToken', data.data.data.firebaseToken);
+    let decoded = jwt_decode(data.data.data.token);
+    setUserStorage('id', decoded.id.toString());
+    auth().signInWithCustomToken(data.data.data.firebaseToken);
+    const userData = {
+      token: data.data.data.token,
+      name: decoded.name,
+      grade: data.data.data.grade,
+      id: data.data.data.id,
+      nickName: data.data.data.nickName,
+    };
+    alert(decoded.name + '님 반갑습니다.');
+    dispatch(loginSuccess(userData));
   };
 };
 
@@ -146,6 +94,7 @@ export const requestLogin = (data) => {
             let decoded = jwt_decode(response.data.data.token);
             setUserStorage('id', decoded.id.toString());
             console.log(decoded.id.toString());
+            console.log(response.data.data.token);
             auth().signInWithCustomToken(response.data.data.firebaseToken);
             const userData = {
               token: response.data.data.token,
@@ -244,4 +193,3 @@ export const logout = () => {
     type: LOGOUT,
   };
 };
-

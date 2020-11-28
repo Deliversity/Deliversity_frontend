@@ -169,7 +169,7 @@ class MyPageScreen extends Component {
               marginBottom: 10,
               justifyContent: 'flex-end',
             }}>
-            {this.state.userGrade === '준회원' ? (
+            {this.state.grade !== 2 ? (
               <Button
                 rounded
                 warning
