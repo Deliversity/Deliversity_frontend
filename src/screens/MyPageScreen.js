@@ -45,6 +45,11 @@ class MyPageScreen extends Component {
   componentDidMount(): void {
     this.getMyInfo();
     this.getMyPoint();
+    if (this.props.grade === 2) {
+      this.state.userGrade = '정회원';
+    } else {
+      this.state.userGrade = '준회원';
+    }
   }
 
   handleClose = () => {
@@ -147,9 +152,13 @@ class MyPageScreen extends Component {
         });
         console.log(res.data.data.grade);
         if (res.data.data.grade === 2) {
-          this.state.userGrade = '정회원';
+          this.setState({
+            userGrade: '정회원',
+          });
         } else {
-          this.state.userGrade = '준회원';
+          this.setState({
+            userGrade: '준회원',
+          });
         }
       })
       .catch((e) => {
@@ -169,7 +178,7 @@ class MyPageScreen extends Component {
               marginBottom: 10,
               justifyContent: 'flex-end',
             }}>
-            {this.state.grade !== 2 ? (
+            {this.props.userGrade === '준회원' ? (
               <Button
                 rounded
                 warning
@@ -539,6 +548,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   name: state.authentication.name,
+  grade: state.authentication.grade,
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogout: () => dispatch(requestLogout()),

@@ -59,7 +59,6 @@ export const socialLogin = (data) => {
     });
     setUserStorage('userToken', data.data.data.token);
     setUserStorage('firebaseToken', data.data.data.firebaseToken);
-    setUserStorage('fcmToken', data.data.fcmToken);
     let decoded = jwt_decode(data.data.data.token);
     setUserStorage('id', decoded.id.toString());
     auth().signInWithCustomToken(data.data.data.firebaseToken);
@@ -90,7 +89,6 @@ export const requestLogin = (data) => {
             });
             setUserStorage('userToken', response.data.data.token);
             setUserStorage('firebaseToken', response.data.data.firebaseToken);
-            setUserStorage('fcmToken', fcmToken);
             let decoded = jwt_decode(response.data.data.token);
             setUserStorage('id', decoded.id.toString());
             console.log(decoded.id.toString());
@@ -125,27 +123,19 @@ export const autoLogin = (data) => {
         axios
           .get('/api/v1/auth/login')
           .then((response) => {
-            getUserStorage('fcmToken').then((data) => {
-              console.log(data);
-              if (!data) {
-                return;
-              }
-              if (data !== fcmToken) {
-                axios
-                  .post('/auth/login/fcm', content)
-                  .then((response) => {
-                    console.log(response);
-                  })
-                  .catch((error) => {
-                    alert(error.response.data.message);
-                  });
-              }
-            });
             myInterceptor = axios.interceptors.request.use(function (config) {
               const newtoken = response.data.data.token;
               config.headers['x-access-token'] = newtoken;
               return config;
             });
+            axios
+              .post('/api/v1/auth/login/fcm', content)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                alert(error.response.data.message);
+              });
             setUserStorage('userToken', response.data.data.token);
             setUserStorage('firebaseToken', response.data.data.firebaseToken);
             let decoded = jwt_decode(response.data.data.token);
@@ -157,7 +147,6 @@ export const autoLogin = (data) => {
               name: decoded.name,
               grade: response.data.data.grade,
             };
-            alert(decoded.name + '님 반갑습니다.');
             dispatch(loginSuccess(userData));
           })
           .catch((error) => {

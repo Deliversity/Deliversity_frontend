@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 //import {HeaderBackButton} from 'react-navigation';
@@ -31,6 +31,7 @@ import iamport from './PGScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import QApage from './QApage';
 import Report from './Report';
+import {ActivityIndicator} from 'react-native-paper';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -60,6 +61,9 @@ function getTabBarVisibility(route) {
 }
 
 class MainTabScreen extends Component {
+  state = {
+    loaded: false,
+  };
   constructor(props) {
     super(props);
     getUserStorage('userToken').then((data) => {
@@ -69,39 +73,56 @@ class MainTabScreen extends Component {
       this.props.autoLogin({token: data});
     });
   }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({loaded: true});
+    }, 3000); //runs after 5sec
+  }
   render() {
-    if (this.props.token === null) {
-      return (
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="Login"
-            component={AuthStack}
-          />
-        </Stack.Navigator>
-      );
-    } else {
-      if (this.props.user === '배달원') {
+    if (this.state.loaded === true) {
+      if (this.props.token === null) {
         return (
           <Stack.Navigator>
             <Stack.Screen
               options={{headerShown: false}}
-              name="CourierTab"
-              component={CourierTabStack}
+              name="Login"
+              component={AuthStack}
             />
           </Stack.Navigator>
         );
       } else {
-        return (
-          <Stack.Navigator>
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="ConsumerTab"
-              component={ConsumerTabStack}
-            />
-          </Stack.Navigator>
-        );
+        if (this.props.user === '배달원') {
+          return (
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="CourierTab"
+                component={CourierTabStack}
+              />
+            </Stack.Navigator>
+          );
+        } else {
+          return (
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="ConsumerTab"
+                component={ConsumerTabStack}
+              />
+            </Stack.Navigator>
+          );
+        }
       }
+    } else {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Image
+            source={require('../../assets/logo_D.png')}
+            style={{width: 200, height: 200, marginBottom: 10}}
+          />
+          <ActivityIndicator size="large" />
+        </View>
+      );
     }
   }
 }
