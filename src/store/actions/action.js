@@ -131,7 +131,7 @@ export const autoLogin = (data) => {
             axios
               .post('/api/v1/auth/login/fcm', content)
               .then((response) => {
-                console.log(response);
+                console.log('fcm post 성공');
               })
               .catch((error) => {
                 alert(error.response.data.message);
@@ -198,7 +198,6 @@ export const addressSuccess = (address) => {
 export const requestLogout = () => {
   return (dispatch) => {
     removeUserStorage('userToken');
-    removeUserStorage('fcmToken');
     axios.interceptors.request.eject(myInterceptor);
     dispatch(logout());
   };
