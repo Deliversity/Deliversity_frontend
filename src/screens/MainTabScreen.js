@@ -23,7 +23,7 @@ import MyReviewScreen from './MyReviewScreen';
 import OrderReviewScreen from './OrderReviewScreen';
 import RefundScreen from './RefundScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {getUserStorage, storeData} from '../store/actions/action';
+import {getUserStorage, autoLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
@@ -40,7 +40,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  storeData: (data) => dispatch(storeData(data)),
+  autoLogin: (data) => dispatch(autoLogin(data)),
 });
 
 function getTabBarVisibility(route) {
@@ -62,6 +62,12 @@ function getTabBarVisibility(route) {
 class MainTabScreen extends Component {
   constructor(props) {
     super(props);
+    getUserStorage('userToken').then((data) => {
+      if (!data) {
+        return;
+      }
+      this.props.autoLogin({token: data});
+    });
   }
   render() {
     if (this.props.token === null) {

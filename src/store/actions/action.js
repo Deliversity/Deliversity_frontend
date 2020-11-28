@@ -59,6 +59,7 @@ export const socialLogin = (data) => {
     });
     setUserStorage('userToken', data.data.data.token);
     setUserStorage('firebaseToken', data.data.data.firebaseToken);
+    setUserStorage('fcmToken', data.data.fcmToken);
     let decoded = jwt_decode(data.data.data.token);
     setUserStorage('id', decoded.id.toString());
     auth().signInWithCustomToken(data.data.data.firebaseToken);
@@ -66,8 +67,6 @@ export const socialLogin = (data) => {
       token: data.data.data.token,
       name: decoded.name,
       grade: data.data.data.grade,
-      id: data.data.data.id,
-      nickName: data.data.data.nickName,
     };
     alert(decoded.name + '님 반갑습니다.');
     dispatch(loginSuccess(userData));
@@ -91,23 +90,79 @@ export const requestLogin = (data) => {
             });
             setUserStorage('userToken', response.data.data.token);
             setUserStorage('firebaseToken', response.data.data.firebaseToken);
+            setUserStorage('fcmToken', fcmToken);
             let decoded = jwt_decode(response.data.data.token);
             setUserStorage('id', decoded.id.toString());
             console.log(decoded.id.toString());
-            console.log(response.data.data.token);
             auth().signInWithCustomToken(response.data.data.firebaseToken);
             const userData = {
               token: response.data.data.token,
               name: decoded.name,
               grade: response.data.data.grade,
-              id: response.data.data.id,
-              nickName: response.data.data.nickName,
             };
             alert(decoded.name + '님 반갑습니다.');
             dispatch(loginSuccess(userData));
           })
           .catch((error) => {
             alert(error.response.data.message);
+            dispatch(loginFailure(error));
+          });
+      });
+  };
+};
+export const autoLogin = (data) => {
+  return (dispatch) => {
+    return firebase
+      .messaging()
+      .getToken()
+      .then((fcmToken) => {
+        const content = {fcmToken: fcmToken};
+        myInterceptor = axios.interceptors.request.use(function (config) {
+          const token = data.token;
+          config.headers['x-access-token'] = token;
+          return config;
+        });
+        axios
+          .get('/api/v1/auth/login')
+          .then((response) => {
+            getUserStorage('fcmToken').then((data) => {
+              console.log(data);
+              if (!data) {
+                return;
+              }
+              if (data !== fcmToken) {
+                axios
+                  .post('/auth/login/fcm', content)
+                  .then((response) => {
+                    console.log(response);
+                  })
+                  .catch((error) => {
+                    alert(error.response.data.message);
+                  });
+              }
+            });
+            myInterceptor = axios.interceptors.request.use(function (config) {
+              const newtoken = response.data.data.token;
+              config.headers['x-access-token'] = newtoken;
+              return config;
+            });
+            setUserStorage('userToken', response.data.data.token);
+            setUserStorage('firebaseToken', response.data.data.firebaseToken);
+            let decoded = jwt_decode(response.data.data.token);
+            setUserStorage('id', decoded.id.toString());
+            console.log(decoded.id.toString());
+            auth().signInWithCustomToken(response.data.data.firebaseToken);
+            const userData = {
+              token: response.data.data.token,
+              name: decoded.name,
+              grade: response.data.data.grade,
+            };
+            alert(decoded.name + '님 반갑습니다.');
+            dispatch(loginSuccess(userData));
+          })
+          .catch((error) => {
+            //axios.interceptors.request.eject(myInterceptor);
+            alert('재로그인 해주시기 바랍니다.');
             dispatch(loginFailure(error));
           });
       });
@@ -154,6 +209,7 @@ export const addressSuccess = (address) => {
 export const requestLogout = () => {
   return (dispatch) => {
     removeUserStorage('userToken');
+    removeUserStorage('fcmToken');
     axios.interceptors.request.eject(myInterceptor);
     dispatch(logout());
   };
