@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {
   Container,
@@ -79,11 +80,6 @@ class MyPageScreen extends Component {
       setModal1Visible: false,
     });
   };
-  handleModal2Close = () => {
-    this.setState({
-      setModal2Visible: false,
-    });
-  };
   onClickLevelUp = () => {
     this.setState({
       setModalVisible: true,
@@ -102,6 +98,33 @@ class MyPageScreen extends Component {
   onClickRefund = async () => {
     console.log('환급');
     this.props.navigation.navigate('Refund');
+  };
+  onReleaseConfirm = async () => {
+    await axios
+      .delete('/api/v1/auth/release')
+      .then((res) => {
+        alert('계정이 탈퇴되었습니다.');
+        this.props.requestLogout();
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  onRelease = async () => {
+    Alert.alert(
+      'Alert',
+      '계정을 정말 탈퇴 하시겠습니까?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => this.onReleaseConfirm(),
+        },
+      ],
+      {cancelable: false},
+    );
   };
   getMyPoint = async () => {
     await axios
@@ -160,6 +183,7 @@ class MyPageScreen extends Component {
             <Button
               rounded
               warning
+              style={{marginRight: 5}}
               onPress={() => {
                 this.onClickLogout();
               }}>
@@ -386,6 +410,20 @@ class MyPageScreen extends Component {
                 </Button>
               </View>
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 10,
+                justifyContent: 'flex-end',
+              }}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  this.onRelease();
+                }}>
+                <Text style={{fontSize: 12, color: 'gray'}}>계정탈퇴</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -487,6 +525,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 15,
     color: 'black',
+  },
+  button: {
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 3,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
 });
 
