@@ -21,6 +21,7 @@ import ManageOrderScreen from './ManageOrderScreen';
 import WriteReviewScreen from './WriteReviewScreen';
 import MyReviewScreen from './MyReviewScreen';
 import OrderReviewScreen from './OrderReviewScreen';
+import RefundScreen from './RefundScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getUserStorage, storeData} from '../store/actions/action';
 import {connect} from 'react-redux';
@@ -316,6 +317,11 @@ function myPageStack() {
         options={{headerShown: false}}
         name="iamport"
         component={iamport}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Refund"
+        component={RefundScreen}
       />
     </Stack.Navigator>
   );

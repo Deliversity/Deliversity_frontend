@@ -22,8 +22,6 @@ import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
 import {RadioButton} from 'react-native-paper';
-import RefundModal from '../components/RefundModal';
-// import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
 import axios from '../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -103,9 +101,7 @@ class MyPageScreen extends Component {
   };
   onClickRefund = async () => {
     console.log('환급');
-    this.setState({
-      setModal2Visible: true,
-    });
+    this.props.navigation.navigate('Refund');
   };
   getMyPoint = async () => {
     await axios
@@ -364,12 +360,6 @@ class MyPageScreen extends Component {
                 </Content>
               </Container>
             </Modal>
-            <RefundModal
-              showModal={this.state.setModal2Visible}
-              buyerName={this.state.buyerName}
-              buyerTel={this.state.buyerTel}
-              onClose={this.handleModal2Close}
-            />
             <View style={styles.box}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
