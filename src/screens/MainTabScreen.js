@@ -52,7 +52,20 @@ function getTabBarVisibility(route) {
   if (
     routeName === 'Chat' ||
     routeName === 'iamport' ||
-    routeName === 'Payment'
+    routeName === 'Payment' ||
+    routeName === 'WriteReview' ||
+    routeName === 'OrderReview' ||
+    routeName === 'DeliveryMan' ||
+    routeName === 'CourierReview' ||
+    routeName === 'WriteReview' ||
+    routeName === 'MyReview' ||
+    routeName === 'QApage' ||
+    routeName === 'Report' ||
+    routeName === 'Refund' ||
+    routeName === 'Store' ||
+    routeName === 'Explore' ||
+    routeName === 'Order' ||
+    routeName === 'DetailDelivery'
   ) {
     return false;
   }
@@ -421,24 +434,26 @@ function CourierTabStack() {
       <Tab.Screen
         name="Courier"
         component={CourierStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: 'Home',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ManageDelivery"
         component={DeliveryManageStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '배달 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="work" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ChatHome"
@@ -473,24 +488,26 @@ function ConsumerTabStack() {
       <Tab.Screen
         name="Home"
         component={ConsumerStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: 'Home',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ManageOrder"
         component={OrderManageStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '주문 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="grading" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ChatHome"

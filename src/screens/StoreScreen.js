@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-  Image,
+  TextInput,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -24,6 +24,7 @@ class StoreScreen extends Component {
       address: this.props.address,
       markers: [],
       st: false,
+      storeName: '',
     };
     console.log(this.state.category); // 카테고리명: 카테고리로 주변찾기 검색할 때 쓰세요
     this.onClickGetAddress();
@@ -66,24 +67,76 @@ class StoreScreen extends Component {
             <Icon name="saved-search" size={30} />
           </TouchableOpacity>
         </View>
-        <Mapping cat={this.state.category} ad={this.props.address} handler={this.handler} />
+        <Mapping
+          cat={this.state.category}
+          ad={this.props.address}
+          handler={this.handler}
+          ref="ChildrenComponent"
+        />
         <View style={styles.listCon}>
-          <ScrollView style={styles.scro}>
-            {this.state.markers.map((marker, index) => (
-              <View style={styles.listCon} key={index}>
-                <Text style={styles.txt2}>{marker.place_name}</Text>
+          {this.state.category === '기타' ? (
+            <ScrollView style={styles.scro}>
+              {this.state.markers.map((marker, index) => (
+                <View style={styles.listCon} key={index}>
+                  <Text style={styles.txt2}>{marker.place_name}</Text>
+                  <TouchableOpacity
+                    style={styles.store}
+                    onPress={() => {
+                      this.props.navigation.navigate('Order', {
+                        mk: marker,
+                      });
+                    }}>
+                    <Text style={styles.txt}>선택</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <TextInput
+                  style={styles.input}
+                  backgroundColor="#ffffff"
+                  placeholder="가게 이름을 입력해주세요! (두번 클릭)"
+                  onChangeText={(text) => this.setState({storeName: text})}
+                />
                 <TouchableOpacity
-                  style={styles.store}
-                  onPress={() => {
-                    this.props.navigation.navigate('Order', {
-                      mk: marker
-                    });
-                  }}>
-                  <Text style={styles.txt}>선택</Text>
+                  style={styles.searchStore}
+                  onPress={(value) =>
+                    this.refs.ChildrenComponent.updateCategory(
+                      this.state.storeName,
+                    )
+                  }>
+                  <Text style={styles.txt}>검색</Text>
                 </TouchableOpacity>
               </View>
-            ))}
-          </ScrollView>
+              <ScrollView style={styles.scro}>
+                {this.state.markers.map((marker, index) => (
+                  <View style={styles.listCon} key={index}>
+                    <Text style={styles.txt2}>{marker.place_name}</Text>
+                    <TouchableOpacity
+                      style={styles.store}
+                      onPress={() => {
+                        this.props.navigation.navigate('Order', {
+                          mk: marker,
+                        });
+                      }}>
+                      <Text style={styles.txt}>선택</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -115,7 +168,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
-    zIndex:1,
+    zIndex: 1,
   },
   listCon: {
     flex: 1,
@@ -137,6 +190,12 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
   },
+  searchStore: {
+    backgroundColor: '#F87C56',
+    borderRadius: 5,
+    padding: 10,
+    margin: 10,
+  },
   txt: {
     color: 'white',
   },
@@ -144,5 +203,12 @@ const styles = StyleSheet.create({
     padding: 4,
     textAlign: 'center',
     paddingLeft: 20,
+  },
+  input: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    width: '75%',
   },
 });
