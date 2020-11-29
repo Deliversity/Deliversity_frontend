@@ -32,6 +32,7 @@ class Mapping extends Component {
       region: {latitude: 37.2794469469635, longitude: 127.047519717452},
       markers: [],
       address: '',
+      query: this.props.cat,
     };
     this.check();
     this.getAddress();
@@ -127,7 +128,7 @@ class Mapping extends Component {
         Authorization: `KakaoAK ${KAKAO_KEY}`,
       },
       params: {
-        query: this.state.category,
+        query: this.state.query,
         x: this.state.region.longitude,
         y: this.state.region.latitude,
         radius: radMetter,
@@ -162,6 +163,11 @@ class Mapping extends Component {
 
   sendMark = () => {
     this.props.handler(this.state.markers);
+  };
+  updateCategory = (value) => {
+    console.log(value);
+    this.setState({query: value});
+    this.fetchNearestPlacesFromKakao();
   };
 
   render() {

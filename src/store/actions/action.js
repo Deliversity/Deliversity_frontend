@@ -151,7 +151,7 @@ export const autoLogin = (data) => {
           })
           .catch((error) => {
             //axios.interceptors.request.eject(myInterceptor);
-            alert('재로그인 해주시기 바랍니다.');
+            alert('로그인 해주시기 바랍니다.');
             dispatch(loginFailure(error));
           });
       });
