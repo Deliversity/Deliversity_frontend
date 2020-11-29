@@ -19,6 +19,7 @@ import {StyleSheet} from 'react-native';
 import {getUserStorage} from './src/store/actions/action';
 const Stack = createStackNavigator();
 const store = configureStore();
+import Toast from 'react-native-toast-message';
 import SQLite from 'react-native-sqlite-storage';
 let db;
 db = SQLite.openDatabase({
@@ -47,7 +48,12 @@ export default class App extends React.Component {
           (tx, results) => {
             console.log(results.rowsAffected);
             if (results.rowsAffected > 0) {
-              alert('이제 주문자와 채팅 할 수 있습니다.');
+              Toast.show({
+                text1: '확인하세요!',
+                text2: '이제 주문자와 채팅 할 수 있습니다 👋',
+                visibilityTime: 4000,
+                topOffset: 50,
+              });
             }
           },
         );
@@ -105,7 +111,12 @@ export default class App extends React.Component {
         //채팅방 생성
         await this.onSendDB(orderId, roomId, userId, riderId);
       } else if (remoteMessage.data.type === 'ManageDelivery') {
-        Alert.alert('새 배달건이 추가되었습니다.');
+        Toast.show({
+          text1: '확인하세요!',
+          text2: '새 배달건이 추가되었습니다 👋',
+          visibilityTime: 4000,
+          topOffset: 50,
+        });
       } else if (remoteMessage.data.type === 'Chat') {
         this.rChatDB(remoteMessage);
       }
@@ -160,6 +171,7 @@ export default class App extends React.Component {
             />
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </Provider>
     );
   }
