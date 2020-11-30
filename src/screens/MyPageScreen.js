@@ -178,7 +178,7 @@ class MyPageScreen extends Component {
               marginBottom: 10,
               justifyContent: 'flex-end',
             }}>
-            {this.props.userGrade === '준회원' ? (
+            {this.state.userGrade === '준회원' ? (
               <Button
                 rounded
                 warning
@@ -259,7 +259,7 @@ class MyPageScreen extends Component {
                   onPress={() => {
                     this.props.navigation.navigate('PaymentBook');
                   }}>
-                  <Icon name="chevron-right" size={20} />
+                  <Icon name="chevron-right" size={30} />
                 </Button>
               </View>
             </View>
@@ -272,7 +272,7 @@ class MyPageScreen extends Component {
                   onPress={() => {
                     this.props.navigation.navigate('RefundBook');
                   }}>
-                  <Icon name="chevron-right" size={20} />
+                  <Icon name="chevron-right" size={30} />
                 </Button>
               </View>
             </View>
@@ -285,7 +285,7 @@ class MyPageScreen extends Component {
                   onPress={() => {
                     this.props.navigation.navigate('MyReview');
                   }}>
-                  <Icon name="chevron-right" size={20} />
+                  <Icon name="chevron-right" size={30} />
                 </Button>
               </View>
             </View>
@@ -298,7 +298,7 @@ class MyPageScreen extends Component {
                   onPress={() => {
                     this.props.navigation.navigate('QApage');
                   }}>
-                  <Icon name="chevron-right" size={20} />
+                  <Icon name="chevron-right" size={30} />
                 </Button>
               </View>
             </View>
@@ -311,7 +311,7 @@ class MyPageScreen extends Component {
                   onPress={() => {
                     this.props.navigation.navigate('Report');
                   }}>
-                  <Icon name="chevron-right" size={20} />
+                  <Icon name="chevron-right" size={30} />
                 </Button>
               </View>
             </View>
