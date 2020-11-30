@@ -1,8 +1,8 @@
 import React, {Component, useState} from 'react';
 import {View, StyleSheet, RefreshControl, FlatList} from 'react-native';
 import axios from '../axiosConfig';
-import Card from '../components/paymentBookCard';
-class PaymentBookScreen extends Component {
+import Card from '../components/RefundBookCard';
+class RefundBookScreen extends Component {
   static navigationOptions = {
     title: 'PaymentBook',
   };
@@ -25,7 +25,7 @@ class PaymentBookScreen extends Component {
     try {
       this.setState({refreshing: true});
       await axios
-        .get('/api/v1/myinfo/paids')
+        .get('/api/v1/myinfo/refunds')
         .then((res) => {
           this.setState({
             content: res.data.data,
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PaymentBookScreen;
+export default RefundBookScreen;
