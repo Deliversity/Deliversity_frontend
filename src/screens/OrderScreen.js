@@ -29,6 +29,7 @@ class OrderScreen extends Component {
       ad: '',
       content:'',
       reservation:false,
+      ex:''
     };
     this.onClickGetAddress();
   }
@@ -69,13 +70,19 @@ class OrderScreen extends Component {
     const d = R * c; // Distance in km
     return d;
   }
-  onClickOrder= async ()=>{
+  onClickOrder= ()=>{
+    if(this.state.orderType==''){
+      alert('주문 유형을 선택해 주세요')
+    }
+    else this.onSendOrder();
+  }
+  onSendOrder= async ()=>{
     try{
       if(this.state.orderType=="booking"){
         this.setState({reservation: true});
       }
     const data={
-      storeName: this.state.mark.place_name,
+      storeName: (this.state.mark.category_group_name==undefined)?this.state.ex:this.state.mark.place_name,
       storeAddress: this.state.mark.address_name,
       storeDetailAddress: '',
       gender: this.state.gender,
@@ -115,7 +122,7 @@ class OrderScreen extends Component {
   storeFunc=()=>{
     if(this.state.mark.place_name=='사용자 지정'){
       return(
-        <TextInput placeholder="자세한 가게이름을 입력해주세요." style={styles.martTt}></TextInput>
+        <TextInput placeholder="자세한 가게이름을 입력해주세요." style={styles.martTt} onChangeText={(text)=>this.setState({ex: text})}></TextInput>
       )
     }
     else{
