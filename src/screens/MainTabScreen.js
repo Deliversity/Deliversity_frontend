@@ -493,7 +493,7 @@ function ConsumerTabStack() {
           tabBarLabel: 'Home',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="home" color={'#9ACD32'} size={26} />
+            <Icon name="home" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -505,7 +505,7 @@ function ConsumerTabStack() {
           tabBarLabel: '주문 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="grading" color={'#9ACD32'} size={26} />
+            <Icon name="grading" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -517,7 +517,7 @@ function ConsumerTabStack() {
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="chat" color={'#9ACD32'} size={26} />
+            <Icon name="chat" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -529,7 +529,7 @@ function ConsumerTabStack() {
           tabBarLabel: 'Me',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
-            <Icon name="face-retouching-natural" color={'#9ACD32'} size={26} />
+            <Icon name="face-retouching-natural" color={'#FFA500'} size={26} />
           ),
         })}
       />
