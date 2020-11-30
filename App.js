@@ -110,7 +110,7 @@ export default class App extends React.Component {
         let riderId = remoteMessage.data.riderId;
         //채팅방 생성
         await this.onSendDB(orderId, roomId, userId, riderId);
-      } else if (remoteMessage.data.type === 'ManageDelivery') {
+      } else if (remoteMessage.data.type === 'newOrder') {
         Toast.show({
           text1: '확인하세요!',
           text2: '새 배달건이 추가되었습니다 👋',
