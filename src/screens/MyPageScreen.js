@@ -255,7 +255,7 @@ class MyPageScreen extends Component {
               <Button
                 transparent
                 onPress={() => {
-                  alert('구현전입니다');
+                  this.props.navigation.navigate('PaymentBook');
                 }}>
                 <Icon name="chevron-right" size={30} />
               </Button>
