@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
-  ImageBackground,
+  ScrollView,
   Alert,
 } from 'react-native';
 import {
@@ -167,7 +167,7 @@ class MyPageScreen extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text_header}>마이페이지</Text>
         </View>
@@ -256,6 +256,19 @@ class MyPageScreen extends Component {
                 transparent
                 onPress={() => {
                   this.props.navigation.navigate('PaymentBook');
+                }}>
+                <Icon name="chevron-right" size={30} />
+              </Button>
+            </View>
+          </View>
+          <View style={styles.box}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.imageTitle}>환급 내역 조회 하기</Text>
+              <Button
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('RefundBook');
                 }}>
                 <Icon name="chevron-right" size={30} />
               </Button>
@@ -435,7 +448,7 @@ class MyPageScreen extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -24,6 +24,7 @@ import OrderReviewScreen from './OrderReviewScreen';
 import RefundScreen from './RefundScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PaymentBookScreen from './PaymentBookScreen';
+import RefundBookScreen from './RefundBookScreen';
 import {getUserStorage, autoLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
@@ -378,6 +379,20 @@ function myPageStack() {
         }}
         name="PaymentBook"
         component={PaymentBookScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: '환급 내역',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        name="RefundBook"
+        component={RefundBookScreen}
       />
     </Stack.Navigator>
   );
