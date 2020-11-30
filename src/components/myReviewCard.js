@@ -21,7 +21,7 @@ const myReviewCard = ({itemData, onPress}) => {
         style={{
           borderTopWidth: 4,
           borderTopColor: '#f4da6c',
-          width: '28%',
+          width: '35%',
           borderTopRightRadius: 15,
           marginBottom: 5,
         }}
@@ -35,4 +35,3 @@ const myReviewCard = ({itemData, onPress}) => {
 };
 
 export default myReviewCard;
-

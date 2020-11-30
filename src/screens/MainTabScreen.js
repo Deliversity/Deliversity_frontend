@@ -23,6 +23,7 @@ import MyReviewScreen from './MyReviewScreen';
 import OrderReviewScreen from './OrderReviewScreen';
 import RefundScreen from './RefundScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PaymentBookScreen from './PaymentBookScreen';
 import {getUserStorage, autoLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
@@ -65,7 +66,8 @@ function getTabBarVisibility(route) {
     routeName === 'Store' ||
     routeName === 'Explore' ||
     routeName === 'Order' ||
-    routeName === 'DetailDelivery'
+    routeName === 'DetailDelivery' ||
+    routeName === 'PaymentBook'
   ) {
     return false;
   }
@@ -363,6 +365,20 @@ function myPageStack() {
         name="Refund"
         component={RefundScreen}
       />
+      <Stack.Screen
+        options={{
+          title: '결제 내역',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        name="PaymentBook"
+        component={PaymentBookScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -493,7 +509,7 @@ function ConsumerTabStack() {
           tabBarLabel: 'Home',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="home" color={'#e9967a'} size={26} />
+            <Icon name="home" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -505,7 +521,7 @@ function ConsumerTabStack() {
           tabBarLabel: '주문 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="grading" color={'#e9967a'} size={26} />
+            <Icon name="grading" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -517,7 +533,7 @@ function ConsumerTabStack() {
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="chat" color={'#e9967a'} size={26} />
+            <Icon name="chat" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -529,7 +545,7 @@ function ConsumerTabStack() {
           tabBarLabel: 'Me',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
-            <Icon name="face-retouching-natural" color={'#e9967a'} size={26} />
+            <Icon name="face-retouching-natural" color={'#FFA500'} size={26} />
           ),
         })}
       />

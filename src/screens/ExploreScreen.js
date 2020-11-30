@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
 import Postcode from 'react-native-daum-postcode';
 import axios from '../axiosConfig';
-import {StyleSheet, TouchableOpacity, View, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  TextInput,
+  RefreshControl,
+  FlatList,
+} from 'react-native';
 import {List, Text} from 'native-base';
-import DataItem from '../components/DataItem';
+import Card from '../components/addressBook';
 import {connect} from 'react-redux';
 import {requestUpdateAddress} from '../store/actions/action';
 class ExploreScreen extends Component {
@@ -19,14 +26,21 @@ class ExploreScreen extends Component {
       addressBook: '',
       selectedAddress: '',
       addressId: '',
+      refreshing: false,
     };
+  }
+  componentDidMount(): void {
     this.onClickGetAddress();
   }
+  onRefresh = () => {
+    this.onClickGetAddress();
+  };
   onClickGetAddress = async () => {
+    this.setState({refreshing: true});
     const data = await axios.get('/api/v1/myinfo/address/list');
     //console.log(data.data.data);
     const addressBook = data.data.data;
-    this.setState({addressBook: addressBook});
+    this.setState({addressBook: addressBook, refreshing: false});
   };
   //rootaddress설정
   onClickSubmit = async (data) => {
@@ -64,7 +78,7 @@ class ExploreScreen extends Component {
 
   handleItemDataonSelect = (articleData) => {
     const data = {
-      addressId: articleData.id,
+      addressId: articleData,
     };
     axios.put('/api/v1/myinfo/address/set', data).then((res) => {
       alert('해당 위치로 설정되었습니다.');
@@ -75,7 +89,7 @@ class ExploreScreen extends Component {
 
   handleItemDataonDelete = (articleData) => {
     const data = {
-      addressId: articleData.id,
+      addressId: articleData,
     };
     // console.log(data);
     axios({
@@ -86,6 +100,19 @@ class ExploreScreen extends Component {
       alert('삭제되었습니다.');
       this.onClickGetAddress();
     });
+  };
+  renderItem = ({item}) => {
+    return (
+      <Card
+        itemData={item}
+        handleSelect={() => {
+          this.handleItemDataonSelect(item.id);
+        }}
+        handleDelete={() => {
+          this.handleItemDataonDelete(item.id);
+        }}
+      />
+    );
   };
 
   render() {
@@ -99,18 +126,17 @@ class ExploreScreen extends Component {
         </View>
         {this.state.rootAddress === '' ? (
           <View style={styles.center}>
-            <List
-              dataArray={this.state.addressBook}
-              keyExtractor={(item, index) => index.toString()}
-              renderRow={(item) => {
-                return (
-                  <DataItem
-                    onSelect={this.handleItemDataonSelect}
-                    onDelete={this.handleItemDataonDelete}
-                    data={item}
-                  />
-                );
-              }}
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
+              extraData={this.state}
+              data={this.state.addressBook}
+              renderItem={this.renderItem}
+              keyExtractor={(item) => item.id.toString()}
             />
           </View>
         ) : (

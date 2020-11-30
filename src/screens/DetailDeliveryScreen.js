@@ -84,7 +84,7 @@ class DetailDeliveryScreen extends Component {
               }}
             />
           ) : (
-            <Text>등록된 후기가 없습니다.</Text>
+            <Text style={{fontSize: 14}}>등록된 후기가 없습니다.</Text>
           )}
         </View>
         <View style={styles.box}>
@@ -115,11 +115,12 @@ class DetailDeliveryScreen extends Component {
             }}>
             {this.state.orderInfo.content}
           </Text>
-          <Text>
-            배달 장소: {this.state.orderInfo.address}{' '}
-            {this.state.orderInfo.detailAddress}
+          <Text style={{fontSize: 14}}>
+            배달 장소: {this.state.orderInfo.address}
           </Text>
-          <Text>거리 배달비 : {this.state.orderInfo.deliveryFee}원</Text>
+          <Text style={{fontSize: 14}}>
+            거리 배달비 : {this.state.orderInfo.deliveryFee}원
+          </Text>
         </View>
         <View style={styles.radioaddbox}>
           <View
