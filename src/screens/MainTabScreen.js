@@ -68,7 +68,8 @@ function getTabBarVisibility(route) {
     routeName === 'Explore' ||
     routeName === 'Order' ||
     routeName === 'DetailDelivery' ||
-    routeName === 'PaymentBook'
+    routeName === 'PaymentBook' ||
+    routeName === 'RefundBook'
   ) {
     return false;
   }

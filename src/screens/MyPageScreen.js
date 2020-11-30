@@ -167,7 +167,7 @@ class MyPageScreen extends Component {
   };
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text_header}>마이페이지</Text>
         </View>
@@ -199,6 +199,7 @@ class MyPageScreen extends Component {
               <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
             </Button>
           </View>
+          <ScrollView />
           <View style={styles.box}>
             <View
               style={{
@@ -248,44 +249,86 @@ class MyPageScreen extends Component {
               </View>
             </View>
           </View>
-          <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>결제 내역 조회 하기</Text>
-              <Button
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('PaymentBook');
-                }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+          <ScrollView>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>결제 내역 조회 하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('PaymentBook');
+                  }}>
+                  <Icon name="chevron-right" size={20} />
+                </Button>
+              </View>
             </View>
-          </View>
-          <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>환급 내역 조회 하기</Text>
-              <Button
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('RefundBook');
-                }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>환급 내역 조회 하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('RefundBook');
+                  }}>
+                  <Icon name="chevron-right" size={20} />
+                </Button>
+              </View>
             </View>
-          </View>
-          <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
-              <Button
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('MyReview');
-                }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('MyReview');
+                  }}>
+                  <Icon name="chevron-right" size={20} />
+                </Button>
+              </View>
             </View>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>문의사항</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('QApage');
+                  }}>
+                  <Icon name="chevron-right" size={20} />
+                </Button>
+              </View>
+            </View>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>신고하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('Report');
+                  }}>
+                  <Icon name="chevron-right" size={20} />
+                </Button>
+              </View>
+            </View>
+          </ScrollView>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 10,
+              justifyContent: 'flex-end',
+            }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onRelease();
+              }}>
+              <Text style={{fontSize: 12, color: 'gray'}}>계정탈퇴</Text>
+            </TouchableOpacity>
           </View>
           <View style={{justifyContent: 'center'}}>
             <LevelupModal
@@ -406,49 +449,9 @@ class MyPageScreen extends Component {
                 </Content>
               </Container>
             </Modal>
-            <View style={styles.box}>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.imageTitle}>문의사항</Text>
-                <Button
-                  transparent
-                  onPress={() => {
-                    this.props.navigation.navigate('QApage');
-                  }}>
-                  <Icon name="chevron-right" size={30} />
-                </Button>
-              </View>
-            </View>
-            <View style={styles.box}>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.imageTitle}>신고하기</Text>
-                <Button
-                  transparent
-                  onPress={() => {
-                    this.props.navigation.navigate('Report');
-                  }}>
-                  <Icon name="chevron-right" size={30} />
-                </Button>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 10,
-                justifyContent: 'flex-end',
-              }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  this.onRelease();
-                }}>
-                <Text style={{fontSize: 12, color: 'gray'}}>계정탈퇴</Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }
