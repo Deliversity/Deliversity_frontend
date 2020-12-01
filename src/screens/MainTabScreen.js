@@ -116,11 +116,12 @@ function AuthStack() {
       options={{
         title: '계정 찾기',
         headerStyle: {
-          backgroundColor: '##AD5389',
+          backgroundColor: '#AD5389',
         },
         headerTitleStyle: {
           fontWeight: 'bold',
           fontSize: 16,
+          color:'white'
         },
       }}
       name="FindAssign"

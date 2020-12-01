@@ -22,17 +22,21 @@ class FindAssign extends Component {
             <View style={styles.container}>
                 <View style={styles.header}></View>
                 <View style={styles.v1}>
-                <TouchableOpacity style={styles.idbut} onPress={()=> {this.setState({Id: true})}}>
-                    <Text style={styles.textId}>아이디 찾기</Text>
+                  <View style={styles.View}>
+                    <TouchableOpacity style={styles.aftbut, this.state.Id?styles.aftbut:styles.befbut} onPress={()=> {this.setState({Id: true})}}>
+                    <Text style={styles.textbef, this.state.Id?styles.textbef:styles.textaft}>아이디 찾기</Text>
                     </TouchableOpacity>
-                <TouchableOpacity style={styles.pasbut} onPress={()=> {this.setState({Id: false})}}>
-                    <Text style={styles.textPas}>비밀번호 찾기</Text>
-                </TouchableOpacity>
+                  </View>
+                  <View style={styles.View}>
+                    <TouchableOpacity style={styles.aftbut, !this.state.Id?styles.aftbut:styles.befbut} onPress={()=> {this.setState({Id: false})}}>
+                    <Text style={styles.textbef, !this.state.Id?styles.textbef:styles.textaft}>비밀번호 찾기</Text>
+                    </TouchableOpacity>
                 </View>
-                <View>
+              </View>
+              <View style={styles.footer}>
                 { this.state.Id?
-                <FindId style={styles.item}></FindId>
-                : <FindPassword style={styles.item}></FindPassword>
+                <FindId></FindId>
+                : <FindPassword></FindPassword>
                 }
                 </View>
             </View>
@@ -45,6 +49,7 @@ export default FindAssign;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection:'column',
   },
   header:{
     flex:0.25
@@ -52,25 +57,34 @@ const styles = StyleSheet.create({
   v1:{
     flexDirection: 'row',
     flex:1,
-    alignItems:'center',
+    //alignItems:'center',
+   //justifyContent:'center'
   },
-  idbut:{
-    flex:1,
+  befbut:{
     marginTop:5,
-    backgroundColor: 'black',
+    alignItems:'center',
+    borderBottomWidth:2,
+    borderBottomColor:'#53565A'
   },
-  pasbut:{
-    flex:1,
-    marginTop:5
+  aftbut:{
+    marginTop:5,
+    alignItems:'center',
+    borderBottomWidth:2,
+    borderBottomColor:'#AD5389'
   },
-  textId:{
-      margin :5
+  textbef:{
+      margin :5,
+      color:'#AD5389'
   },
-  textPas:{
-      margin :5
+  textaft:{
+      margin :5,
+      color:'#53565A'
   }
   ,
-  item:{
-      flex:1
-  }
+  footer:{
+    flex:7,
+  },
+  View:{
+    flex:1,
+  },
 });
