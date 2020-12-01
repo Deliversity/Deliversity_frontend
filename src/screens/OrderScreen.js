@@ -74,13 +74,12 @@ class OrderScreen extends Component {
     if(this.state.orderType==''){
       alert('주문 유형을 선택해 주세요')
     }
-    else this.onSendOrder();
+    else {
+      this.onSendOrder();
+    }
   }
   onSendOrder= async ()=>{
     try{
-      if(this.state.orderType=="booking"){
-        this.setState({reservation: true});
-      }
     const data={
       storeName: (this.state.mark.category_group_name==undefined)?this.state.ex:this.state.mark.place_name,
       storeAddress: this.state.mark.address_name,
@@ -98,12 +97,12 @@ class OrderScreen extends Component {
       userLng:this.state.lng
     }
     await axios
-          .post('/api/v1/order', data)
+          .post('/api/v1/order/', data)
           .then((response) => {
             alert(response.data.data.userId + '님. 주문이 접수되었습니다.');
           })
           .catch((error) => {
-            alert(error.response.data.message);
+            alert(error);
           });
     this.props.navigation.goBack(null);
   }catch(e){
@@ -126,7 +125,6 @@ class OrderScreen extends Component {
       )
     }
     else{
-      console.log("iun");
       return(
           <Text>{this.state.mark.place_name}</Text>
       )
@@ -201,7 +199,7 @@ class OrderScreen extends Component {
                 status={
                   this.state.orderType === 'booking' ? 'checked' : 'unchecked'
                 }
-                onPress={() => this.setState({orderType: 'booking'})}
+                onPress={() => this.setState({orderType: 'booking',reservation: !(this.state.reservation)})}
               />
             </View>
           </View>

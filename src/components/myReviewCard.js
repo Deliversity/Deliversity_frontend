@@ -14,7 +14,7 @@ const myReviewCard = ({itemData, onPress}) => {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={{fontSize: 15, fontWeight: 'bold', color: '#ff7f50'}}>
-            {itemData.fromId}님
+            {itemData.nickName}님
           </Text>
           <Text style={{fontSize: 15, fontWeight: 'bold'}}>으로 부터</Text>
         </View>

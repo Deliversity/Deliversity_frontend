@@ -103,6 +103,11 @@ class LoginScreen extends Component {
           <Text style={styles.text_header}>welcome!</Text>
         </View>
         <View style={styles.footer}>
+          <View style={styles.viewTop}>
+          <TouchableOpacity style={styles.butTop} onPress={()=>{ this.props.navigation.navigate('FindAssign')}}>
+            <Text style={styles.topText}>계정 찾기</Text>
+          </TouchableOpacity>
+          </View>
           <Text style={styles.text_footer}>ID</Text>
           <View style={styles.action}>
             <TextInput
@@ -259,4 +264,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  topText:{
+    textDecorationLine: 'underline',
+    color:'#395382',
+    
+  },
+  viewTop:{
+    flexDirection:'row',
+    
+  },
+  butTop:{
+    alignItems:'flex-end',
+    flex:1
+  }
 });

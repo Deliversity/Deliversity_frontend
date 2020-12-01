@@ -33,6 +33,7 @@ import iamport from './PGScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import QApage from './QApage';
 import Report from './Report';
+import FindAssign from './FindAssign';
 import {ActivityIndicator} from 'react-native-paper';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -155,6 +156,21 @@ function AuthStack() {
         options={{headerShown: false}}
         name="Signup"
         component={SignupScreen}
+      />
+      <Stack.Screen
+      options={{
+        title: '계정 찾기',
+        headerStyle: {
+          backgroundColor: '#AD5389',
+        },
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 16,
+          color:'white'
+        },
+      }}
+      name="FindAssign"
+      component={FindAssign}
       />
     </Stack.Navigator>
   );
