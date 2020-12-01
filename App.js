@@ -6,7 +6,6 @@
  * @flow strict-local
  */
 import React, {useEffect} from 'react';
-import {Alert} from 'react-native';
 import {createAppContainer, NavigationActions} from 'react-navigation';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -26,6 +25,7 @@ db = SQLite.openDatabase({
   name: 'sqlite.db',
   createFromLocation: 1,
 });
+var navigator = null;
 const AppContainer = createAppContainer(Stack);
 export default class App extends React.Component {
   static navigationOptions = {
@@ -112,13 +112,19 @@ export default class App extends React.Component {
         await this.onSendDB(orderId, roomId, userId, riderId);
       } else if (remoteMessage.data.type === 'newOrder') {
         Toast.show({
-          text1: '확인하세요!',
-          text2: '새 배달건이 추가되었습니다 👋',
+          text1: '새 배달건이 추가되었습니다 👋',
+          text2: remoteMessage.notification.body,
           visibilityTime: 4000,
-          topOffset: 50,
+          topOffset: 20,
         });
       } else if (remoteMessage.data.type === 'Chat') {
         this.rChatDB(remoteMessage);
+        Toast.show({
+          text1: remoteMessage.notification.title,
+          text2: remoteMessage.notification.body,
+          visibilityTime: 4000,
+          topOffset: 20,
+        });
       }
       // Alert.alert('A new FCM message arrived!', remoteMessage.data.test);
 
@@ -133,10 +139,10 @@ export default class App extends React.Component {
       );
       // this.props.navigation.navigate(remoteMessage.data.type);
       console.log(remoteMessage.data);
-      console.log(this.navigator);
+      console.log(navigator);
 
-      this.navigator &&
-        this.navigator.dispatch(
+      navigator &&
+        navigator.dispatch(
           NavigationActions.navigate({routeName: remoteMessage.data.type}),
         );
     });

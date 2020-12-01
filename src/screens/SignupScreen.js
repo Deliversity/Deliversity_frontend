@@ -25,10 +25,10 @@ class Signup extends Component {
       age: '',
       phone: '',
       modalVisible: false,
-      idToken: this.props.route.params.idToken
+      idToken: this.props.route.params
         ? this.props.route.params.idToken
         : null,
-      accessToken: this.props.route.params.accessToken
+      accessToken: this.props.route.params
         ? this.props.route.params.accessToken
         : null,
     };
