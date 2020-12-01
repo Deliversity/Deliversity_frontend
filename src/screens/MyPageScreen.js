@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
-  ImageBackground,
+  ScrollView,
+  Alert,
 } from 'react-native';
 import {
   Container,
@@ -22,8 +23,6 @@ import {requestLogout} from '../store/actions/action';
 import {connect} from 'react-redux';
 import LevelupModal from '../components/LevelupModal';
 import {RadioButton} from 'react-native-paper';
-import RefundModal from '../components/RefundModal';
-// import ChargeModal from '../components/ChargeModal';
 import firebase from 'react-native-firebase';
 import axios from '../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -40,15 +39,19 @@ class MyPageScreen extends Component {
       buyerTel: '',
       chargeAmount: '0',
       chargeNum: '0',
+      grade: '',
     };
-    console.log(props.grade);
-    if (props.grade === 2) {
+  }
+  componentDidMount(): void {
+    this.getMyInfo();
+    this.getMyPoint();
+    if (this.props.grade === 2) {
       this.state.userGrade = '정회원';
     } else {
       this.state.userGrade = '준회원';
     }
-    this.getMyPoint();
   }
+
   handleClose = () => {
     this.setState({setModal1Visible: false});
   };
@@ -82,11 +85,6 @@ class MyPageScreen extends Component {
       setModal1Visible: false,
     });
   };
-  handleModal2Close = () => {
-    this.setState({
-      setModal2Visible: false,
-    });
-  };
   onClickLevelUp = () => {
     this.setState({
       setModalVisible: true,
@@ -94,45 +92,74 @@ class MyPageScreen extends Component {
   };
   onClickCharge = async () => {
     console.log('충전');
-    await axios
-      .get('/api/v1/myinfo/')
-      .then((res) => {
-        this.setState({
-          setModal1Visible: true,
-          buyerName: res.data.data.name,
-          buyerTel: res.data.data.phone,
-        });
-      })
-      .catch((e) => {
-        alert(e.response.data.message);
-      });
+    this.setState({
+      setModal1Visible: true,
+    });
   };
   handleReload = () => {
     this.getMyPoint();
+    this.getMyInfo();
   };
   onClickRefund = async () => {
     console.log('환급');
+    this.props.navigation.navigate('Refund');
+  };
+  onReleaseConfirm = async () => {
     await axios
-      /*
-      back에 신청하는 API
-      */
-      .get('/api/v1/myinfo/')
+      .delete('/api/v1/auth/release')
       .then((res) => {
-        this.setState({
-          setModal2Visible: true,
-          buyerName: res.data.data.name,
-          buyerTel: res.data.data.phone,
-        });
+        alert('계정이 탈퇴되었습니다.');
+        this.props.requestLogout();
       })
       .catch((e) => {
         alert(e.response.data.message);
       });
+  };
+  onRelease = async () => {
+    Alert.alert(
+      'Alert',
+      '계정을 정말 탈퇴 하시겠습니까?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => this.onReleaseConfirm(),
+        },
+      ],
+      {cancelable: false},
+    );
   };
   getMyPoint = async () => {
     await axios
       .get('/api/v1/point')
       .then((res) => {
         this.setState({point: res.data.data.point});
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  getMyInfo = async () => {
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        this.setState({
+          grade: res.data.data.grade,
+          buyerName: res.data.data.name,
+          buyerTel: res.data.data.phone,
+        });
+        console.log(res.data.data.grade);
+        if (res.data.data.grade === 2) {
+          this.setState({
+            userGrade: '정회원',
+          });
+        } else {
+          this.setState({
+            userGrade: '준회원',
+          });
+        }
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -165,12 +192,14 @@ class MyPageScreen extends Component {
             <Button
               rounded
               warning
+              style={{marginRight: 5}}
               onPress={() => {
                 this.onClickLogout();
               }}>
               <Text style={{color: '#fff'}}>🔐 LOGOUT</Text>
             </Button>
           </View>
+          <ScrollView />
           <View style={styles.box}>
             <View
               style={{
@@ -220,18 +249,86 @@ class MyPageScreen extends Component {
               </View>
             </View>
           </View>
-          <View style={styles.box}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
-              <Button
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('MyReview');
-                }}>
-                <Icon name="chevron-right" size={30} />
-              </Button>
+          <ScrollView>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>결제 내역 조회 하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('PaymentBook');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
             </View>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>환급 내역 조회 하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('RefundBook');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
+            </View>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>리뷰 확인 하러 가기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('MyReview');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
+            </View>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>문의사항</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('QApage');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
+            </View>
+            <View style={styles.box}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.imageTitle}>신고하기</Text>
+                <Button
+                  transparent
+                  onPress={() => {
+                    this.props.navigation.navigate('Report');
+                  }}>
+                  <Icon name="chevron-right" size={30} />
+                </Button>
+              </View>
+            </View>
+          </ScrollView>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 10,
+              justifyContent: 'flex-end',
+            }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onRelease();
+              }}>
+              <Text style={{fontSize: 12, color: 'gray'}}>계정탈퇴</Text>
+            </TouchableOpacity>
           </View>
           <View style={{justifyContent: 'center'}}>
             <LevelupModal
@@ -352,38 +449,6 @@ class MyPageScreen extends Component {
                 </Content>
               </Container>
             </Modal>
-            <RefundModal
-              showModal={this.state.setModal2Visible}
-              buyerName={this.state.buyerName}
-              buyerTel={this.state.buyerTel}
-              onClose={this.handleModal2Close}
-            />
-            <View style={styles.box}>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.imageTitle}>문의사항</Text>
-                <Button
-                  transparent
-                  onPress={() => {
-                    this.props.navigation.navigate('QApage');
-                  }}>
-                  <Icon name="chevron-right" size={30} />
-                </Button>
-              </View>
-            </View>
-            <View style={styles.box}>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.imageTitle}>신고하기</Text>
-                <Button
-                  transparent
-                  onPress={() => {
-                    this.props.navigation.navigate('Report');
-                  }}>
-                  <Icon name="chevron-right" size={30} />
-                </Button>
-              </View>
-            </View>
           </View>
         </View>
       </View>
@@ -486,12 +551,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'black',
   },
+  button: {
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 3,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
 });
 
 const mapStateToProps = (state) => ({
   name: state.authentication.name,
   grade: state.authentication.grade,
-  token: state.authentication.token,
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogout: () => dispatch(requestLogout()),

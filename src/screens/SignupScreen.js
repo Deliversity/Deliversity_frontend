@@ -25,7 +25,12 @@ class Signup extends Component {
       age: '',
       phone: '',
       modalVisible: false,
-      googleOAuth: ''
+      idToken: this.props.route.params
+        ? this.props.route.params.idToken
+        : null,
+      accessToken: this.props.route.params
+        ? this.props.route.params.accessToken
+        : null,
     };
   }
 
@@ -81,7 +86,6 @@ class Signup extends Component {
 
   onClickSign = async () => {
     try {
-
       const data = {
         id: this.state.id,
         pw: this.state.pw,
@@ -89,17 +93,18 @@ class Signup extends Component {
         email: this.state.email,
         nickName: this.state.nickName,
         age: this.state.age,
-        phone: this.state.phone
+        phone: this.state.phone,
+        accessToken: this.state.accessToken,
+        idToken: this.state.idToken,
       };
       await axios
-            .post('/api/v1/auth/signup', data)
-            .then((response) => {
-              alert(response.data.data.name + '님. 환영합니다.');
-            })
-            .catch((error) => {
-              alert(error.response.data.message);
-            });
-
+        .post('/api/v1/auth/signup', data)
+        .then((response) => {
+          alert(response.data.data.name + '님. 환영합니다.');
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
       this.props.navigation.goBack(null);
     } catch (e) {
       alert('error' + e);
@@ -321,7 +326,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     marginBottom: 7,
-
   },
   buttonArea2: {
     width: '100%',
