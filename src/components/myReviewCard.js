@@ -11,11 +11,14 @@ const myReviewCard = ({itemData, onPress}) => {
         borderBottomWidth: 2,
         borderBottomColor: '#fffafa',
       }}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#ff7f50'}}>
-          {itemData.fromId}님
-        </Text>
-        <Text style={{fontSize: 15, fontWeight: 'bold'}}>으로 부터</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{fontSize: 15, fontWeight: 'bold', color: '#ff7f50'}}>
+            {itemData.fromId}님
+          </Text>
+          <Text style={{fontSize: 15, fontWeight: 'bold'}}>으로 부터</Text>
+        </View>
+        <StarRating ratings={itemData.rating} />
       </View>
       <View
         style={{
@@ -26,10 +29,7 @@ const myReviewCard = ({itemData, onPress}) => {
           marginBottom: 5,
         }}
       />
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{fontSize: 15}}>{itemData.content}</Text>
-        <StarRating ratings={itemData.rating} />
-      </View>
+      <Text style={{fontSize: 15}}>{itemData.content}</Text>
     </View>
   );
 };
