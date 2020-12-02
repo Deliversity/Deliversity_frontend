@@ -18,7 +18,7 @@ class OrderScreen extends Component {
     super(props);
     this.state = {
       gender: false,
-      hotDeal: false,
+      hotDeal: 0,
       orderType: '',
       hour: '',
       min: '',
@@ -28,7 +28,7 @@ class OrderScreen extends Component {
       money: '',
       ad: '',
       content:'',
-      reservation:false,
+      reservation:0,
       ex:''
     };
     this.onClickGetAddress();
@@ -54,7 +54,7 @@ class OrderScreen extends Component {
     var fee=parseFloat(this.getDistanceFromLatLonInKm(this.state.mark.y,
       this.state.mark.x,this.state.lat, this.state.lng))-1;
     if(fee>0) cost += Math.round((550 * fee / 0.5)/100)*100;
-    if(this.state.hotDeal==true) cost+=1000;
+    if(this.state.hotDeal==1) cost+=1000;
     this.setState({money:cost});
   }
 
@@ -96,6 +96,7 @@ class OrderScreen extends Component {
       userLat:this.state.lat,
       userLng:this.state.lng
     }
+    console.log(data.reservation)
     await axios
           .post('/api/v1/order/', data)
           .then((response) => {
@@ -110,7 +111,8 @@ class OrderScreen extends Component {
   }
   }
   changeMoney=()=>{
-    this.setState({hotDeal: !this.state.hotDeal})
+    var hot=(this.state.hotDeal==1)?0:1
+    this.setState({hotDeal: hot})
     if(this.state.hotDeal==1) {
       this.setState({money: this.state.money-1000})
     }
@@ -174,7 +176,7 @@ class OrderScreen extends Component {
             </View>
             <RadioButton
               value="hotDeal"
-              status={this.state.hotDeal === true ? 'checked' : 'unchecked'}
+              status={this.state.hotDeal == 1 ? 'checked' : 'unchecked'}
               onPress={() => this.changeMoney()}
             />
           </View>
@@ -199,7 +201,7 @@ class OrderScreen extends Component {
                 status={
                   this.state.orderType === 'booking' ? 'checked' : 'unchecked'
                 }
-                onPress={() => this.setState({orderType: 'booking',reservation: !(this.state.reservation)})}
+                onPress={() => this.setState({orderType: 'booking',reservation: ((this.state.reservation==1)?0:1)})}
               />
             </View>
           </View>
