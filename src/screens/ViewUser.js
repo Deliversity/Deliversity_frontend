@@ -82,7 +82,7 @@ export default class App extends Component {
     });
   }
   onClickDelete() {
-    let order = 3;
+    let order = 5;
     db.transaction((tx) => {
       tx.executeSql(
         'DELETE FROM consumerRoom where id=?',

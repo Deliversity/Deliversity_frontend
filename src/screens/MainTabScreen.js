@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 //import {HeaderBackButton} from 'react-navigation';
@@ -21,8 +21,11 @@ import ManageOrderScreen from './ManageOrderScreen';
 import WriteReviewScreen from './WriteReviewScreen';
 import MyReviewScreen from './MyReviewScreen';
 import OrderReviewScreen from './OrderReviewScreen';
+import RefundScreen from './RefundScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {getUserStorage, storeData} from '../store/actions/action';
+import PaymentBookScreen from './PaymentBookScreen';
+import RefundBookScreen from './RefundBookScreen';
+import {getUserStorage, autoLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
@@ -31,6 +34,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import QApage from './QApage';
 import Report from './Report';
 import FindAssign from './FindAssign';
+import {ActivityIndicator} from 'react-native-paper';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +44,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  storeData: (data) => dispatch(storeData(data)),
+  autoLogin: (data) => dispatch(autoLogin(data)),
 });
 
 function getTabBarVisibility(route) {
@@ -51,7 +55,22 @@ function getTabBarVisibility(route) {
   if (
     routeName === 'Chat' ||
     routeName === 'iamport' ||
-    routeName === 'Payment'
+    routeName === 'Payment' ||
+    routeName === 'WriteReview' ||
+    routeName === 'OrderReview' ||
+    routeName === 'DeliveryMan' ||
+    routeName === 'CourierReview' ||
+    routeName === 'WriteReview' ||
+    routeName === 'MyReview' ||
+    routeName === 'QApage' ||
+    routeName === 'Report' ||
+    routeName === 'Refund' ||
+    routeName === 'Store' ||
+    routeName === 'Explore' ||
+    routeName === 'Order' ||
+    routeName === 'DetailDelivery' ||
+    routeName === 'PaymentBook' ||
+    routeName === 'RefundBook'
   ) {
     return false;
   }
@@ -60,42 +79,68 @@ function getTabBarVisibility(route) {
 }
 
 class MainTabScreen extends Component {
+  state = {
+    loaded: false,
+  };
   constructor(props) {
     super(props);
+    getUserStorage('userToken').then((data) => {
+      if (!data) {
+        return;
+      }
+      this.props.autoLogin({token: data});
+    });
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({loaded: true});
+    }, 3000); //runs after 5sec
   }
   render() {
-    if (this.props.token === null) {
-      return (
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="Login"
-            component={AuthStack}
-          />
-        </Stack.Navigator>
-      );
-    } else {
-      if (this.props.user === '배달원') {
+    if (this.state.loaded === true) {
+      if (this.props.token === null) {
         return (
           <Stack.Navigator>
             <Stack.Screen
               options={{headerShown: false}}
-              name="CourierTab"
-              component={CourierTabStack}
+              name="Login"
+              component={AuthStack}
             />
           </Stack.Navigator>
         );
       } else {
-        return (
-          <Stack.Navigator>
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="ConsumerTab"
-              component={ConsumerTabStack}
-            />
-          </Stack.Navigator>
-        );
+        if (this.props.user === '배달원') {
+          return (
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="CourierTab"
+                component={CourierTabStack}
+              />
+            </Stack.Navigator>
+          );
+        } else {
+          return (
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="ConsumerTab"
+                component={ConsumerTabStack}
+              />
+            </Stack.Navigator>
+          );
+        }
       }
+    } else {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Image
+            source={require('../../assets/logo_D.png')}
+            style={{width: 200, height: 200, marginBottom: 10}}
+          />
+          <ActivityIndicator size="large" />
+        </View>
+      );
     }
   }
 }
@@ -333,6 +378,39 @@ function myPageStack() {
         name="iamport"
         component={iamport}
       />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Refund"
+        component={RefundScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: '결제 내역',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        name="PaymentBook"
+        component={PaymentBookScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: '환급 내역',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}
+        name="RefundBook"
+        component={RefundBookScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -404,24 +482,26 @@ function CourierTabStack() {
       <Tab.Screen
         name="Courier"
         component={CourierStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: 'Home',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
             <Icon name="home" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ManageDelivery"
         component={DeliveryManageStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '배달 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
             <Icon name="work" color={'#e9967a'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ChatHome"
@@ -456,24 +536,26 @@ function ConsumerTabStack() {
       <Tab.Screen
         name="Home"
         component={ConsumerStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: 'Home',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="home" color={'#e9967a'} size={26} />
+            <Icon name="home" color={'#FFA500'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ManageOrder"
         component={OrderManageStack}
-        options={{
+        options={({route}) => ({
+          tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: '주문 관리',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="grading" color={'#e9967a'} size={26} />
+            <Icon name="grading" color={'#FFA500'} size={26} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="ChatHome"
@@ -483,7 +565,7 @@ function ConsumerTabStack() {
           tabBarLabel: '채팅',
           tabBarColor: '#ff7f50',
           tabBarIcon: ({color}) => (
-            <Icon name="chat" color={'#e9967a'} size={26} />
+            <Icon name="chat" color={'#FFA500'} size={26} />
           ),
         })}
       />
@@ -495,7 +577,7 @@ function ConsumerTabStack() {
           tabBarLabel: 'Me',
           tabBarColor: '#00fa9a',
           tabBarIcon: ({color}) => (
-            <Icon name="face-retouching-natural" color={'#e9967a'} size={26} />
+            <Icon name="face-retouching-natural" color={'#FFA500'} size={26} />
           ),
         })}
       />

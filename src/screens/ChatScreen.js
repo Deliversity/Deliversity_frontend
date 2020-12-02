@@ -46,6 +46,7 @@ function ChatScreen(props) {
       let newMessaged = newMessage;
       newMessaged[0].user.avatar = logo;
       setMessages((previous) => GiftedChat.append(previous, newMessaged));
+      onSendDB(newMessage);
     });
 
     if (messages !== null) {
@@ -105,7 +106,7 @@ function ChatScreen(props) {
           let helpArray = [];
           const message = {};
           message._id = uuid.v4();
-          //  message.createdAt = new Date();
+          message.createdAt = new Date();
           message.user = {
             _id: props.route.params.owner_id,
             roomId: props.route.params.room_id,
@@ -141,7 +142,44 @@ function ChatScreen(props) {
   function onSend(newMessage = []) {
     socket.emit('chat', newMessage);
     setMessages(GiftedChat.append(messages, newMessage));
+    onSendDB(newMessage);
   }
+  const onSendDB = (newMessage) => {
+    let beforeTime = new Date();
+    let month = beforeTime.getMonth() + 1;
+    let time =
+      beforeTime.getFullYear() +
+      '-' +
+      month +
+      '-' +
+      beforeTime.getDate() +
+      ' ' +
+      beforeTime.getHours() +
+      ':' +
+      beforeTime.getMinutes() +
+      ':' +
+      beforeTime.getSeconds();
+    let textId = newMessage[0]._id;
+    let createdAt = time;
+    let text = newMessage[0].text;
+    let senderId = newMessage[0].user._id;
+    let roomId = newMessage[0].user.roomId;
+    let image = newMessage[0].image;
+    let messageType = newMessage[0].messageType;
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO message (text_id, room_id, sender_id, createdAt, text, image, messageType) VALUES (?,?,?,?,?,?,?)',
+        [textId, roomId, senderId, createdAt, text, image, messageType],
+        (tx, results) => {
+          if (results.rowsAffected > 0) {
+            console.log('success');
+          } else {
+            console.log('fail');
+          }
+        },
+      );
+    });
+  };
 
   return (
     <GiftedChat

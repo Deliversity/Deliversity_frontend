@@ -6,6 +6,7 @@ import {
   USER_CHANGE,
   ADDRESS_CHANGE,
   CURRENT_RELATION,
+  STORE_DATA,
 } from '../actions/type';
 
 const initialState = {
@@ -17,8 +18,6 @@ const initialState = {
   name: '',
   grade: '',
   address: '',
-  id: '',
-  nickName: '',
   owner: '',
   guest: '',
   orderNum: '',
@@ -42,8 +41,6 @@ const authentication = (state = initialState, action) => {
         token: action.token,
         name: action.name,
         grade: action.grade,
-        id: action.id,
-        nickName: action.nickName
       };
     case LOGIN_FAILURE:
       return {
@@ -51,6 +48,10 @@ const authentication = (state = initialState, action) => {
         signIn: {
           status: 'FAILURE',
         },
+      };
+    case STORE_DATA:
+      return {
+        token: action.response.token,
       };
     case LOGOUT:
       return {

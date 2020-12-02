@@ -128,11 +128,18 @@ class DeliveryManScreen extends Component {
             ) : null}
           </View>
           <Text style={{marginBottom: 10}}>{this.state.orderInfo.content}</Text>
-          <Text>
-            배달 받을 곳: {this.state.orderInfo.address}{' '}
-            {this.state.orderInfo.detailAddress}
+          <Text style={{fontSize: 15, fontWeight: 'bold', color: '#A9A9A9'}}>
+            배달 받을 곳
           </Text>
-          <Text>거리 배달비 : {this.state.orderInfo.deliveryFee}원</Text>
+          <Text style={{fontSize: 15}}>
+            - {this.state.orderInfo.address} {this.state.orderInfo.detailAddress}
+          </Text>
+          <Text style={{fontSize: 15, fontWeight: 'bold', color: '#A9A9A9'}}>
+            거리 배달비
+          </Text>
+          <Text style={{fontSize: 15}}>
+            - {this.state.orderInfo.deliveryFee}원
+          </Text>
         </View>
         <View style={styles.listBox}>
           <Text style={styles.imageTitle}>신청한 배달원 리스트</Text>

@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {requestChangeUser} from '../store/actions/action';
 import {connect} from 'react-redux';
+import axios from '../axiosConfig';
 //배달원 혹은 사용자로 탭 전환하는 버튼
 class ChangeButton extends Component {
   constructor(props) {
@@ -10,16 +11,24 @@ class ChangeButton extends Component {
   }
 
   onClickChange = async () => {
+    await axios
+      .get('/api/v1/myinfo/')
+      .then((res) => {
+        console.log(res.data.data.grade);
+        if (this.props.user === '사용자') {
+          if (res.data.data.grade !== 2) {
+            alert('등업 신청을 하세요!');
+          } else {
+            this.props.requestChangeUser('배달원');
+          }
+        } else {
+          this.props.requestChangeUser('사용자');
+        }
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
     // console.log(this.props.user);
-    if (this.props.user === '사용자') {
-      if (this.props.grade !== 2) {
-        alert('등업 신청을 하세요!');
-      } else {
-        await this.props.requestChangeUser('배달원');
-      }
-    } else {
-      await this.props.requestChangeUser('사용자');
-    }
   };
   render() {
     return (
@@ -50,7 +59,6 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   user: state.authentication.user,
-  grade: state.authentication.grade,
 });
 const mapDispatchToProps = (dispatch) => ({
   requestChangeUser: (data) => dispatch(requestChangeUser(data)),

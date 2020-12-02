@@ -10,8 +10,7 @@ import {
 import {TextInput} from 'react-native-paper';
 import {
   requestLogin,
-  requestGoogleLogin,
-  requestKakaoLogin,
+  socialLogin,
 } from '../store/actions/action';
 import {connect} from 'react-redux';
 import Signup from './SignupScreen';
@@ -23,6 +22,7 @@ import {
 } from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
 import auth from '@react-native-firebase/auth';
+import axios from '../axiosConfig';
 
 GoogleSignin.configure({
   webClientId: GOOGLE_KEY,
@@ -41,9 +41,7 @@ class LoginScreen extends Component {
     const data = {
       id: this.state.id,
       pw: this.state.pw,
-      fcmToken: await firebase.messaging().getToken(),
     };
-    console.log(data);
     await this.props.requestLogin(data);
   };
 
@@ -52,7 +50,21 @@ class LoginScreen extends Component {
       await GoogleSignin.signIn();
       let tokens = await GoogleSignin.getTokens();
       tokens.fcmToken = await firebase.messaging().getToken();
-      await this.props.requestGoogleLogin(tokens);
+      console.log(tokens);
+      axios
+        .post('/api/v1/auth/login/google', tokens)
+        .then((response) => {
+          this.props.socialLogin(response);
+        })
+        .catch((error) => {
+          alert(
+            error.response.data.message +
+              ' 구글 계정으로 회원가입을 진행합니다.',
+          );
+          this.props.navigation.navigate('Signup', {
+            idToken: tokens.idToken,
+          });
+        });
     } catch (e) {
       console.log(e.message);
     }
@@ -65,7 +77,20 @@ class LoginScreen extends Component {
           accessToken: result.accessToken,
           fcmToken: await firebase.messaging().getToken(),
         };
-        await this.props.requestKakaoLogin(data);
+        await axios
+          .post('/api/v1/auth/login/kakao', data)
+          .then((res) => {
+            this.props.socialLogin(res);
+          })
+          .catch((error) => {
+            alert(
+              error.response.data.message +
+                ' 카카오 계정으로 회원가입을 진행합니다.',
+            );
+            this.props.navigation.navigate('Signup', {
+              accessToken: data.accessToken,
+            });
+          });
       }
     } catch (e) {
       console.log(e.message);
@@ -148,8 +173,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   requestLogin: (data) => dispatch(requestLogin(data)),
-  requestGoogleLogin: (data) => dispatch(requestGoogleLogin(data)),
-  requestKakaoLogin: (data) => dispatch(requestKakaoLogin(data)),
+  socialLogin: (data) => dispatch(socialLogin(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
