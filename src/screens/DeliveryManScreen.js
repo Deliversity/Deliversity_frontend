@@ -77,11 +77,20 @@ class DeliveryManScreen extends Component {
     });
   };
   onClickConfirmCancle = () => {
-    axios
-      .post(`/api/v1/order/cancel?orderId=${this.state.orderInfo.id}`)
+    const data = {
+      orderId: this.state.orderInfo.id,
+    };
+    axios({
+      url: '/api/v1/order',
+      data: data,
+      method: 'delete',
+    })
       .then((res) => {
         alert('주문이 취소 되었습니다.');
         this.props.navigation.goBack();
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
       });
   };
   onClickOrderCancle = () => {
@@ -165,9 +174,6 @@ class DeliveryManScreen extends Component {
                   marginTop: 5,
                   alignSelf: 'flex-end',
                 }}>
-                <View style={styles.reservationBox}>
-                  <Text style={styles.bookingStyle}>예약</Text>
-                </View>
                 <Text style={styles.bookingStyle}>
                   {this.state.reservationTime}까지
                 </Text>
