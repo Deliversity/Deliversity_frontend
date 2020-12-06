@@ -34,12 +34,15 @@ class ChangeButton extends Component {
     return (
       <View style={styles.profile}>
         <TouchableOpacity
+          testID="MyButton"
           onPress={() => {
             this.onClickChange();
             this.props.onPress();
           }}>
           <Icon name="bubble-chart" color="#f4da6c" size={35} />
-          <Text style={styles.text_header}>{this.props.user}</Text>
+          <Text style={styles.text_header} testID="MyText">
+            {this.props.user}
+          </Text>
         </TouchableOpacity>
       </View>
     );
