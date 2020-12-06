@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from '../axiosConfig';
-import {List, Text} from 'native-base';
+import {Button, List, Text} from 'native-base';
 import DeliveryManList from '../components/DeliveryManList';
 import SQLite from 'react-native-sqlite-storage';
 let db;
@@ -25,6 +25,7 @@ class DeliveryManScreen extends Component {
       isReservation: false,
       reservationTime: '',
       deliveryList: '',
+      orderStatus: false,
     };
     this.getDeliveryList();
     this.getOrderInfo();
@@ -55,11 +56,18 @@ class DeliveryManScreen extends Component {
         let hour = arr.split(':')[0];
         let min = arr.split(':')[1];
         let time = hour + ':' + min;
+        console.log(res.data.data);
         this.setState({
           orderInfo: res.data.data,
           reservationTime: time,
           isReservation: res.data.data.reservation,
         });
+        if (res.data.data.orderStatus === '0') {
+          console.log('ok');
+          this.setState({
+            orderStatus: true,
+          });
+        }
       });
   };
   handleItemOnPressReview = (articleData) => {
@@ -67,6 +75,39 @@ class DeliveryManScreen extends Component {
       riderID: articleData.riderId,
       orderID: this.state.orderID,
     });
+  };
+  onClickConfirmCancle = () => {
+    const data = {
+      orderId: this.state.orderInfo.id,
+    };
+    axios({
+      url: '/api/v1/order',
+      data: data,
+      method: 'delete',
+    })
+      .then((res) => {
+        alert('주문이 취소 되었습니다.');
+        this.props.navigation.goBack();
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  onClickOrderCancle = () => {
+    Alert.alert(
+      '주문취소',
+      '주문을 취소하시겠습니까?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => this.onClickConfirmCancle(),
+        },
+      ],
+      {cancelable: false},
+    );
   };
   insertRoomDB = (room, sender, receiver, orderId) => {
     db.transaction((tx) => {
@@ -107,6 +148,21 @@ class DeliveryManScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.reviewBox}>
+          {this.state.orderStatus === true ? (
+            <View
+              style={{
+                alignSelf: 'flex-end',
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.onClickOrderCancle();
+                }}>
+                <View style={styles.cancleBox}>
+                  <Text style={styles.cancleItem}>주문취소</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', fontSize: 19}}>
               {this.state.orderInfo.storeName}
@@ -118,9 +174,6 @@ class DeliveryManScreen extends Component {
                   marginTop: 5,
                   alignSelf: 'flex-end',
                 }}>
-                <View style={styles.reservationBox}>
-                  <Text style={styles.bookingStyle}>예약</Text>
-                </View>
                 <Text style={styles.bookingStyle}>
                   {this.state.reservationTime}까지
                 </Text>
@@ -131,10 +184,11 @@ class DeliveryManScreen extends Component {
           <Text style={{fontSize: 15, fontWeight: 'bold', color: '#A9A9A9'}}>
             배달 받을 곳
           </Text>
-          <Text style={{fontSize: 15}}>
-            - {this.state.orderInfo.address} {this.state.orderInfo.detailAddress}
+          <Text style={{fontSize: 14}}>
+            - {this.state.orderInfo.address}{' '}
+            {this.state.orderInfo.detailAddress}
           </Text>
-          <Text style={{fontSize: 15, fontWeight: 'bold', color: '#A9A9A9'}}>
+          <Text style={{fontSize: 14, fontWeight: 'bold', color: '#A9A9A9'}}>
             거리 배달비
           </Text>
           <Text style={{fontSize: 15}}>
@@ -180,7 +234,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginBottom: 5,
     backgroundColor: 'white',
-    flex: 2,
+    flex: 3,
   },
   listBox: {
     borderBottomWidth: 1,
@@ -189,7 +243,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 2,
     backgroundColor: 'white',
-    flex: 6,
+    flex: 7,
+  },
+  cancleItem: {
+    fontSize: 15,
+    color: '#fff',
+    paddingHorizontal: 5,
   },
   imageTitle: {
     fontWeight: 'bold',
@@ -205,6 +264,13 @@ const styles = StyleSheet.create({
   reservationBox: {
     borderWidth: 2,
     borderColor: '#ff7f50',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  cancleBox: {
+    backgroundColor: '#ff7f50',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 15,
