@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "white",
+        "borderBottomColor": "#fffaf0",
+        "borderBottomWidth": 1,
+        "flexDirection": "column",
+        "height": 200,
+        "marginBottom": 5,
+        "marginTop": 2,
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <Styled(Text)
+      style={
+        Object {
+          "fontSize": 18,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      주문자님의 후기
+    </Styled(Text)>
+    <Styled(Text)
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      등록된 후기가 없습니다.
+    </Styled(Text)>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "white",
+        "borderBottomColor": "#fffaf0",
+        "borderBottomWidth": 1,
+        "flexDirection": "column",
+        "marginBottom": 5,
+        "marginTop": 2,
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <Styled(Text)
+        style={
+          Object {
+            "fontSize": 19,
+            "fontWeight": "bold",
+          }
+        }
+      />
+    </View>
+    <Styled(Text)
+      style={
+        Object {
+          "fontSize": 17,
+          "marginBottom": 10,
+        }
+      }
+    />
+    <Styled(Text)
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      배달 장소: 
+    </Styled(Text)>
+    <Styled(Text)
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      거리 배달비 : 
+      원
+    </Styled(Text)>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "white",
+        "flexDirection": "column",
+        "height": 130,
+        "marginBottom": 5,
+        "marginTop": 2,
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <View>
+        <Styled(Text)
+          style={
+            Object {
+              "fontSize": 18,
+              "fontWeight": "bold",
+            }
+          }
+        >
+          추가 배달비 제시
+        </Styled(Text)>
+        <Styled(Text)
+          style={
+            Object {
+              "fontSize": 14,
+            }
+          }
+        >
+          추가 배달비를 제시할 수 있습니다.
+        </Styled(Text)>
+      </View>
+      <withTheme(RadioButton)
+        onPress={[Function]}
+        status="unchecked"
+        value="isDeal"
+      />
+    </View>
+  </View>
+  <View>
+    <ForwardRef
+      onPress={[Function]}
+    >
+      <Styled(Text)
+        style={
+          Object {
+            "alignItems": "center",
+            "alignSelf": "flex-end",
+            "backgroundColor": "#8fbc8f",
+            "color": "white",
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "justifyContent": "center",
+            "textAlign": "center",
+            "width": "100%",
+          }
+        }
+      >
+        신청하기
+      </Styled(Text)>
+    </ForwardRef>
+  </View>
+</View>
+`;
