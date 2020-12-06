@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import SignupScreen from '../src/screens/SignupScreen';
+import OrderReviewScreen from '../src/screens/OrderReviewScreen';
 import renderer from 'react-test-renderer';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -18,16 +18,14 @@ describe('[Temp] render', () => {
   props = {
     route: {
       params: {
-        idToken: 'randomToken',
+        orderID: '1',
       },
     },
   }; // fill test props
-  const params = {
-    idToken: 'randomToken',
-  };
+  const params = {};
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<SignupScreen {...props} />);
+    wrapper = shallow(<OrderReviewScreen {...props} />);
     wrapper.setState({params: params});
   });
   it('renders without crashing', () => {

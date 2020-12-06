@@ -1,0 +1,502 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<ScrollView
+  style={
+    Object {
+      "backgroundColor": "#8fbc8f",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "justifyContent": "flex-end",
+        "paddingBottom": 5,
+        "paddingHorizontal": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 30,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      Signup!
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderTopLeftRadius": 30,
+        "borderTopRightRadius": 30,
+        "flex": 4,
+        "paddingHorizontal": 20,
+        "paddingVertical": 30,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      ID
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="ID"
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      Password
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="PW"
+        secureTextEntry={true}
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      Name
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="Name"
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      Phone
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="phone"
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 40,
+          "marginBottom": 7,
+          "width": "100%",
+        }
+      }
+    >
+      <ForwardRef
+        onPress={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#8fbc8f",
+            "height": "100%",
+            "justifyContent": "center",
+            "marginTop": 3,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          인증 번호 받기
+        </Text>
+      </ForwardRef>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Component
+        animationType="slide"
+        hardwareAccelerated={false}
+        onRequestClose={[Function]}
+        transparent={true}
+        visible={false}
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "white",
+                "borderRadius": 20,
+                "elevation": 5,
+                "margin": 20,
+                "padding": 35,
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 0.25,
+                "shadowRadius": 3.84,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#ff7f50",
+                  "fontSize": 15,
+                }
+              }
+            >
+              인증 번호 입력
+            </Text>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": 10,
+                  "paddingBottom": 5,
+                }
+              }
+            >
+              <withTheme(TextInput)
+                onChangeText={[Function]}
+                placeholder="num"
+                style={
+                  Object {
+                    "color": "#05375a",
+                    "flex": 1,
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "height": 40,
+                  "marginBottom": 7,
+                  "width": "100%",
+                }
+              }
+            >
+              <ForwardRef
+                onPress={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#8fbc8f",
+                    "elevation": 2,
+                    "justifyContent": "center",
+                    "marginTop": 1,
+                    "padding": 5,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "white",
+                    }
+                  }
+                >
+                  인증하기
+                </Text>
+              </ForwardRef>
+            </View>
+            <ForwardRef
+              onPress={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#8fbc8f",
+                  "elevation": 2,
+                  "justifyContent": "center",
+                  "marginTop": 1,
+                  "padding": 5,
+                  "width": "100%",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                  }
+                }
+              >
+                이전으로
+              </Text>
+            </ForwardRef>
+          </View>
+        </View>
+      </Component>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      Email
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="Email"
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 40,
+          "marginBottom": 7,
+          "width": "100%",
+        }
+      }
+    >
+      <ForwardRef
+        onPress={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#8fbc8f",
+            "height": "100%",
+            "justifyContent": "center",
+            "marginTop": 3,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          인증 링크받기
+        </Text>
+      </ForwardRef>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      NickName
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="NickName"
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      Age
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(TextInput)
+        onChangeText={[Function]}
+        placeholder="Age"
+        style={
+          Object {
+            "color": "#05375a",
+            "flex": 1,
+          }
+        }
+        value=""
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "height": 40,
+        "marginBottom": 7,
+        "width": "100%",
+      }
+    }
+  >
+    <ForwardRef
+      onPress={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#8fbc8f",
+          "height": "100%",
+          "justifyContent": "center",
+          "marginTop": 10,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "height": "70%",
+          }
+        }
+      >
+        회원가입
+      </Text>
+    </ForwardRef>
+  </View>
+</ScrollView>
+`;

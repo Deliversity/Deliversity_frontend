@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#e9967a",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "flex-end",
+      }
+    }
+  >
+    <Connect(ChangeButton)
+      onPress={[Function]}
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingBottom": 35,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/logo_D.png",
+        }
+      }
+      style={
+        Object {
+          "height": 150,
+          "width": 150,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 30,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      Deliversity
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderTopLeftRadius": 30,
+        "borderTopRightRadius": 30,
+        "flex": 5,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <FlatList
+      data=""
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "DefaultOrderList": "",
+          "HotOrderList": "",
+          "isHotDeal": true,
+          "params": Object {},
+          "refreshing": true,
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      refreshControl={
+        <RefreshControlMock
+          onRefresh={[Function]}
+          refreshing={true}
+        />
+      }
+      removeClippedSubviews={true}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <ForwardRef
+        onPress={[Function]}
+      >
+        <Text
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f4da6c",
+              "color": "white",
+              "fontSize": 15,
+              "fontWeight": "bold",
+              "justifyContent": "center",
+              "marginLeft": 5,
+              "paddingVertical": 5,
+              "textAlign": "center",
+              "width": 150,
+            }
+          }
+        >
+          핫딜
+        </Text>
+      </ForwardRef>
+      <ForwardRef
+        onPress={[Function]}
+      >
+        <Text
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#e9967a",
+              "color": "white",
+              "fontSize": 15,
+              "fontWeight": "bold",
+              "justifyContent": "center",
+              "marginLeft": 5,
+              "paddingVertical": 5,
+              "textAlign": "center",
+              "width": 150,
+            }
+          }
+        >
+          기본
+        </Text>
+      </ForwardRef>
+    </View>
+  </View>
+</View>
+`;

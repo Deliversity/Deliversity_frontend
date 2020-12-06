@@ -1,8 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import SignupScreen from '../src/screens/SignupScreen';
-import renderer from 'react-test-renderer';
+import DetailDeliveryScreen from '../src/screens/DetailDeliveryScreen';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
@@ -18,16 +17,14 @@ describe('[Temp] render', () => {
   props = {
     route: {
       params: {
-        idToken: 'randomToken',
+        orderID: '1',
       },
     },
   }; // fill test props
-  const params = {
-    idToken: 'randomToken',
-  };
+  const params = {};
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<SignupScreen {...props} />);
+    wrapper = shallow(<DetailDeliveryScreen {...props} />);
     wrapper.setState({params: params});
   });
   it('renders without crashing', () => {

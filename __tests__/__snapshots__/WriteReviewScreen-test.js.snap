@@ -1,0 +1,519 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "white",
+        "borderBottomColor": "#fffaf0",
+        "borderBottomWidth": 1,
+        "flexDirection": "column",
+        "marginBottom": 5,
+        "marginTop": 2,
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          },
+          Object {
+            "backgroundColor": "transparent",
+            "fontSize": 17,
+            "fontWeight": "bold",
+          },
+        ]
+      }
+    >
+      님의 점수를 매겨 주세요:)
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingVertical": 15,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "fontSize": 10,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          1
+        </Text>
+        <View
+          accessibilityLiveRegion="polite"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "position": "relative",
+              },
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 18,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "rgba(0, 0, 0, 0.54)",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "height": 20,
+                "margin": 8,
+                "width": 20,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "fontSize": 10,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          2
+        </Text>
+        <View
+          accessibilityLiveRegion="polite"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "position": "relative",
+              },
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 18,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "rgba(0, 0, 0, 0.54)",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "height": 20,
+                "margin": 8,
+                "width": 20,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "fontSize": 10,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          3
+        </Text>
+        <View
+          accessibilityLiveRegion="polite"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "position": "relative",
+              },
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 18,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "rgba(0, 0, 0, 0.54)",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "height": 20,
+                "margin": 8,
+                "width": 20,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "fontSize": 10,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          4
+        </Text>
+        <View
+          accessibilityLiveRegion="polite"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "position": "relative",
+              },
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 18,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "rgba(0, 0, 0, 0.54)",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "height": 20,
+                "margin": 8,
+                "width": 20,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "column",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "fontSize": 10,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          5
+        </Text>
+        <View
+          accessibilityLiveRegion="polite"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "position": "relative",
+              },
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 18,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "rgba(0, 0, 0, 0.54)",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "height": 20,
+                "margin": 8,
+                "width": 20,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "white",
+        "borderBottomColor": "#fffaf0",
+        "borderBottomWidth": 1,
+        "flexDirection": "column",
+        "marginBottom": 5,
+        "marginTop": 2,
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          },
+          Object {
+            "backgroundColor": "transparent",
+            "fontSize": 17,
+            "fontWeight": "bold",
+          },
+        ]
+      }
+    >
+      코멘트 남기기
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          },
+          Object {
+            "fontSize": 10,
+            "marginBottom": 5,
+          },
+        ]
+      }
+    >
+      ex)매너가 좋아요
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      rejectResponderTermination={true}
+      style={
+        Object {
+          "backgroundColor": "#fafad2",
+          "borderBottomLeftRadius": 15,
+          "borderBottomRightRadius": 15,
+          "borderColor": "gray",
+          "borderTopLeftRadius": 15,
+          "borderTopRightRadius": 15,
+          "borderWidth": 3,
+          "height": 100,
+          "marginTop": 10,
+          "width": "100%",
+        }
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "flex-end",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#000",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+            },
+            Object {
+              "backgroundColor": "#8fbc8f",
+              "color": "white",
+              "fontSize": 20,
+              "fontWeight": "bold",
+              "textAlign": "center",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        후기 보내기
+      </Text>
+    </View>
+  </View>
+</View>
+`;
