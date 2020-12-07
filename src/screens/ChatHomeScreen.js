@@ -57,6 +57,22 @@ class ChatHomeScreen extends Component {
       });
     });
   }
+  deleteMessageDB(room_id) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'DELETE FROM message where room_id=?',
+        [room_id],
+        (tx, results) => {
+          let length = results.rows.length;
+          console.log('len' + length);
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            console.log('메시지가 삭제 되었습니다.');
+          }
+        },
+      );
+    });
+  }
   deleteChatRoom(room_id) {
     let helpArray = [];
     this.state.data.forEach(function (n) {
@@ -72,6 +88,7 @@ class ChatHomeScreen extends Component {
       this.deleteConsumerChatRoom(room_id);
     }
     this.getRoomInfo();
+    this.deleteMessageDB(room_id);
   }
   deleteConfirmChatRoom(room_id) {
     Alert.alert(
