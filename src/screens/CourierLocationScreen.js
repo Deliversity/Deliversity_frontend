@@ -39,20 +39,22 @@ function CourierLocationScreen(props) {
     //   .catch((e) => {
     //     console.log(e);
     //   });
+
+    // 테스트용입니다. (30초 단위로 update)
     setP2({
       ...P2,
       latitude: P2.latitude - 0.0001,
       longitude: P2.longitude + 0.0001,
     });
     console.log('hi!');
-  }, 1000 * 5);
+  }, 1000 * 30);
   return (
     <View style={styles.container}>
       <NaverMapView
         style={{width: '100%', height: '100%'}}
         showsMyLocationButton={true}
         useTextureView={true}
-        center={{...center, zoom: 16}}>
+        center={{...center, zoom: 15}}>
         <Marker
           coordinate={{
             latitude: parseFloat(props.route.params.myLat),
