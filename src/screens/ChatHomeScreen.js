@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {View, StyleSheet, FlatList, RefreshControl, Alert} from 'react-native';
 import {Text} from 'native-base';
 import SQLite from 'react-native-sqlite-storage';
 import {connect} from 'react-redux';
@@ -57,6 +57,70 @@ class ChatHomeScreen extends Component {
       });
     });
   }
+  deleteChatRoom(room_id) {
+    let helpArray = [];
+    this.state.data.forEach(function (n) {
+      if (n.room_id !== room_id) {
+        helpArray.push(n);
+      }
+    });
+    this.setState({data: helpArray});
+    if (this.props.user === '배달원') {
+      this.deleteRiderChatRoom(room_id);
+    }
+    if (this.props.user === '사용자') {
+      this.deleteConsumerChatRoom(room_id);
+    }
+    this.getRoomInfo();
+  }
+  deleteConfirmChatRoom(room_id) {
+    Alert.alert(
+      '채팅나가기',
+      '채팅을 나가시겠습니까?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => this.deleteChatRoom(room_id),
+        },
+      ],
+      {cancelable: false},
+    );
+  }
+  deleteConsumerChatRoom(room_id) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'DELETE FROM consumerRoom where room_id=?',
+        [room_id],
+        (tx, results) => {
+          let length = results.rows.length;
+          console.log('len' + length);
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            alert('채팅방이 나가졌습니다.');
+          }
+        },
+      );
+    });
+  }
+  deleteRiderChatRoom(room_id) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'DELETE FROM riderRoom where room_id=?',
+        [room_id],
+        (tx, results) => {
+          let length = results.rows.length;
+          console.log('len' + length);
+          console.log(results.rowsAffected);
+          if (results.rowsAffected > 0) {
+            alert('채팅방이 나가졌습니다.');
+          }
+        },
+      );
+    });
+  }
   getRoomInfo() {
     this.setState({refreshing: true});
     if (this.props.user === '배달원') {
@@ -82,6 +146,9 @@ class ChatHomeScreen extends Component {
             order_id: item.order_id,
           })
         }
+        onPressDelete={() => {
+          this.deleteConfirmChatRoom(item.room_id);
+        }}
       />
     );
   };

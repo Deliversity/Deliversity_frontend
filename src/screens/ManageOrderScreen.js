@@ -39,6 +39,15 @@ class ManageOrderScreen extends Component {
               orderID: item.id,
               riderID: item.riderId,
             });
+          } else if (item.orderStatus == 2) {
+            this.props.navigation.navigate('CourierLocation', {
+              myLat: item.lat,
+              myLng: item.lng,
+              storeLat: item.storeLat,
+              storeLng: item.storeLng,
+              storeName: item.storeName,
+              orderID: item.id,
+            });
           } else {
             this.props.navigation.navigate('DeliveryMan', {
               orderID: item.id,

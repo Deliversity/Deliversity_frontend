@@ -29,6 +29,7 @@ import {getUserStorage, autoLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
 import ExploreScreen from './ExploreScreen';
 import OrderScreen from './OrderScreen';
+import CourierLocationScreen from './CourierLocationScreen';
 import iamport from './PGScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import QApage from './QApage';
@@ -70,7 +71,8 @@ function getTabBarVisibility(route) {
     routeName === 'Order' ||
     routeName === 'DetailDelivery' ||
     routeName === 'PaymentBook' ||
-    routeName === 'RefundBook'
+    routeName === 'RefundBook' ||
+    routeName === 'CourierLocation'
   ) {
     return false;
   }
@@ -158,19 +160,19 @@ function AuthStack() {
         component={SignupScreen}
       />
       <Stack.Screen
-      options={{
-        title: '계정 찾기',
-        headerStyle: {
-          backgroundColor: '#AD5389',
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          fontSize: 16,
-          color:'white'
-        },
-      }}
-      name="FindAssign"
-      component={FindAssign}
+        options={{
+          title: '계정 찾기',
+          headerStyle: {
+            backgroundColor: '#AD5389',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+            color: 'white',
+          },
+        }}
+        name="FindAssign"
+        component={FindAssign}
       />
     </Stack.Navigator>
   );
@@ -337,6 +339,20 @@ function OrderManageStack() {
           },
         }}
         component={OrderReviewScreen}
+      />
+      <Stack.Screen
+        name="CourierLocation"
+        options={{
+          title: '배달원 위치 조회',
+          headerStyle: {
+            backgroundColor: '#f4da6c',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }} //CourierLocationScreen
+        component={CourierLocationScreen}
       />
     </Stack.Navigator>
   );
