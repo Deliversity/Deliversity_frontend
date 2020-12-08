@@ -43,11 +43,11 @@ function CourierLocationScreen(props) {
     // 테스트용입니다. (30초 단위로 update)
     setP2({
       ...P2,
-      latitude: P2.latitude - 0.0001,
-      longitude: P2.longitude + 0.0001,
+      latitude: P2.latitude + 0.00005,
+      longitude: P2.longitude+ 0.00001,
     });
     console.log('hi!');
-  }, 1000 * 30);
+  }, 1000 * 3);
   return (
     <View style={styles.container}>
       <NaverMapView

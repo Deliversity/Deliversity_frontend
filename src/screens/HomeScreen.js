@@ -1,13 +1,29 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Store from './StoreScreen';
 import axios from '../axiosConfig';
 import ChangeButton from '../components/ChangeButton';
 import Geolocation from '@react-native-community/geolocation';
 import {setUserStorage} from '../store/actions/action';
+import HomeInfo from '../../assets/homeDetail.png';
 type Props = {};
+const minusHeight = Platform.OS === 'ios' ? 123 : 14;
+const {width, height} = Dimensions.get('window');
 export default class App extends Component<Props> {
+  state = {
+    modalVisible: true,
+  };
+
   onClickCategory = async (data) => {
     this.props.navigation.navigate('Store', {
       category: data,
@@ -30,6 +46,22 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
+          <TouchableOpacity
+            onPress={() => this.setState({modalVisible: false})}
+            style={{marginRight: 10, marginTop: 10}}>
+            <Text
+              style={{
+                color: 'white',
+                textAlign: 'center',
+                marginBottom: 6,
+                fontSize: 15,
+              }}>
+              ❓
+            </Text>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 11}}>
+              도움말
+            </Text>
+          </TouchableOpacity>
           <ChangeButton onPress={this.startPostPosition} />
         </View>
         <View style={styles.header}>
@@ -134,6 +166,22 @@ export default class App extends Component<Props> {
             </View>
           </View>
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible === false}>
+          <View style={{opacity: 0.7, backgroundColor: 'white'}}>
+            <TouchableOpacity
+              onPress={() => this.setState({modalVisible: true})}
+              style={{marginLeft: 10, marginTop: 10}}>
+              <Icon name="clear" color={'#000000'} size={25} />
+            </TouchableOpacity>
+            <Image
+              source={HomeInfo}
+              style={{height: height - minusHeight, width: width}}
+            />
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -194,5 +242,6 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     alignSelf: 'flex-end',
+    flexDirection: 'row',
   },
 });
