@@ -40,6 +40,19 @@ export default class App extends Component<Props> {
           <Text style={styles.text_header}>Deliversity</Text>
         </View>
         <View style={styles.footer}>
+          <Text style={{textAlign: 'center', fontSize: 15}}>
+            주문 카테고리를 선택해주세요!
+          </Text>
+          <View
+            style={{
+              alignSelf: 'center',
+              borderTopWidth: 4,
+              borderTopColor: '#FFA500',
+              width: '65%',
+              borderTopRightRadius: 15,
+              borderTopLeftRadius: 15,
+            }}
+          />
           <View style={styles.content}>
             <View style={styles.elem}>
               <View style={styles.userInfo}>
