@@ -238,18 +238,21 @@ class SeekDeliveryScreen extends Component {
               ref={(input) => {
                 this.textInput = input;
               }}
-              style={styles.input}
-              backgroundColor="#ffffff"
+              style={styles.textInputBox}
               placeholder=" Search the store"
               onChangeText={(text) => this.setState({filterOrder: text})}
             />
             <Picker
               selectedValue={this.state.selectedValue}
-              style={{width: 115, fontSize: 10}}
+              style={{
+                width: 115,
+                color: 'gray',
+                size: 12,
+                placeholderTextColor: 'gray',
+              }}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({selectedValue: itemValue})
-              }
-              itemStyle={{color: 'red'}}>
+              }>
               <Picker.Item label="전체" value="전체" />
               <Picker.Item label="음식점" value="음식점" />
               <Picker.Item label="카페" value="카페" />
@@ -264,17 +267,6 @@ class SeekDeliveryScreen extends Component {
               <Icon name="search" color={'gray'} size={28} />
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              alignSelf: 'center',
-              borderTopWidth: 4,
-              borderTopColor: '#e9967a',
-              width: '90%',
-              borderBottomRightRadius: 15,
-              borderBottomLeftRadius: 15,
-              marginBottom: 10,
-            }}
-          />
           {this.state.isHotDeal === true ? (
             <FlatList
               refreshControl={
@@ -302,7 +294,7 @@ class SeekDeliveryScreen extends Component {
               keyExtractor={(item, index) => index.toString()}
             />
           )}
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 6}}>
             <TouchableOpacity onPress={() => this.gotoHotDeal()}>
               {this.state.isHotDeal === true ? (
                 <Text style={styles.panelActivateButtonTitle}>핫딜</Text>
@@ -410,7 +402,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: 'lightgray',
+    borderColor: '#f4da6c',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
@@ -425,6 +417,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: 'darkgray',
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: '#fafad2',
+    width: '96%',
+    alignSelf: 'center',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginBottom: 10,
+  },
+  textInputBox: {
+    width: '50%',
+    backgroundColor: '#ffff',
+    borderWidth: 2,
+    borderColor: 'gray',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    height: 40,
   },
 });
 
