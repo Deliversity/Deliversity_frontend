@@ -63,14 +63,25 @@ class RefundScreen extends Component {
               }
               itemStyle={{color: 'red'}}>
               <Picker.Item label="선택하세요" value="선택하세요" />
-              <Picker.Item label="카카오뱅크" value="카카오뱅크" />
-              <Picker.Item label="농협" value="농협" />
-              <Picker.Item label="신한" value="신한" />
-              <Picker.Item label="IBK기업" value="IBK기업" />
+              <Picker.Item label="KDB 산업은행" value="KDB 산업은행" />
+              <Picker.Item label="SC 제일은행" value="SC 제일은행" />
+              <Picker.Item label="전북은행" value="전북은행" />
+              <Picker.Item label="IBK기업은행" value="IBK기업은행" />
+              <Picker.Item label="하나씨티은행" value="하나씨티은행" />
+              <Picker.Item label="경남은행" value="경남은행" />
+              <Picker.Item label="KB 국민은행" value="KB 국민은행" />
+              <Picker.Item label="대구은행" value="대구은행" />
               <Picker.Item label="하나은행" value="하나은행" />
-              <Picker.Item label="우리" value="우리" />
-              <Picker.Item label="국민" value="국민" />
-              <Picker.Item label="SC제일" value="SC제일" />
+              <Picker.Item label="수협은행" value="수협은행" />
+              <Picker.Item label="부산은행" value="부산은행" />
+              <Picker.Item label="신한은행" value="신한은행" />
+              <Picker.Item label="NH 농협은행" value="NH 농협은행" />
+              <Picker.Item label="광주은행" value="광주은행" />
+              <Picker.Item label="케이뱅크" value="케이뱅크" />
+              <Picker.Item label="우리은행" value="우리은행" />
+              <Picker.Item label="제주은행" value="제주은행" />
+              <Picker.Item label="카카오뱅크" value="카카오뱅크" />
+              <Picker.Item label="오픈은행" value="오픈은행" />
             </Picker>
           </View>
           <View style={styles.write}>
