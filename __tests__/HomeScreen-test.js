@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import HomeScreen from '../src/screens/HomeScreen';
+import HomeScreen from '../src/screens/ConsumerHome/HomeScreen';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import {shallow, configure} from 'enzyme';

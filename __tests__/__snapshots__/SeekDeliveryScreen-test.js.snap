@@ -13,9 +13,43 @@ exports[`[Temp] render renders without crashing 1`] = `
     style={
       Object {
         "alignSelf": "flex-end",
+        "flexDirection": "row",
       }
     }
   >
+    <ForwardRef
+      onPress={[Function]}
+      style={
+        Object {
+          "marginRight": 10,
+          "marginTop": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 15,
+            "marginBottom": 6,
+            "textAlign": "center",
+          }
+        }
+      >
+        ❓
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 11,
+            "fontWeight": "bold",
+          }
+        }
+      >
+        도움말
+      </Text>
+    </ForwardRef>
     <Connect(ChangeButton)
       onPress={[Function]}
     />
@@ -25,35 +59,32 @@ exports[`[Temp] render renders without crashing 1`] = `
       Object {
         "alignItems": "center",
         "flex": 1,
-        "flexDirection": "row",
+        "flexDirection": "column",
         "justifyContent": "center",
-        "paddingBottom": 35,
+        "paddingBottom": 5,
       }
     }
   >
-    <Image
-      source={
-        Object {
-          "testUri": "../../../assets/logo_D.png",
-        }
-      }
-      style={
-        Object {
-          "height": 150,
-          "width": 150,
-        }
-      }
-    />
     <Text
       style={
         Object {
           "color": "#fff",
-          "fontSize": 30,
+          "fontSize": 25,
           "fontWeight": "bold",
         }
       }
     >
       Deliversity
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 14,
+        }
+      }
+    >
+      원하는 배달건을 찾아보세요!
     </Text>
   </View>
   <View
@@ -62,11 +93,112 @@ exports[`[Temp] render renders without crashing 1`] = `
         "backgroundColor": "#fff",
         "borderTopLeftRadius": 30,
         "borderTopRightRadius": 30,
-        "flex": 5,
-        "paddingVertical": 20,
+        "flex": 8,
+        "paddingVertical": 10,
       }
     }
   >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "backgroundColor": "#fafad2",
+          "borderBottomLeftRadius": 20,
+          "borderBottomRightRadius": 20,
+          "borderTopLeftRadius": 20,
+          "borderTopRightRadius": 20,
+          "elevation": 2,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginBottom": 10,
+          "shadowColor": "darkgray",
+          "shadowOffset": Object {
+            "height": 3,
+            "width": 3,
+          },
+          "shadowOpacity": 0.1,
+          "shadowRadius": 5,
+          "width": "96%",
+        }
+      }
+    >
+      <Component
+        allowFontScaling={true}
+        onChangeText={[Function]}
+        placeholder=" Search the store"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#ffff",
+            "borderBottomLeftRadius": 15,
+            "borderBottomRightRadius": 15,
+            "borderTopLeftRadius": 15,
+            "borderTopRightRadius": 15,
+            "height": 40,
+            "width": "50%",
+          }
+        }
+        underlineColorAndroid="transparent"
+      />
+      <Picker
+        mode="dialog"
+        onValueChange={[Function]}
+        selectedValue="전체"
+        style={
+          Object {
+            "color": "gray",
+            "placeholderTextColor": "gray",
+            "size": 12,
+            "width": 115,
+          }
+        }
+      >
+        <PickerItem
+          label="전체"
+          value="전체"
+        />
+        <PickerItem
+          label="음식점"
+          value="음식점"
+        />
+        <PickerItem
+          label="카페"
+          value="카페"
+        />
+        <PickerItem
+          label="편의점"
+          value="편의점"
+        />
+        <PickerItem
+          label="세탁소"
+          value="세탁소"
+        />
+        <PickerItem
+          label="문구점"
+          value="문구점"
+        />
+        <PickerItem
+          label="기타"
+          value="기타"
+        />
+      </Picker>
+      <ForwardRef
+        onPress={[Function]}
+        style={
+          Object {
+            "padding": 5,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="gray"
+          name="search"
+          size={28}
+        />
+      </ForwardRef>
+    </View>
     <FlatList
       data=""
       disableVirtualization={false}
@@ -74,9 +206,14 @@ exports[`[Temp] render renders without crashing 1`] = `
         Object {
           "DefaultOrderList": "",
           "HotOrderList": "",
+          "bufferDefaultOrder": "",
+          "bufferHotOrder": "",
+          "filterOrder": "",
           "isHotDeal": true,
+          "modalVisible": true,
           "params": Object {},
           "refreshing": true,
+          "selectedValue": "전체",
         }
       }
       horizontal={false}
@@ -102,6 +239,7 @@ exports[`[Temp] render renders without crashing 1`] = `
         Object {
           "flexDirection": "row",
           "justifyContent": "center",
+          "marginTop": 6,
         }
       }
     >
@@ -151,5 +289,50 @@ exports[`[Temp] render renders without crashing 1`] = `
       </ForwardRef>
     </View>
   </View>
+  <Component
+    animationType="slide"
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={false}
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "opacity": 0.7,
+        }
+      }
+    >
+      <ForwardRef
+        onPress={[Function]}
+        style={
+          Object {
+            "marginLeft": 10,
+            "marginTop": 10,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="#000000"
+          name="clear"
+          size={25}
+        />
+      </ForwardRef>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/seekDetail.png",
+          }
+        }
+        style={
+          Object {
+            "height": 1320,
+            "width": 750,
+          }
+        }
+      />
+    </View>
+  </Component>
 </View>
 `;

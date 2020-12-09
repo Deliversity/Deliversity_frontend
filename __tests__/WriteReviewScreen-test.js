@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import WriteReviewScreen from '../src/screens/WriteReviewScreen';
+import WriteReviewScreen from '../src/screens/Review/WriteReviewScreen';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import {shallow, configure} from 'enzyme';

@@ -151,7 +151,15 @@ exports[`[Temp] render renders without crashing 1`] = `
       />
     </View>
   </View>
-  <View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "flex-end",
+      }
+    }
+  >
     <ForwardRef
       onPress={[Function]}
     >

@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import SignupScreen from '../src/screens/SignupScreen';
+import SignupScreen from '../src/screens/Auth/SignupScreen';
 import renderer from 'react-test-renderer';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';

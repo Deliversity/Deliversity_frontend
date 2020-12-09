@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import ManageOrderScreen from '../src/screens/ManageOrderScreen';
+import ManageOrderScreen from '../src/screens/OrderManage/ManageOrderScreen';
 import renderer from 'react-test-renderer';
 
 let props;

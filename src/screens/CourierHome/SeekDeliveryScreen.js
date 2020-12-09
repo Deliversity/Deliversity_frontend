@@ -437,8 +437,6 @@ const styles = StyleSheet.create({
   textInputBox: {
     width: '50%',
     backgroundColor: '#ffff',
-    borderWidth: 2,
-    borderColor: 'gray',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 15,

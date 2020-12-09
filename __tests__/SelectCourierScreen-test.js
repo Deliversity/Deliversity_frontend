@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import DeliveryManScreen from '../src/screens/DeliveryManScreen';
+import SelectCourierScreen from '../src/screens/OrderManage/SelectCourierScreen';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
@@ -39,7 +39,7 @@ describe('[Temp] render', () => {
   const params = {};
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<DeliveryManScreen {...props} />);
+    wrapper = shallow(<SelectCourierScreen {...props} />);
     wrapper.setState({params: params});
     wrapper.find('react-native-sqlite-storage');
   });

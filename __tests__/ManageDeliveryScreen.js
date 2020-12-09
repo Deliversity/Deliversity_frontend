@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import ManageDeliveryScreen from '../src/screens/ManageDeliveryScreen';
+import ManageDeliveryScreen from '../src/screens/CourierHome/ManageDeliveryScreen';
 import renderer from 'react-test-renderer';
 
 let props;

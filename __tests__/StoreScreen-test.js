@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import StoreScreen from '../src/screens/StoreScreen';
+import StoreScreen from '../src/screens/ConsumerHome/StoreScreen';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import {shallow, configure} from 'enzyme';
@@ -18,7 +18,13 @@ beforeAll(() => {
 
 describe('[Temp] render', () => {
   let store;
-  props = {}; // fill test props
+  props = {
+    route: {
+      params: {
+        orderID: '1',
+      },
+    },
+  }; // fill test props
   beforeEach(() => {
     const initialState = {
       authentication: {user: '사용자'},
@@ -26,7 +32,7 @@ describe('[Temp] render', () => {
     store = mockStore(initialState);
     component = shallow(
       <Provider store={store}>
-        <StoreScreen />
+        <StoreScreen {...props}/>
       </Provider>,
     );
   });

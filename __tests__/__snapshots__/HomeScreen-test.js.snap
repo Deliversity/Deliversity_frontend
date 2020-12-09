@@ -13,9 +13,52 @@ exports[`[Temp] render renders without crashing 1`] = `
     style={
       Object {
         "alignSelf": "flex-end",
+        "flexDirection": "row",
       }
     }
   >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "marginRight": 10,
+          "marginTop": 10,
+          "opacity": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 15,
+            "marginBottom": 6,
+            "textAlign": "center",
+          }
+        }
+      >
+        ❓
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 11,
+            "fontWeight": "bold",
+          }
+        }
+      >
+        도움말
+      </Text>
+    </View>
     <View
       style={
         Object {
@@ -40,6 +83,7 @@ exports[`[Temp] render renders without crashing 1`] = `
             "opacity": 1,
           }
         }
+        testID="MyButton"
       >
         <Text
           allowFontScaling={false}
@@ -69,6 +113,7 @@ exports[`[Temp] render renders without crashing 1`] = `
               "fontWeight": "bold",
             }
           }
+          testID="MyText"
         >
           사용자
         </Text>
@@ -123,6 +168,28 @@ exports[`[Temp] render renders without crashing 1`] = `
       }
     }
   >
+    <Text
+      style={
+        Object {
+          "fontSize": 15,
+          "textAlign": "center",
+        }
+      }
+    >
+      카테고리를 선택하여 주문을 시작하세요!
+    </Text>
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "borderTopColor": "#8fbc8f",
+          "borderTopLeftRadius": 15,
+          "borderTopRightRadius": 15,
+          "borderTopWidth": 5,
+          "width": "85%",
+        }
+      }
+    />
     <View
       style={
         Object {
@@ -571,5 +638,73 @@ exports[`[Temp] render renders without crashing 1`] = `
       </View>
     </View>
   </View>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={false}
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "opacity": 0.7,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "marginLeft": 10,
+            "marginTop": 10,
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "#000000",
+                "fontSize": 25,
+              },
+              undefined,
+              Object {
+                "fontFamily": "MaterialIcons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/homeDetail.png",
+          }
+        }
+        style={
+          Object {
+            "height": 1320,
+            "width": 750,
+          }
+        }
+      />
+    </View>
+  </Modal>
 </View>
 `;
