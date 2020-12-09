@@ -117,14 +117,14 @@ class MyPageScreen extends Component {
   };
   onRelease = async () => {
     Alert.alert(
-      'Alert',
-      '계정을 정말 탈퇴 하시겠습니까?',
+      '⚠',
+      '계정을 탈퇴하시겠습니까? 계정을 탈퇴할 경우, 모든 정보(포인트 등)가 사라지게 됩니다.',
       [
         {
-          text: 'Cancel',
+          text: '취소',
         },
         {
-          text: 'OK',
+          text: '탈퇴',
           onPress: () => this.onReleaseConfirm(),
         },
       ],
