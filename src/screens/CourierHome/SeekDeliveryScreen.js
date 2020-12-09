@@ -13,12 +13,12 @@ import {
   TextInput,
   Picker,
 } from 'react-native';
-import ChangeButton from '../components/ChangeButton';
-import axios from '../axiosConfig';
-import {getUserStorage} from '../store/actions/action';
-import Card from '../components/seekDeliveryCard';
+import ChangeButton from '../../components/ChangeButton';
+import axios from '../../axiosConfig';
+import {getUserStorage} from '../../store/actions/action';
+import Card from '../../components/seekDeliveryCard';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import HomeInfo from '../../assets/seekDetail.png';
+import HomeInfo from '../../../assets/seekDetail.png';
 const minusHeight = Platform.OS === 'ios' ? 123 : 14;
 const {width, height} = Dimensions.get('window');
 class SeekDeliveryScreen extends Component {

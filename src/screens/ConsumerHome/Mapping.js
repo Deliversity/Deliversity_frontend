@@ -1,12 +1,5 @@
 import React, {Component, PropTypes, useState} from 'react';
 import {View, StyleSheet, Alert} from 'react-native';
-// import MapView, {
-//   PROVIDER_GOOGLE,
-//   Marker,
-//   AnimatedRegion,
-//   Animated,
-// } from 'react-native-maps';
-
 import NaverMapView, {
   Region,
   Marker,
@@ -15,8 +8,8 @@ import NaverMapView, {
   Polygon,
 } from 'react-native-nmap';
 
-import axiosInstance from '../axiosConfig';
-import {SERVER_KEY, KAKAO_KEY} from '../../env/development.json';
+import axiosInstance from '../../axiosConfig';
+import {SERVER_KEY, KAKAO_KEY} from '../../../env/development.json';
 import axios from 'axios';
 
 class Mapping extends Component {

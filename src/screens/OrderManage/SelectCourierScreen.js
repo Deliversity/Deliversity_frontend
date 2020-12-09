@@ -7,13 +7,13 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 import {Button, List, Text} from 'native-base';
-import DeliveryManList from '../components/DeliveryManList';
+import DeliveryManList from '../../components/DeliveryManList';
 import SQLite from 'react-native-sqlite-storage';
 let db;
 //신청온 배달원 리스트 확인후 선택하는 페이지
-class DeliveryManScreen extends Component {
+class SelectCourierScreen extends Component {
   static navigationOptions = {
     title: 'DeliveryMan',
   };
@@ -56,14 +56,12 @@ class DeliveryManScreen extends Component {
         let hour = arr.split(':')[0];
         let min = arr.split(':')[1];
         let time = hour + ':' + min;
-        console.log(res.data.data);
         this.setState({
           orderInfo: res.data.data,
           reservationTime: time,
           isReservation: res.data.data.reservation,
         });
         if (res.data.data.orderStatus === '0') {
-          console.log('ok');
           this.setState({
             orderStatus: true,
           });
@@ -175,7 +173,7 @@ class DeliveryManScreen extends Component {
                   alignSelf: 'flex-end',
                 }}>
                 <Text style={styles.bookingStyle}>
-                  {this.state.reservationTime}까지
+                  예약 {this.state.reservationTime}까지
                 </Text>
               </View>
             ) : null}
@@ -278,4 +276,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DeliveryManScreen;
+export default SelectCourierScreen;

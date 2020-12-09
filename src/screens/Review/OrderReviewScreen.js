@@ -1,8 +1,8 @@
 import React, {Component, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text} from 'native-base';
-import axios from '../axiosConfig';
-import StarRating from '../components/StarRating';
+import axios from '../../axiosConfig';
+import StarRating from '../../components/StarRating';
 class OrderReviewScreen extends Component {
   static navigationOptions = {
     title: 'OrderReview',

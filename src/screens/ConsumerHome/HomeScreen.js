@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Store from './StoreScreen';
-import axios from '../axiosConfig';
-import ChangeButton from '../components/ChangeButton';
+import axios from '../../axiosConfig';
+import ChangeButton from '../../components/ChangeButton';
 import Geolocation from '@react-native-community/geolocation';
-import {setUserStorage} from '../store/actions/action';
-import HomeInfo from '../../assets/homeDetail.png';
+import {setUserStorage} from '../../store/actions/action';
+import HomeInfo from '../../../assets/homeDetail.png';
 type Props = {};
 const minusHeight = Platform.OS === 'ios' ? 123 : 14;
 const {width, height} = Dimensions.get('window');
@@ -66,7 +66,7 @@ export default class App extends Component<Props> {
         </View>
         <View style={styles.header}>
           <Image
-            source={require('../../assets/logo_D.png')}
+            source={require('../../../assets/logo_D.png')}
             style={{width: 200, height: 200}}
           />
           <Text style={styles.text_header}>Deliversity</Text>

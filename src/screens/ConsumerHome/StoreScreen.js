@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 import {connect} from 'react-redux';
 import Mapping from './Mapping';
 class StoreScreen extends Component {

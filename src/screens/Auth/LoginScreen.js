@@ -1,20 +1,10 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {TextInput} from 'react-native-paper';
-import {
-  requestLogin,
-  socialLogin,
-} from '../store/actions/action';
+import {requestLogin, socialLogin} from '../../store/actions/action';
 import {connect} from 'react-redux';
 import Signup from './SignupScreen';
-import {GOOGLE_KEY} from '../../env/development';
+import {GOOGLE_KEY} from '../../../env/development';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import {
   GoogleSignin,
@@ -22,7 +12,7 @@ import {
 } from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
 import auth from '@react-native-firebase/auth';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 
 GoogleSignin.configure({
   webClientId: GOOGLE_KEY,
@@ -104,9 +94,13 @@ class LoginScreen extends Component {
         </View>
         <View style={styles.footer}>
           <View style={styles.viewTop}>
-          <TouchableOpacity style={styles.butTop} onPress={()=>{ this.props.navigation.navigate('FindAssign')}}>
-            <Text style={styles.topText}>계정 찾기</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.butTop}
+              onPress={() => {
+                this.props.navigation.navigate('FindAssign');
+              }}>
+              <Text style={styles.topText}>계정 찾기</Text>
+            </TouchableOpacity>
           </View>
           <Text style={styles.text_footer}>ID</Text>
           <View style={styles.action}>
@@ -148,7 +142,7 @@ class LoginScreen extends Component {
                 this.onKakaoButtonPress();
               }}>
               <Image
-                source={require('../../assets/kakao_login.png')}
+                source={require('../../../assets/kakao_login.png')}
                 style={{width: 200, height: 50}}
               />
             </TouchableOpacity>
@@ -264,17 +258,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  topText:{
+  topText: {
     textDecorationLine: 'underline',
-    color:'#395382',
-    
+    color: '#395382',
   },
-  viewTop:{
-    flexDirection:'row',
-    
+  viewTop: {
+    flexDirection: 'row',
   },
-  butTop:{
-    alignItems:'flex-end',
-    flex:1
-  }
+  butTop: {
+    alignItems: 'flex-end',
+    flex: 1,
+  },
 });

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import axios from '../axiosConfig';
-import Card from '../components/manageOrderCard';
+import axios from '../../axiosConfig';
+import Card from '../../components/manageOrderCard';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 class ManageOrderScreen extends Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class ManageOrderScreen extends Component {
               orderID: item.id,
             });
           } else {
-            this.props.navigation.navigate('DeliveryMan', {
+            this.props.navigation.navigate('SelectCourier', {
               orderID: item.id,
             });
           }

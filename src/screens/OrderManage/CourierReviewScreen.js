@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import axios from '../axiosConfig';
-import ReviewItem from '../components/ReviewItem';
+import axios from '../../axiosConfig';
+import ReviewItem from '../../components/ReviewItem';
 import {List} from 'native-base';
 class CourierReviewScreen extends Component {
   static navigationOptions = {

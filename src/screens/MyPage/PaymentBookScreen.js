@@ -1,32 +1,31 @@
 import React, {Component, useState} from 'react';
 import {View, StyleSheet, RefreshControl, FlatList} from 'react-native';
-import axios from '../axiosConfig';
-import Card from '../components/myReviewCard';
-class MyReviewScreen extends Component {
+import axios from '../../axiosConfig';
+import Card from '../../components/paymentBookCard';
+class PaymentBookScreen extends Component {
   static navigationOptions = {
-    title: 'MyReview',
+    title: 'PaymentBook',
   };
   constructor(props) {
     super(props);
 
     this.state = {
       content: '',
-      score: '0',
       refreshing: false,
     };
   }
   componentDidMount(): void {
-    this.getReview();
+    this.getPaymentList();
   }
 
   onRefresh = async () => {
-    await this.getReview();
+    await this.getPaymentList();
   };
-  getReview = async () => {
+  getPaymentList = async () => {
     try {
       this.setState({refreshing: true});
       await axios
-        .get('/api/v1/myinfo/review/written')
+        .get('/api/v1/myinfo/paids')
         .then((res) => {
           this.setState({
             content: res.data.data,
@@ -85,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyReviewScreen;
+export default PaymentBookScreen;

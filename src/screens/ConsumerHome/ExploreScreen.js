@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Postcode from 'react-native-daum-postcode';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -10,9 +10,9 @@ import {
   FlatList,
 } from 'react-native';
 import {List, Text} from 'native-base';
-import Card from '../components/addressBook';
+import Card from '../../components/addressBook';
 import {connect} from 'react-redux';
-import {requestUpdateAddress} from '../store/actions/action';
+import {requestUpdateAddress} from '../../store/actions/action';
 class ExploreScreen extends Component {
   static navigationOptions = {
     title: 'Explore',

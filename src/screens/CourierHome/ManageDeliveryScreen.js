@@ -8,8 +8,8 @@ import {
   Alert,
 } from 'react-native';
 import {Text} from 'native-base';
-import Card from '../components/manageDeliveryCard';
-import axios from '../axiosConfig';
+import Card from '../../components/manageDeliveryCard';
+import axios from '../../axiosConfig';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 class ManageDeliveryScreen extends Component {
   constructor(props) {

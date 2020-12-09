@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {List, Text} from 'native-base';
-import axios from '../axiosConfig';
-import ReviewItem from '../components/ReviewItem';
+import axios from '../../axiosConfig';
+import ReviewItem from '../../components/ReviewItem';
 class DetailDeliveryScreen extends Component {
   static navigationOptions = {
     title: 'DetailDelivery',

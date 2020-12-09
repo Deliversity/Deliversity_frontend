@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
 import {View, StyleSheet, RefreshControl, FlatList} from 'react-native';
-import axios from '../axiosConfig';
-import Card from '../components/RefundBookCard';
+import axios from '../../axiosConfig';
+import Card from '../../components/RefundBookCard';
 class RefundBookScreen extends Component {
   static navigationOptions = {
     title: 'PaymentBook',

@@ -3,7 +3,7 @@ import {View, StyleSheet, FlatList, RefreshControl, Alert} from 'react-native';
 import {Text} from 'native-base';
 import SQLite from 'react-native-sqlite-storage';
 import {connect} from 'react-redux';
-import Card from '../components/chatCard';
+import Card from '../../components/chatCard';
 let db;
 class ChatHomeScreen extends Component {
   constructor(props) {

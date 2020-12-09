@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Text} from 'native-base';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 import {connect} from 'react-redux';
 class WriteReviewScreen extends Component {
   static navigationOptions = {

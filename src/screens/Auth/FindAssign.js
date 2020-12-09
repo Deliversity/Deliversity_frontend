@@ -2,9 +2,9 @@ import React, {Component, PropTypes, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {TextInput} from 'react-native-paper';
-import axios from '../axiosConfig';
-import FindId from '../components/FindId';
-import FindPassword from '../components/FindPassword';
+import axios from '../../axiosConfig';
+import FindId from '../../components/FindId';
+import FindPassword from '../../components/FindPassword';
 class FindAssign extends Component {
   static navigationOptions = {
     title: 'FindAssign',

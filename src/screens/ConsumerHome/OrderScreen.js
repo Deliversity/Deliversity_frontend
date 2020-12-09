@@ -9,7 +9,7 @@ import {
 import {RadioButton} from 'react-native-paper';
 import {Text} from 'native-base';
 import {connect} from 'react-redux';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 class OrderScreen extends Component {
   static navigationOptions = {
     title: 'Order',
@@ -23,13 +23,13 @@ class OrderScreen extends Component {
       hour: '',
       min: '',
       mark: this.props.route.params ? this.props.route.params.mk : '',
-      lat:'',
-      lng:'',
+      lat: '',
+      lng: '',
       money: '',
       ad: '',
-      content:'',
-      reservation:0,
-      ex:''
+      content: '',
+      reservation: 0,
+      ex: '',
     };
     this.onClickGetAddress();
   }
@@ -38,100 +38,119 @@ class OrderScreen extends Component {
     await axios
       .get('/api/v1/myinfo/address')
       .then((res) => {
-        const lat =res.data.data.locX;
-        const lng=res.data.data.locY;
-        this.state.ad=res.data.data.address + ' ' + res.data.data.detailAddress;
-        this.setState({lat: lat, lng:lng});
+        const lat = res.data.data.locX;
+        const lng = res.data.data.locY;
+        this.state.ad =
+          res.data.data.address + ' ' + res.data.data.detailAddress;
+        this.setState({lat: lat, lng: lng});
       })
       .catch((e) => {
         alert('배달 받을 주소를 등록해주세요!');
       });
-      this.getMoney();
+    this.getMoney();
   };
 
-  getMoney(){
-    var cost=3000;
-    var fee=parseFloat(this.getDistanceFromLatLonInKm(this.state.mark.y,
-      this.state.mark.x,this.state.lat, this.state.lng))-1;
-    if(fee>0) cost += Math.round((550 * fee / 0.5)/100)*100;
-    if(this.state.hotDeal==1) cost+=1000;
-    this.setState({money:cost});
+  getMoney() {
+    var cost = 3000;
+    var fee =
+      parseFloat(
+        this.getDistanceFromLatLonInKm(
+          this.state.mark.y,
+          this.state.mark.x,
+          this.state.lat,
+          this.state.lng,
+        ),
+      ) - 1;
+    if (fee > 0) {
+      cost += Math.round((550 * fee) / 0.5 / 100) * 100;
+    }
+    if (this.state.hotDeal == 1) {
+      cost += 1000;
+    }
+    this.setState({money: cost});
   }
 
-  getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
+  getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
     function deg2rad(deg) {
-      return deg * (Math.PI/180);
+      return deg * (Math.PI / 180);
     }
     const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(parseFloat(lat2)-parseFloat(lat1));  // deg2rad below
-    const dLon = deg2rad(parseFloat(lng2)-parseFloat(lng1));
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(parseFloat(lat1))) * Math.cos(deg2rad(parseFloat(lat2))) * Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const dLat = deg2rad(parseFloat(lat2) - parseFloat(lat1)); // deg2rad below
+    const dLon = deg2rad(parseFloat(lng2) - parseFloat(lng1));
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(parseFloat(lat1))) *
+        Math.cos(deg2rad(parseFloat(lat2))) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c; // Distance in km
     return d;
   }
-  onClickOrder= ()=>{
-    if(this.state.orderType==''){
-      alert('주문 유형을 선택해 주세요')
-    }
-    else {
+  onClickOrder = () => {
+    if (this.state.orderType == '') {
+      alert('주문 유형을 선택해 주세요');
+    } else {
       this.onSendOrder();
     }
-  }
-  onSendOrder= async ()=>{
-    try{
-    const data={
-      storeName: (this.state.mark.category_group_name==undefined)?this.state.ex:this.state.mark.place_name,
-      storeAddress: this.state.mark.address_name,
-      storeDetailAddress: '',
-      gender: this.state.gender,
-      hotDeal: this.state.hotDeal,
-      expHour: this.state.hour,
-      expMinute: this.state.min,
-      content: this.state.content,
-      categoryName: this.state.mark.category_group_name,
-      reservation: this.state.reservation,
-      storeLat:this.state.mark.y,
-      storeLng:this.state.mark.x,
-      userLat:this.state.lat,
-      userLng:this.state.lng
+  };
+  onSendOrder = async () => {
+    try {
+      const data = {
+        storeName:
+          this.state.mark.category_group_name == undefined
+            ? this.state.ex
+            : this.state.mark.place_name,
+        storeAddress: this.state.mark.address_name,
+        storeDetailAddress: '',
+        gender: this.state.gender,
+        hotDeal: this.state.hotDeal,
+        expHour: this.state.hour,
+        expMinute: this.state.min,
+        content: this.state.content,
+        categoryName: this.state.mark.category_group_name,
+        reservation: this.state.reservation,
+        storeLat: this.state.mark.y,
+        storeLng: this.state.mark.x,
+        userLat: this.state.lat,
+        userLng: this.state.lng,
+      };
+      console.log(data.reservation);
+      await axios
+        .post('/api/v1/order/', data)
+        .then((response) => {
+          alert(response.data.data.userId + '님. 주문이 접수되었습니다.');
+        })
+        .catch((error) => {
+          alert(error);
+        });
+      this.props.navigation.goBack(null);
+    } catch (e) {
+      alert('error : ' + e);
     }
-    console.log(data.reservation)
-    await axios
-          .post('/api/v1/order/', data)
-          .then((response) => {
-            alert(response.data.data.userId + '님. 주문이 접수되었습니다.');
-          })
-          .catch((error) => {
-            alert(error);
-          });
-    this.props.navigation.goBack(null);
-  }catch(e){
-    alert("error : "+ e);
-  }
-  }
-  changeMoney=()=>{
-    var hot=(this.state.hotDeal==1)?0:1
-    this.setState({hotDeal: hot})
-    if(this.state.hotDeal==1) {
-      this.setState({money: this.state.money-1000})
+  };
+  changeMoney = () => {
+    var hot = this.state.hotDeal == 1 ? 0 : 1;
+    this.setState({hotDeal: hot});
+    if (this.state.hotDeal == 1) {
+      this.setState({money: this.state.money - 1000});
+    } else {
+      this.setState({money: this.state.money + 1000});
     }
-    else{
-      this.setState({money: this.state.money+1000})
+  };
+  storeFunc = () => {
+    if (this.state.mark.place_name == '사용자 지정') {
+      return (
+        <TextInput
+          placeholder="자세한 가게이름을 입력해주세요."
+          style={styles.martTt}
+          onChangeText={(text) => this.setState({ex: text})}
+        />
+      );
+    } else {
+      return <Text>{this.state.mark.place_name}</Text>;
     }
-  }
-  storeFunc=()=>{
-    if(this.state.mark.place_name=='사용자 지정'){
-      return(
-        <TextInput placeholder="자세한 가게이름을 입력해주세요." style={styles.martTt} onChangeText={(text)=>this.setState({ex: text})}></TextInput>
-      )
-    }
-    else{
-      return(
-          <Text>{this.state.mark.place_name}</Text>
-      )
-    }
-  }
+  };
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -141,8 +160,14 @@ class OrderScreen extends Component {
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 요청 하기</Text>
-          <TextInput placeholder="ex) 감자핫도그 3개요" style={styles.textInputBox} onChangeText={(content) => this.setState({content:content})}
-        value={this.state.content} multiline={true} numberOfLines={5}/>
+          <TextInput
+            placeholder="ex) 감자핫도그 3개요"
+            style={styles.textInputBox}
+            onChangeText={(content) => this.setState({content: content})}
+            value={this.state.content}
+            multiline={true}
+            numberOfLines={5}
+          />
         </View>
         <View style={styles.box}>
           <Text style={styles.imageTitle}>배달 받을 장소</Text>
@@ -201,7 +226,12 @@ class OrderScreen extends Component {
                 status={
                   this.state.orderType === 'booking' ? 'checked' : 'unchecked'
                 }
-                onPress={() => this.setState({orderType: 'booking',reservation: ((this.state.reservation==1)?0:1)})}
+                onPress={() =>
+                  this.setState({
+                    orderType: 'booking',
+                    reservation: this.state.reservation == 1 ? 0 : 1,
+                  })
+                }
               />
             </View>
           </View>
@@ -307,7 +337,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     backgroundColor: 'transparent',
   },
-  martTt:{
+  martTt: {
     backgroundColor: '#fafad2',
     borderWidth: 3,
     borderColor: 'gray',

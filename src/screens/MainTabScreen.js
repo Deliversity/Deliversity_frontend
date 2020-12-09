@@ -1,40 +1,40 @@
 import React, {Component} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 //import {HeaderBackButton} from 'react-navigation';
-import HomeScreen from './HomeScreen';
-import LoginScreen from './LoginScreen';
-import SignupScreen from './SignupScreen';
-import StoreScreen from './StoreScreen';
-import MyPageScreen from './MyPageScreen';
-import SeekDeliveryScreen from './SeekDeliveryScreen';
-import DetailDeliveryScreen from './DetailDeliveryScreen';
-import ChatScreen from './ChatScreen';
-import ChatHomeScreen from './ChatHomeScreen';
-import DeliveryManScreen from './DeliveryManScreen';
-import CourierReviewScreen from './CourierReviewScreen';
-import ManageDeliveryScreen from './ManageDeliveryScreen';
-import ViewUser from './ViewUser';
-import PaymentScreen from './PaymentScreen';
-import ManageOrderScreen from './ManageOrderScreen';
-import WriteReviewScreen from './WriteReviewScreen';
-import MyReviewScreen from './MyReviewScreen';
-import OrderReviewScreen from './OrderReviewScreen';
-import RefundScreen from './RefundScreen';
+import HomeScreen from './ConsumerHome/HomeScreen';
+import LoginScreen from './Auth/LoginScreen';
+import SignupScreen from './Auth/SignupScreen';
+import StoreScreen from './ConsumerHome/StoreScreen';
+import MyPageScreen from './MyPage/MyPageScreen';
+import SeekDeliveryScreen from './CourierHome/SeekDeliveryScreen';
+import DetailDeliveryScreen from './CourierHome/DetailDeliveryScreen';
+import ChatScreen from './Chat/ChatScreen';
+import ChatHomeScreen from './Chat/ChatHomeScreen';
+import SelectCourierScreen from './OrderManage/SelectCourierScreen';
+import CourierReviewScreen from './OrderManage/CourierReviewScreen';
+import ManageDeliveryScreen from './CourierHome/ManageDeliveryScreen';
+import ViewUser from './Chat/ViewUser';
+import PaymentScreen from './MyPage/PaymentScreen';
+import ManageOrderScreen from './OrderManage/ManageOrderScreen';
+import WriteReviewScreen from './Review/WriteReviewScreen';
+import MyReviewScreen from './Review/MyReviewScreen';
+import OrderReviewScreen from './Review/OrderReviewScreen';
+import RefundScreen from './MyPage/RefundScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import PaymentBookScreen from './PaymentBookScreen';
-import RefundBookScreen from './RefundBookScreen';
+import PaymentBookScreen from './MyPage/PaymentBookScreen';
+import RefundBookScreen from './MyPage/RefundBookScreen';
 import {getUserStorage, autoLogin} from '../store/actions/action';
 import {connect} from 'react-redux';
-import ExploreScreen from './ExploreScreen';
-import OrderScreen from './OrderScreen';
-import CourierLocationScreen from './CourierLocationScreen';
-import iamport from './PGScreen';
+import ExploreScreen from './ConsumerHome/ExploreScreen';
+import OrderScreen from './ConsumerHome/OrderScreen';
+import CourierLocationScreen from './OrderManage/CourierLocationScreen';
+import iamport from './MyPage/PGScreen';
 import {NavigationContainer} from '@react-navigation/native';
-import QApage from './QApage';
-import Report from './Report';
-import FindAssign from './FindAssign';
+import QApage from './MyPage/QApage';
+import Report from './MyPage/Report';
+import FindAssign from './Auth/FindAssign';
 import {ActivityIndicator} from 'react-native-paper';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,7 +59,7 @@ function getTabBarVisibility(route) {
     routeName === 'Payment' ||
     routeName === 'WriteReview' ||
     routeName === 'OrderReview' ||
-    routeName === 'DeliveryMan' ||
+    routeName === 'SelectCourier' ||
     routeName === 'CourierReview' ||
     routeName === 'WriteReview' ||
     routeName === 'MyReview' ||
@@ -285,7 +285,7 @@ function OrderManageStack() {
         component={ManageOrderScreen}
       />
       <Stack.Screen
-        name="DeliveryMan"
+        name="SelectCourier"
         options={{
           title: '배달원 리스트 보기',
           headerStyle: {
@@ -296,7 +296,7 @@ function OrderManageStack() {
             fontSize: 16,
           },
         }}
-        component={DeliveryManScreen}
+        component={SelectCourierScreen}
       />
       <Stack.Screen
         name="CourierReview"

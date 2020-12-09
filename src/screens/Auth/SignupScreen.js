@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {TextInput, RadioButton} from 'react-native-paper';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 class Signup extends Component {
   static navigationOptions = {
     title: 'Signup',
@@ -25,9 +25,7 @@ class Signup extends Component {
       age: '',
       phone: '',
       modalVisible: false,
-      idToken: this.props.route.params
-        ? this.props.route.params.idToken
-        : null,
+      idToken: this.props.route.params ? this.props.route.params.idToken : null,
       accessToken: this.props.route.params
         ? this.props.route.params.accessToken
         : null,

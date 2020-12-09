@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Content, Text} from 'native-base';
 import {RadioButton} from 'react-native-paper';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 class RefundScreen extends Component {
   static navigationOptions = {
     title: 'Refund',

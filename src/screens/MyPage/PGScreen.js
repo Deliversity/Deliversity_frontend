@@ -1,8 +1,8 @@
 import React from 'react';
 /* 아임포트 모듈을 불러옵니다. */
 import IMP from 'iamport-react-native';
-import {IAMPORT_CODE} from '../../env/development';
-import axios from '../axiosConfig';
+import {IAMPORT_CODE} from '../../../env/development';
+import axios from '../../axiosConfig';
 function Payment(props) {
   //this.props.navigation.navigate
   /* [필수입력] 결제 종료 후, 라우터를 변경하고 결과를 전달합니다. */

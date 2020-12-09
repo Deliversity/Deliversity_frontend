@@ -19,12 +19,12 @@ import {
   Button,
   Text,
 } from 'native-base';
-import {requestLogout} from '../store/actions/action';
+import {requestLogout} from '../../store/actions/action';
 import {connect} from 'react-redux';
-import LevelupModal from '../components/LevelupModal';
+import LevelupModal from '../../components/LevelupModal';
 import {RadioButton} from 'react-native-paper';
 import firebase from 'react-native-firebase';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 class MyPageScreen extends Component {
   constructor(props) {

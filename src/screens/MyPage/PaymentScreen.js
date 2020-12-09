@@ -17,7 +17,7 @@ import {
   Content,
 } from 'native-base';
 import {connect} from 'react-redux';
-import axios from '../axiosConfig';
+import axios from '../../axiosConfig';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {RadioButton} from 'react-native-paper';
 class PaymentScreen extends Component {
