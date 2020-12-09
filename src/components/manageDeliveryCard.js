@@ -3,9 +3,7 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const manageDeliveryCard = ({itemData, onPress}) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{paddingHorizontal: 25, paddingVertical: 20}}>
+    <TouchableOpacity onPress={onPress} style={styles.mainStyle}>
       <View
         style={{
           flexDirection: 'row',
@@ -99,5 +97,25 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     marginTop: 4,
+  },
+  mainStyle: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    marginBottom: 6,
+    shadowColor: 'darkgray',
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: 'white',
+    width: '96%',
+    alignSelf: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

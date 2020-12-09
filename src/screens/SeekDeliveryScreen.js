@@ -10,6 +10,8 @@ import {
   Modal,
   Platform,
   Dimensions,
+  TextInput,
+  Picker,
 } from 'react-native';
 import ChangeButton from '../components/ChangeButton';
 import axios from '../axiosConfig';
@@ -28,6 +30,10 @@ class SeekDeliveryScreen extends Component {
       isHotDeal: true,
       refreshing: false,
       modalVisible: true,
+      filterOrder: '',
+      selectedValue: '전체',
+      bufferHotOrder: '',
+      bufferDefaultOrder: '',
     };
   }
   componentDidMount(): void {
@@ -35,6 +41,11 @@ class SeekDeliveryScreen extends Component {
     this.onClickGetDefault();
   }
   handleRefresh = async () => {
+    this.setState({
+      filterOrder: '',
+      selectedValue: '전체',
+    });
+    this.textInput.clear();
     await this.onClickGetHotDeal();
     await this.onClickGetDefault();
   };
@@ -47,7 +58,11 @@ class SeekDeliveryScreen extends Component {
         const HotDealList = orderList.filter(function (ele) {
           return ele.hotDeal === true;
         });
-        this.setState({HotOrderList: HotDealList, refreshing: false});
+        this.setState({
+          HotOrderList: HotDealList,
+          bufferHotOrder: HotDealList,
+          refreshing: false,
+        });
       })
       .catch((e) => {});
   };
@@ -61,7 +76,11 @@ class SeekDeliveryScreen extends Component {
         const DefaultOrderList = orderList.filter(function (ele) {
           return ele.hotDeal === false;
         });
-        this.setState({DefaultOrderList: DefaultOrderList, refreshing: false});
+        this.setState({
+          DefaultOrderList: DefaultOrderList,
+          bufferDefaultOrder: DefaultOrderList,
+          refreshing: false,
+        });
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -84,6 +103,108 @@ class SeekDeliveryScreen extends Component {
     console.log('stop geo');
     const timerId = parseInt(await getUserStorage('timerId'));
     clearInterval(timerId);
+  };
+  gotoHotDeal = () => {
+    this.setState({
+      filterOrder: '',
+      selectedValue: '전체',
+      isHotDeal: true,
+    });
+    this.textInput.clear();
+    this.handleRefresh();
+  };
+
+  gotoDefault = () => {
+    this.setState({
+      filterOrder: '',
+      selectedValue: '전체',
+      isHotDeal: false,
+    });
+    this.textInput.clear();
+    this.handleRefresh();
+  };
+
+  searchOrderList = () => {
+    //카테고리 선택된것
+    const select = this.state.selectedValue;
+    //검색된 것
+    const name = this.state.filterOrder;
+    if (this.state.filterOrder === '' && this.state.selectedValue === '전체') {
+      this.handleRefresh();
+    } else if (
+      this.state.filterOrder === '' &&
+      this.state.selectedValue !== '전체'
+    ) {
+      //카테고리만 검색한 경우
+      this.setState({
+        refreshing: true,
+      });
+      if (this.state.isHotDeal === true) {
+        const orderList = this.state.HotOrderList;
+        const searchOrder = orderList.filter(function (ele) {
+          return ele.categoryName === select;
+        });
+        this.setState({
+          bufferHotOrder: searchOrder,
+          refreshing: false,
+        });
+      } else {
+        const orderList = this.state.DefaultOrderList;
+        const searchOrder = orderList.filter(function (ele) {
+          return ele.categoryName === select;
+        });
+        this.setState({
+          bufferDefaultOrder: searchOrder,
+          refreshing: false,
+        });
+      }
+    } else {
+      //카테고리+필터검색한경우
+      this.setState({
+        refreshing: true,
+      });
+      if (this.state.isHotDeal === true) {
+        const orderList = this.state.HotOrderList;
+        if (select === '전체') {
+          //필터만 검색한 경우
+          const searchOrder = orderList.filter(function (ele) {
+            return ele.storeName.includes(name);
+          });
+          this.setState({
+            bufferHotOrder: searchOrder,
+            refreshing: false,
+          });
+        } else {
+          const searchOrder = orderList.filter(function (ele) {
+            return ele.storeName.includes(name) && ele.categoryName === select;
+          });
+          this.setState({
+            bufferHotOrder: searchOrder,
+            refreshing: false,
+          });
+        }
+      } else {
+        const orderList = this.state.DefaultOrderList;
+        if (select === '전체') {
+          //필터만 검색한 경우
+          const searchOrder = orderList.filter(function (ele) {
+            return ele.storeName.includes(name);
+          });
+          this.setState({
+            bufferDefaultOrder: searchOrder,
+            refreshing: false,
+          });
+        } else {
+          const searchOrder = orderList.filter(function (ele) {
+            return ele.storeName.includes(name) && ele.categoryName === select;
+          });
+          this.setState({
+            bufferDefaultOrder: searchOrder,
+            refreshing: false,
+          });
+        }
+      }
+    }
   };
   render() {
     return (
@@ -108,13 +229,52 @@ class SeekDeliveryScreen extends Component {
           <ChangeButton onPress={this.stopPostPosition} />
         </View>
         <View style={styles.header}>
-          <Image
-            source={require('../../assets/logo_D.png')}
-            style={{width: 150, height: 150}}
-          />
           <Text style={styles.text_header}>Deliversity</Text>
+          <Text style={styles.text_sub}>원하는 배달건을 찾아보세요!</Text>
         </View>
         <View style={styles.footer}>
+          <View style={styles.cardStyle}>
+            <TextInput
+              ref={(input) => {
+                this.textInput = input;
+              }}
+              style={styles.input}
+              backgroundColor="#ffffff"
+              placeholder=" Search the store"
+              onChangeText={(text) => this.setState({filterOrder: text})}
+            />
+            <Picker
+              selectedValue={this.state.selectedValue}
+              style={{width: 115, fontSize: 10}}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({selectedValue: itemValue})
+              }
+              itemStyle={{color: 'red'}}>
+              <Picker.Item label="전체" value="전체" />
+              <Picker.Item label="음식점" value="음식점" />
+              <Picker.Item label="카페" value="카페" />
+              <Picker.Item label="편의점" value="편의점" />
+              <Picker.Item label="세탁소" value="세탁소" />
+              <Picker.Item label="문구점" value="문구점" />
+              <Picker.Item label="기타" value="기타" />
+            </Picker>
+            <TouchableOpacity
+              style={styles.searchStore}
+              onPress={() => this.searchOrderList()}>
+              <Icon name="search" color={'gray'} size={28} />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              alignSelf: 'center',
+              borderTopWidth: 4,
+              borderTopColor: '#e9967a',
+              width: '90%',
+              borderBottomRightRadius: 15,
+              borderBottomLeftRadius: 15,
+              marginBottom: 10,
+            }}
+          />
           {this.state.isHotDeal === true ? (
             <FlatList
               refreshControl={
@@ -124,7 +284,7 @@ class SeekDeliveryScreen extends Component {
                 />
               }
               extraData={this.state}
-              data={this.state.HotOrderList}
+              data={this.state.bufferHotOrder}
               renderItem={this.renderItem}
               keyExtractor={(item) => item.id.toString()}
             />
@@ -137,20 +297,20 @@ class SeekDeliveryScreen extends Component {
                 />
               }
               extraData={this.state}
-              data={this.state.DefaultOrderList}
+              data={this.state.bufferDefaultOrder}
               renderItem={this.renderItem}
               keyExtractor={(item, index) => index.toString()}
             />
           )}
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={() => this.setState({isHotDeal: true})}>
+            <TouchableOpacity onPress={() => this.gotoHotDeal()}>
               {this.state.isHotDeal === true ? (
                 <Text style={styles.panelActivateButtonTitle}>핫딜</Text>
               ) : (
                 <Text style={styles.panelButtonTitle}>핫딜</Text>
               )}
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.setState({isHotDeal: false})}>
+            <TouchableOpacity onPress={() => this.gotoDefault()}>
               {this.state.isHotDeal === false ? (
                 <Text style={styles.panelActivateButtonTitle}>기본</Text>
               ) : (
@@ -191,22 +351,26 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 35,
+    paddingBottom: 5,
   },
   text_header: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 25,
+  },
+  text_sub: {
+    color: '#fff',
+    fontSize: 14,
   },
   footer: {
-    flex: 5,
+    flex: 8,
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   panelButtonTitle: {
     fontSize: 15,
@@ -243,6 +407,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     marginLeft: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    width: '50%',
+    height: 40,
+  },
+  searchStore: {
+    padding: 5,
+  },
+  cardStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

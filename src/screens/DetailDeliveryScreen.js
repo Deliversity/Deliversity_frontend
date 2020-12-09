@@ -158,7 +158,12 @@ class DetailDeliveryScreen extends Component {
             </View>
           )}
         </View>
-        <View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+          }}>
           <TouchableOpacity
             onPress={() => {
               this.onClickOrder();
