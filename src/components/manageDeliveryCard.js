@@ -33,12 +33,10 @@ const manageDeliveryCard = ({itemData, onPress}) => {
               )}
           </View>
           {itemData.reservation === false ? null : (
-            <View style={styles.reservationBox}>
-              <Text style={styles.bookingStyle2}>
-                {itemData.expArrivalTime.split(' ')[1].split(':')[0]}:
-                {itemData.expArrivalTime.split(' ')[1].split(':')[1]}
-              </Text>
-            </View>
+            <Text style={styles.bookingStyle2}>
+              {itemData.expArrivalTime.split(' ')[1].split(':')[0]}:
+              {itemData.expArrivalTime.split(' ')[1].split(':')[1]}
+            </Text>
           )}
         </View>
       </View>

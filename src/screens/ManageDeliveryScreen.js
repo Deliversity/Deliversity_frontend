@@ -10,15 +10,18 @@ import {
 import {Text} from 'native-base';
 import Card from '../components/manageDeliveryCard';
 import axios from '../axiosConfig';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 class ManageDeliveryScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false,
       deliveryList: '',
       orderId: '',
       refreshing: false,
+      isProgress: true,
+      progressDeliveryList: '',
+      completeDeliveryList: '',
     };
   }
   componentDidMount() {
@@ -30,7 +33,17 @@ class ManageDeliveryScreen extends Component {
       .get('/api/v1/order/deliverList')
       .then((res) => {
         const deliveryList = res.data.data;
-        this.setState({deliveryList: deliveryList, refreshing: false});
+        const progressOrder = deliveryList.filter(function (ele) {
+          return ele.orderStatus !== '3';
+        });
+        const untilOrder = deliveryList.filter(function (ele) {
+          return ele.orderStatus === '3';
+        });
+        this.setState({
+          progressDeliveryList: progressOrder,
+          completeDeliveryList: untilOrder,
+          refreshing: false,
+        });
       })
       .catch((e) => {
         alert(e);
@@ -68,14 +81,14 @@ class ManageDeliveryScreen extends Component {
             });
           } else if (item.orderStatus == 2) {
             Alert.alert(
-              'Alert',
+              '⚠',
               '배달완료를 처리 하시겠습니까?',
               [
                 {
-                  text: 'Cancel',
+                  text: '취소',
                 },
                 {
-                  text: 'OK',
+                  text: '배달완료',
                   onPress: () => this.onClickConfirmDelivery(item.id),
                 },
               ],
@@ -87,32 +100,77 @@ class ManageDeliveryScreen extends Component {
     );
   };
   render() {
-    let view = this.state.isLoading ? (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <ActivityIndicator animating={this.state.isLoading} color="#00f0ff" />
-        <Text style={{marginTop: 10}} children="Please Wait.." />
-      </View>
-    ) : (
-      <FlatList
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-          />
-        }
-        extraData={this.state}
-        data={this.state.deliveryList}
-        renderItem={this.renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    );
+    let view =
+      this.state.isProgress === true ? (
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }
+          extraData={this.state}
+          data={this.state.progressDeliveryList}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      ) : (
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }
+          extraData={this.state}
+          data={this.state.completeDeliveryList}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      );
 
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text_header}>나의 배달 리스트</Text>
         </View>
-        <View style={styles.footer}>{view}</View>
+        <View style={styles.footer}>
+          <View style={styles.v1}>
+            <View style={styles.View}>
+              <TouchableOpacity
+                style={
+                  (styles.aftbut,
+                  this.state.isProgress ? styles.aftbut : styles.befbut)
+                }
+                onPress={() => this.setState({isProgress: true})}>
+                <Text
+                  style={
+                    (styles.textbef,
+                    this.state.isProgress ? styles.textbef : styles.textaft)
+                  }>
+                  진행중
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.View}>
+              <TouchableOpacity
+                style={
+                  (styles.aftbut,
+                  !this.state.isProgress ? styles.aftbut : styles.befbut)
+                }
+                onPress={() => this.setState({isProgress: false})}>
+                <Text
+                  style={
+                    (styles.textbef,
+                    !this.state.isProgress ? styles.textbef : styles.textaft)
+                  }>
+                  진행완료
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex: 9}}>{view}</View>
+        </View>
       </View>
     );
   }
@@ -140,6 +198,35 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 20,
+  },
+  v1: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  befbut: {
+    alignItems: 'center',
+    borderBottomWidth: 5,
+    borderBottomColor: 'lightgray',
+  },
+  aftbut: {
+    alignItems: 'center',
+    borderBottomWidth: 5,
+    borderBottomColor: '#e9967a',
+  },
+  textbef: {
+    margin: 5,
+    color: '#53565A',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  textaft: {
+    margin: 5,
+    color: '#53565A',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  View: {
+    flex: 1,
   },
 });
 

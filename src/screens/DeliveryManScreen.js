@@ -95,14 +95,14 @@ class DeliveryManScreen extends Component {
   };
   onClickOrderCancle = () => {
     Alert.alert(
-      '주문취소',
+      '⚠',
       '주문을 취소하시겠습니까?',
       [
         {
-          text: 'Cancel',
+          text: '취소',
         },
         {
-          text: 'OK',
+          text: '주문취소',
           onPress: () => this.onClickConfirmCancle(),
         },
       ],

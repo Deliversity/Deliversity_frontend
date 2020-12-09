@@ -7,11 +7,18 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  Modal,
+  Platform,
+  Dimensions,
 } from 'react-native';
 import ChangeButton from '../components/ChangeButton';
 import axios from '../axiosConfig';
 import {getUserStorage} from '../store/actions/action';
 import Card from '../components/seekDeliveryCard';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import HomeInfo from '../../assets/seekDetail.png';
+const minusHeight = Platform.OS === 'ios' ? 123 : 14;
+const {width, height} = Dimensions.get('window');
 class SeekDeliveryScreen extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +27,7 @@ class SeekDeliveryScreen extends Component {
       DefaultOrderList: '',
       isHotDeal: true,
       refreshing: false,
+      modalVisible: true,
     };
   }
   componentDidMount(): void {
@@ -72,16 +80,32 @@ class SeekDeliveryScreen extends Component {
     );
   };
 
-  stopPostPosition=async ()=>{
-    console.log("stop geo")
+  stopPostPosition = async () => {
+    console.log('stop geo');
     const timerId = parseInt(await getUserStorage('timerId'));
-    clearInterval(timerId)
-  }
+    clearInterval(timerId);
+  };
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.submitBtn}>
-          <ChangeButton onPress={this.stopPostPosition}/>
+          <TouchableOpacity
+            onPress={() => this.setState({modalVisible: false})}
+            style={{marginRight: 10, marginTop: 10}}>
+            <Text
+              style={{
+                color: 'white',
+                textAlign: 'center',
+                marginBottom: 6,
+                fontSize: 15,
+              }}>
+              ❓
+            </Text>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 11}}>
+              도움말
+            </Text>
+          </TouchableOpacity>
+          <ChangeButton onPress={this.stopPostPosition} />
         </View>
         <View style={styles.header}>
           <Image
@@ -135,6 +159,22 @@ class SeekDeliveryScreen extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible === false}>
+          <View style={{opacity: 0.7, backgroundColor: 'white'}}>
+            <TouchableOpacity
+              onPress={() => this.setState({modalVisible: true})}
+              style={{marginLeft: 10, marginTop: 10}}>
+              <Icon name="clear" color={'#000000'} size={25} />
+            </TouchableOpacity>
+            <Image
+              source={HomeInfo}
+              style={{height: height - minusHeight, width: width}}
+            />
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -147,6 +187,7 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     alignSelf: 'flex-end',
+    flexDirection: 'row',
   },
   header: {
     flex: 1,

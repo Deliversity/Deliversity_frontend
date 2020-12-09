@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import axios from '../axiosConfig';
 import Card from '../components/manageOrderCard';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 class ManageOrderScreen extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,9 @@ class ManageOrderScreen extends Component {
       orderInfo: '',
       orderId: [], ///orderList
       refreshing: false,
+      isProgress: true,
+      progressOrderInfo: '',
+      completeOrderInfo: '',
     };
   }
   componentDidMount() {
@@ -16,10 +20,26 @@ class ManageOrderScreen extends Component {
   }
   getOrderInfo = async () => {
     //console.log(this.state.orderID);
-    await this.setState({refreshing: true});
-    const res = await axios.get('/api/v1/order/orderList');
-    await this.setState({refreshing: false, orderInfo: res.data.data});
-    //return res.data.data;
+    this.setState({refreshing: true});
+    await axios
+      .get('/api/v1/order/orderList')
+      .then((res) => {
+        const orderList = res.data.data;
+        const progressOrder = orderList.filter(function (ele) {
+          return ele.orderStatus !== '3';
+        });
+        const untilOrder = orderList.filter(function (ele) {
+          return ele.orderStatus === '3';
+        });
+        this.setState({
+          progressOrderInfo: progressOrder,
+          completeOrderInfo: untilOrder,
+          refreshing: false,
+        });
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
   };
   handleRefresh = async () => {
     await this.getOrderInfo();
@@ -64,18 +84,69 @@ class ManageOrderScreen extends Component {
           <Text style={styles.text_header}>나의 주문 리스트</Text>
         </View>
         <View style={styles.footer}>
-          <FlatList
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this.handleRefresh}
+          <View style={styles.v1}>
+            <View style={styles.View}>
+              <TouchableOpacity
+                style={
+                  (styles.aftbut,
+                  this.state.isProgress ? styles.aftbut : styles.befbut)
+                }
+                onPress={() => this.setState({isProgress: true})}>
+                <Text
+                  style={
+                    (styles.textbef,
+                    this.state.isProgress ? styles.textbef : styles.textaft)
+                  }>
+                  진행중
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.View}>
+              <TouchableOpacity
+                style={
+                  (styles.aftbut,
+                  !this.state.isProgress ? styles.aftbut : styles.befbut)
+                }
+                onPress={() => this.setState({isProgress: false})}>
+                <Text
+                  style={
+                    (styles.textbef,
+                    !this.state.isProgress ? styles.textbef : styles.textaft)
+                  }>
+                  진행완료
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex: 9}}>
+            {this.state.isProgress === true ? (
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.handleRefresh}
+                  />
+                }
+                extraData={this.state}
+                data={this.state.progressOrderInfo}
+                renderItem={this.renderItem}
+                keyExtractor={(item, index) => index.toString()}
               />
-            }
-            extraData={this.state}
-            data={this.state.orderInfo}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          />
+            ) : (
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.handleRefresh}
+                  />
+                }
+                extraData={this.state}
+                data={this.state.completeOrderInfo}
+                renderItem={this.renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            )}
+          </View>
         </View>
       </View>
     );
@@ -121,6 +192,33 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     paddingHorizontal: 10,
+  },
+  v1: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  befbut: {
+    alignItems: 'center',
+    borderBottomWidth: 5,
+    borderBottomColor: 'lightgray',
+  },
+  aftbut: {
+    alignItems: 'center',
+    borderBottomWidth: 5,
+    borderBottomColor: '#8fbc8f',
+  },
+  textbef: {
+    margin: 5,
+    color: '#53565A',
+    fontWeight: 'bold',
+  },
+  textaft: {
+    margin: 5,
+    color: '#53565A',
+    fontWeight: 'bold',
+  },
+  View: {
+    flex: 1,
   },
 });
 
