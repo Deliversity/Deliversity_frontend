@@ -131,10 +131,10 @@ export default class App extends Component {
     });
   }
   onClickOrder() {
-    let room = '23';
+    let room = '25';
     let sender = 4;
-    let receive = 5;
-    let order = 12;
+    let receive = 2;
+    let order = 22;
     console.log(room);
     db.transaction((tx) => {
       tx.executeSql(

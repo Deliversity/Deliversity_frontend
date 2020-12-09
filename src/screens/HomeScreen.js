@@ -73,14 +73,14 @@ export default class App extends Component<Props> {
         </View>
         <View style={styles.footer}>
           <Text style={{textAlign: 'center', fontSize: 15}}>
-            주문 카테고리를 선택해주세요!
+            카테고리를 선택하여 주문을 시작하세요!
           </Text>
           <View
             style={{
               alignSelf: 'center',
-              borderTopWidth: 4,
-              borderTopColor: '#FFA500',
-              width: '65%',
+              borderTopWidth: 5,
+              borderTopColor: '#8fbc8f',
+              width: '85%',
               borderTopRightRadius: 15,
               borderTopLeftRadius: 15,
             }}

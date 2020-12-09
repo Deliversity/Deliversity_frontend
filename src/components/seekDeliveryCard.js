@@ -4,14 +4,7 @@ import {Body} from 'native-base';
 
 const seekDeliveryCard = ({itemData, onPress}) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        paddingHorizontal: 25,
-        paddingVertical: 20,
-        marginBottom: 13,
-        borderBottomColor: '#d2b48c',
-      }}>
+    <TouchableOpacity onPress={onPress} style={styles.mainStyle}>
       <View
         style={{
           flexDirection: 'row',
@@ -33,7 +26,7 @@ const seekDeliveryCard = ({itemData, onPress}) => {
           </View>
         )}
       </View>
-      <Text style={{fontSize: 14}}>{itemData.content}</Text>
+      <Text style={{fontSize: 14, marginTop: 2}}>{itemData.content}</Text>
     </TouchableOpacity>
   );
 };
@@ -58,5 +51,25 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     paddingHorizontal: 10,
     marginRight: 5,
+  },
+  mainStyle: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    marginBottom: 6,
+    shadowColor: 'darkgray',
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: 'white',
+    width: '95%',
+    alignSelf: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

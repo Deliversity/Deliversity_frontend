@@ -229,31 +229,23 @@ class SeekDeliveryScreen extends Component {
           <ChangeButton onPress={this.stopPostPosition} />
         </View>
         <View style={styles.header}>
-          <Image
-            source={require('../../assets/logo_D.png')}
-            style={{width: 130, height: 130}}
-          />
           <Text style={styles.text_header}>Deliversity</Text>
+          <Text style={styles.text_sub}>배달건 찾기</Text>
         </View>
         <View style={styles.footer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          <View style={styles.cardStyle}>
             <TextInput
               ref={(input) => {
                 this.textInput = input;
               }}
               style={styles.input}
               backgroundColor="#ffffff"
-              placeholder="Search the store"
+              placeholder=" Search the store"
               onChangeText={(text) => this.setState({filterOrder: text})}
             />
             <Picker
               selectedValue={this.state.selectedValue}
-              style={{width: 110, fontSize: 13}}
+              style={{width: 115, fontSize: 10}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({selectedValue: itemValue})
               }
@@ -276,11 +268,11 @@ class SeekDeliveryScreen extends Component {
             style={{
               alignSelf: 'center',
               borderTopWidth: 4,
-              borderTopColor: 'lightgray',
+              borderTopColor: '#e9967a',
               width: '90%',
               borderBottomRightRadius: 15,
               borderBottomLeftRadius: 15,
-              marginTop: 5,
+              marginBottom: 10,
             }}
           />
           {this.state.isHotDeal === true ? (
@@ -359,22 +351,27 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 35,
+    paddingBottom: 5,
   },
   text_header: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 25,
+  },
+  text_sub: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   footer: {
     flex: 8,
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   panelButtonTitle: {
     fontSize: 15,
@@ -424,6 +421,11 @@ const styles = StyleSheet.create({
   },
   searchStore: {
     padding: 5,
+  },
+  cardStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

@@ -3,14 +3,7 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const manageOrderCard = ({itemData, onPress}) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        paddingHorizontal: 25,
-        paddingVertical: 20,
-        borderBottomWidth: 2,
-        borderBottomColor: '#fffafa',
-      }}>
+    <TouchableOpacity onPress={onPress} style={styles.mainStyle}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text style={{fontSize: 18, fontWeight: 'bold'}}>
           주문번호: {itemData.id}
@@ -68,5 +61,25 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     paddingHorizontal: 10,
+  },
+  mainStyle: {
+    paddingHorizontal: 24,
+    paddingVertical: 15,
+    marginBottom: 6,
+    shadowColor: 'darkgray',
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: 'white',
+    width: '96%',
+    alignSelf: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });
