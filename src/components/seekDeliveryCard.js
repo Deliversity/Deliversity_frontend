@@ -33,7 +33,7 @@ const seekDeliveryCard = ({itemData, onPress}) => {
           </View>
         )}
       </View>
-      <Text style={{fontSize: 13}}>{itemData.content}</Text>
+      <Text style={{fontSize: 14}}>{itemData.content}</Text>
     </TouchableOpacity>
   );
 };
