@@ -230,7 +230,7 @@ class SeekDeliveryScreen extends Component {
         </View>
         <View style={styles.header}>
           <Text style={styles.text_header}>Deliversity</Text>
-          <Text style={styles.text_sub}>배달건 찾기</Text>
+          <Text style={styles.text_sub}>원하는 배달건을 찾아보세요!</Text>
         </View>
         <View style={styles.footer}>
           <View style={styles.cardStyle}>
@@ -363,7 +363,6 @@ const styles = StyleSheet.create({
   },
   text_sub: {
     color: '#fff',
-    fontWeight: 'bold',
     fontSize: 14,
   },
   footer: {
