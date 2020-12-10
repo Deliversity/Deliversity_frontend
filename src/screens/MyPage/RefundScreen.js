@@ -66,7 +66,7 @@ class RefundScreen extends Component {
               <Picker.Item label="KDB 산업은행" value="KDB 산업은행" />
               <Picker.Item label="SC 제일은행" value="SC 제일은행" />
               <Picker.Item label="전북은행" value="전북은행" />
-              <Picker.Item label="IBK기업은행" value="IBK기업은행" />
+              <Picker.Item label="IBK 기업은행" value="IBK 기업은행" />
               <Picker.Item label="하나씨티은행" value="하나씨티은행" />
               <Picker.Item label="경남은행" value="경남은행" />
               <Picker.Item label="KB 국민은행" value="KB 국민은행" />
