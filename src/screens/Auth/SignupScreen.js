@@ -97,6 +97,7 @@ class Signup extends Component {
         idToken: this.state.idToken,
         gender: this.state.gender == 'male' ? 1 : 2,
       };
+      console.log(data);
       await axios
         .post('/api/v1/auth/signup', data)
         .then((response) => {
