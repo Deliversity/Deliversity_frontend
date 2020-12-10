@@ -24,6 +24,7 @@ class Signup extends Component {
       nickName: '',
       age: '',
       phone: '',
+      gender:'',
       modalVisible: false,
       idToken: this.props.route.params ? this.props.route.params.idToken : null,
       accessToken: this.props.route.params
@@ -94,6 +95,7 @@ class Signup extends Component {
         phone: this.state.phone,
         accessToken: this.state.accessToken,
         idToken: this.state.idToken,
+        gender: this.state.gender == 'male' ? 1 : 2,
       };
       await axios
         .post('/api/v1/auth/signup', data)
@@ -234,6 +236,21 @@ class Signup extends Component {
               value={this.state.nickName}
               onChangeText={(text) => this.setState({nickName: text})}
             />
+          </View>
+
+          <Text style={styles.text_footer}>Gender</Text>
+          <View style={styles.action}>
+            <RadioButton value="male"
+            status={this.state.gender=='male'? 'checked' : 'unchecked'}
+            onPress={()=>this.setState({gender: "male"})}            
+            />
+            <Text style={styles.text_opt}>male</Text>
+            <RadioButton value="female"
+            status={this.state.gender=='female'? 'checked' : 'unchecked'}
+            onPress={()=>this.setState({gender: "female"})}
+            />
+            <Text style={styles.text_opt}>female</Text>
+
           </View>
 
           <Text style={styles.text_footer}>Age</Text>
