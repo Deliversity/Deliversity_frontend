@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import LoginScreen from '../src/screens/LoginScreen';
+import LoginScreen from '../src/screens/Auth/LoginScreen';
 import renderer from 'react-test-renderer';
 let props;
 let component: ReactElement;

@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#8fbc8f",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "center",
+        "backgroundColor": "#fff",
+        "borderRadius": 5,
+        "elevation": 10,
+        "flexDirection": "row",
+        "marginTop": 20,
+        "padding": 10,
+        "position": "absolute",
+        "shadowColor": "#ccc",
+        "shadowOffset": Object {
+          "height": 3,
+          "width": 0,
+        },
+        "shadowOpacity": 0.5,
+        "shadowRadius": 5,
+        "width": "90%",
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      autoCapitalize="none"
+      style={
+        Object {
+          "flex": 1,
+          "padding": 0,
+        }
+      }
+    >
+      등록된 위치:
+       
+    </Text>
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 30,
+            },
+            undefined,
+            Object {
+              "fontFamily": "MaterialIcons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </View>
+  <View
+    onChange={[Function]}
+    style={
+      Object {
+        "flex": 2,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 2,
+        }
+      }
+    >
+      <RNNaverMapViewTexture
+        center={
+          Object {
+            "latitude": 37.2794469469635,
+            "longitude": 127.047519717452,
+            "zoom": 15,
+          }
+        }
+        onCameraChange={[Function]}
+        onMapClick={[Function]}
+        showsMyLocationButton={true}
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+        useTextureView={true}
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderBottomColor": "red",
+        "borderBottomWidth": 0.5,
+        "flex": 1,
+        "flexDirection": "row",
+        "height": 50,
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <TextInput
+          allowFontScaling={true}
+          backgroundColor="#ffffff"
+          onChangeText={[Function]}
+          placeholder="가게 이름을 입력해주세요! (두번 클릭)"
+          rejectResponderTermination={true}
+          style={
+            Object {
+              "borderBottomLeftRadius": 10,
+              "borderBottomRightRadius": 10,
+              "borderTopLeftRadius": 10,
+              "borderTopRightRadius": 10,
+              "width": "75%",
+            }
+          }
+          underlineColorAndroid="transparent"
+        />
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#F87C56",
+              "borderRadius": 5,
+              "margin": 10,
+              "opacity": 1,
+              "padding": 10,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "white",
+              }
+            }
+          >
+            검색
+          </Text>
+        </View>
+      </View>
+      <RCTScrollView
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "borderRadius": 8,
+            "margin": 15,
+          }
+        }
+      >
+        <View />
+      </RCTScrollView>
+    </View>
+  </View>
+</View>
+`;

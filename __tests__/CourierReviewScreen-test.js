@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import CourierReviewScreen from '../src/screens/CourierReviewScreen';
+import CourierReviewScreen from '../src/screens/OrderManage/CourierReviewScreen';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';

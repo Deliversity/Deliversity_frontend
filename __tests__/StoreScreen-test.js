@@ -1,7 +1,7 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import WriteReviewScreen from '../src/screens/Review/WriteReviewScreen';
+import StoreScreen from '../src/screens/ConsumerHome/StoreScreen';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import {shallow, configure} from 'enzyme';
@@ -21,7 +21,7 @@ describe('[Temp] render', () => {
   props = {
     route: {
       params: {
-        idToken: 'randomToken',
+        orderID: '1',
       },
     },
   }; // fill test props
@@ -32,11 +32,11 @@ describe('[Temp] render', () => {
     store = mockStore(initialState);
     component = shallow(
       <Provider store={store}>
-        <WriteReviewScreen {...props} />
+        <StoreScreen {...props}/>
       </Provider>,
     );
   });
-  it('renders without crashing', async () => {
+  it('renders without crashing', () => {
     const renderResult = renderer.create(component);
     const renderedJson = renderResult.toJSON();
     expect(renderedJson).toMatchSnapshot();

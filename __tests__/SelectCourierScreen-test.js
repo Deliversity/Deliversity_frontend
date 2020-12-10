@@ -1,17 +1,32 @@
 import 'react-native';
 
 import React, {ReactElement} from 'react';
-import DetailDeliveryScreen from '../src/screens/CourierHome/DetailDeliveryScreen';
+import SelectCourierScreen from '../src/screens/OrderManage/SelectCourierScreen';
 import {shallow, configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
 configure({adapter: new Adapter()});
 let props;
 let component: ReactElement;
-
-beforeAll(() => {
-  jest.mock('@react-native-community/async-storage');
-});
+jest.mock('react-native-sqlite-storage', () => ({
+  DEBUG: jest.fn,
+  enablePromise: jest.fn(),
+  openDatabase: (...args) => {
+    return {
+      transaction: (...args) =>
+        Promise.resolve({
+          executeSql: (query) => {
+            return Promise.resolve([]);
+          },
+        }),
+      cleanDb: () => Promise.resolve(),
+      executeSql: (query) => {
+        return Promise.resolve([]);
+      },
+    };
+  },
+}));
+beforeAll(() => {});
 
 describe('[Temp] render', () => {
   props = {
@@ -24,8 +39,9 @@ describe('[Temp] render', () => {
   const params = {};
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<DetailDeliveryScreen {...props} />);
+    wrapper = shallow(<SelectCourierScreen {...props} />);
     wrapper.setState({params: params});
+    wrapper.find('react-native-sqlite-storage');
   });
   it('renders without crashing', () => {
     // const renderResult = renderer.create(wrapper);
