@@ -3,9 +3,9 @@ import {View, StyleSheet, Text, Modal, TouchableOpacity,  Alert} from 'react-nat
 import {TextInput} from 'react-native-paper';
 import axios from '../axiosConfig';
 
-class EmailModal extends Component {
+class SmsModal extends Component {
   static navigationOptions = {
-    title: 'EmailModal',
+    title: 'SmsModal',
   };
   constructor(props) {
     super(props);
@@ -115,7 +115,7 @@ class EmailModal extends Component {
     );
   }
 }
-export default EmailModal;
+export default SmsModal;
 
 const styles=StyleSheet.create({
     centeredView:{

@@ -25,36 +25,25 @@ class Report extends Component {
   }
   sendReport= async()=>{
     try {
-        const data = {
-          reportKind:this.state.reportKind,
-          orderId: this.state.orderId,
-          content:this.state.content,
-          upload_chat:this.state.upload_chat,
-        };
-        await axios
-              .post('/api/v1/myinfo/report', data)
-              .then(() => {
-                alert('신고 사항이 접수되었습니다.');
-              })
-              .catch((error) => {
-                alert(error);
-              });
+      const data = {
+        reportKind: this.state.reportKind,
+        orderId: this.state.orderId,
+        content: this.state.content,
+        upload_chat: this.state.upload_chat,
+      };
+      await axios
+        .post('/api/v1/myinfo/report', data)
+        .then(() => {
+          alert('신고 사항이 접수되었습니다.');
+        })
+        .catch((error) => {
+          alert(error);
+        });
          this.props.navigation.goBack(null);
       } catch (e) {
         alert('error' + e);
       }
-  }
-  chat=()=>{
-    if(this.state.reportKind=="채팅"){
-        return(
-            <View style={styles.cat}>
-                <Text>채팅 이미지 포함 여부</Text>
-
-            </View>
-        )
     }
-    else return null;
-}
 
   render() {
     return (
@@ -87,7 +76,6 @@ class Report extends Component {
                 <TextInput style={styles.input}
                 onChangeText={(text)=>this.setState({orderId: text})}></TextInput>
             </View>
-            {this.chat()}
             <View style={styles.but}>
             <TouchableOpacity style={styles.butBack} onPress ={
                 ()=>{this.props.navigation.goBack(null);}
