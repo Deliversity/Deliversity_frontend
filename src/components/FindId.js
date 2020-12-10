@@ -1,8 +1,9 @@
 import React, {Component, PropTypes, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text,TouchableOpacity} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import axios from '../axiosConfig';
-
+import EmailModal from '../components/EmailModal';
+import SmsModal from '../components/SmsModal'
 class FindId extends Component {
   static navigationOptions = {
     title: 'FindAssign',
@@ -11,15 +12,27 @@ class FindId extends Component {
     super(props);
 //     this.sendMark = this.sendMark.bind(this);
     this.state = {
-      
+      email: false,
+      phone: false
     };
 }
-
   
     render() {
+      console.log(this.state.email);
         return(
-            <View>
-                <Text>this is id</Text>
+            <View style={styles.container}>
+              <View style={styles.View}>
+                <TouchableOpacity style={styles.but} onPress={()=>this.setState({email:true})}>
+                  <Text style={styles.text}>이메일 인증</Text>
+                </TouchableOpacity>
+                </View>
+                <EmailModal modal={this.state.email}></EmailModal>
+                <View style={styles.View}>
+                  <TouchableOpacity style={styles.but} onPress>
+                    <Text style={styles.text}>휴대폰 인증</Text>
+                  </TouchableOpacity>
+                </View>
+                <SmsModal modal={this.state.phone}></SmsModal>
             </View>
         );
     }
@@ -27,8 +40,23 @@ class FindId extends Component {
 
 export default FindId;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 2,
+    flexDirection: 'row',
   },
+  View:{
+    flex:1,
+  },
+  but:{
+    alignItems:'center',
+    backgroundColor:'#AD5389',
+    padding: 15,
+    marginLeft: 15,
+    marginRight:15,
+    borderRadius: 10
+  },
+  text:{
+    color:'white'
+  }
 });
