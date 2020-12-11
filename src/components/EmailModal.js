@@ -10,16 +10,14 @@ class EmailModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: this.props.modal,
+      modalVisible: '',
       email: '',
       status:0,
-      success: false,
+      success: 0,
       phone:''
     };
   }
-  setModalVisible = (visible) => {
-    this.setState({modalVisible: visible});
-  };
+  
 
   sendEmail = async () => {
     const data = {
@@ -29,8 +27,8 @@ class EmailModal extends Component {
       .post('/api/v1/auth/find/email', data)
       .then(() => {
         alert('인증 링크가 보내졌습니다.');
-        this.setState({success: true, status: 1})
-        this.getId();
+        this.setState({success: 1, status: 1})
+        //this.getId();
       })
       .catch((err) => {
         alert('없는 메일입니다: ' + err.message);
@@ -44,7 +42,6 @@ class EmailModal extends Component {
       email:this.state.email,
       phone:this.state.phone
     }
-
     await axios.post('/api/v1/auth/findid',data)
     .then((data)=>{
       return(
@@ -59,39 +56,17 @@ class EmailModal extends Component {
     })
   }
 
-  getEmail=async()=>{
-      const data={
-          status: 1,
-          success:true,
-          email:this.state.email
-      }
-      await axios
-      .post('api/v1/auth/findid', data)
-      .then((res)=>{
-        return(
-          <View>
-            <Text>Id is {res} </Text>
-          </View>
-        )
-          //alert("Id is "+res);
-      })
-      .catch((e)=>{
-          alert(e.data.message);
-      })
-  }
+  sendModalstate = () => {
+    this.setState({modalVisible: false})
+    this.props.handler(this.state.modalVisible);
+  };
 
   render(){
-    
-     /* if(this.props.modal!=this.state.modalVisible){
-          this.setState({modalVisible: this.props.modal})
-      }*/
-      const modalVisible=this.props.modal;
-     // console.log(this.props.modal, this.modalView)
       return(
         <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={this.props.modal}
         onRequestClose={() => {
           // eslint-disable-next-line no-undef
           Alert.alert('Modal has been closed.');
@@ -106,8 +81,8 @@ class EmailModal extends Component {
                 <Text style={styles.butText}>인증하기</Text>
             </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={()=>this.sendEmail()}>
-                <Text>완료</Text>
+            <TouchableOpacity onPress={()=>this.sendModalstate()}>
+                <Text>닫기</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -159,5 +134,9 @@ const styles=StyleSheet.create({
       color:'white',
       textAlign:'center',
       borderRadius: 15,
+    },
+    endBut:{
+      backgroundColor:'#53565A',
+        padding:5,
     }
 });
