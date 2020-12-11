@@ -10,13 +10,15 @@ class FindId extends Component {
   };
   constructor(props) {
     super(props);
-//     this.sendMark = this.sendMark.bind(this);
+    this.handler = this.handler.bind(this);
     this.state = {
       email: false,
       phone: false
     };
 }
-  
+handler = (data) => {
+  this.setState({email: data});
+};
     render() {
       console.log(this.state.email);
         return(
@@ -26,7 +28,7 @@ class FindId extends Component {
                   <Text style={styles.text}>이메일 인증</Text>
                 </TouchableOpacity>
                 </View>
-                <EmailModal modal={this.state.email}></EmailModal>
+                <EmailModal handler={this.handler} modal={this.state.email} ></EmailModal>
                 <View style={styles.View}>
                   <TouchableOpacity style={styles.but} onPress>
                     <Text style={styles.text}>휴대폰 인증</Text>
