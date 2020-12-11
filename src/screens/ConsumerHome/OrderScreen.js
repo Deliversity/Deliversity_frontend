@@ -17,7 +17,7 @@ class OrderScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gender: 0,
+      gender: false,
       hotDeal: 0,
       orderType: '',
       hour: '',
