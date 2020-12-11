@@ -98,7 +98,7 @@ class OrderScreen extends Component {
     try {
       const data = {
         storeName:
-          this.state.mark.category_group_name == "기타"
+          this.state.mark.category_group_name == '기타'
             ? this.state.ex
             : this.state.mark.place_name,
         storeAddress: this.state.mark.address_name,
@@ -144,6 +144,7 @@ class OrderScreen extends Component {
         <TextInput
           placeholder="자세한 가게이름을 입력해주세요."
           style={styles.martTt}
+          value={this.state.ex}
           onChangeText={(text) => this.setState({ex: text})}
         />
       );
