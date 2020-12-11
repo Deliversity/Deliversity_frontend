@@ -90,7 +90,7 @@ class Mapping extends Component {
                   x: current.longitude,
                   y: current.latitude,
                   place_name: '사용자 지정',
-                  category_group_name:'기타'
+                  category_group_name: '기타',
                 });
                 this.setState({markers: p});
                 this.sendMark();
@@ -147,10 +147,10 @@ class Mapping extends Component {
             idx.category_name.includes(this.state.category)
           ) {
             marker.push(idx);
-            if(idx.category_group_name==""){
-              idx.category_group_name=this.state.category;
-              if(this.state.category=="문구"){
-                idx.category_group_name="문구점";
+            if (idx.category_group_name == '') {
+              idx.category_group_name = this.state.category;
+              if (this.state.category == '문구') {
+                idx.category_group_name = '문구점';
               }
             }
             console.log(idx);
