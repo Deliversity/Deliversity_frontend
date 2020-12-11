@@ -17,7 +17,7 @@ class OrderScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gender: false,
+      gender: 0,
       hotDeal: 0,
       orderType: '',
       hour: '',
@@ -103,7 +103,7 @@ class OrderScreen extends Component {
             : this.state.mark.place_name,
         storeAddress: this.state.mark.address_name,
         storeDetailAddress: '',
-        gender: this.state.gender,
+        gender: this.state.gender==true?1:0,
         hotDeal: this.state.hotDeal,
         expHour: this.state.hour,
         expMinute: this.state.min,
@@ -115,7 +115,7 @@ class OrderScreen extends Component {
         userLat: this.state.lat,
         userLng: this.state.lng,
       };
-      console.log(data.reservation);
+      console.log(data.gender);
       await axios
         .post('/api/v1/order/', data)
         .then((response) => {
