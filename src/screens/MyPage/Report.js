@@ -34,31 +34,25 @@ class Report extends Component {
         content: this.state.content,
         upload_chat: this.state.upload_chat,
       };
+      console.log(data.reportKind);
+      if(data.reportKind=="선택하세요" || data.reportKind==""){
+        alert('신고 분류를 선택해주세요.');
+      }
+      else{
       await axios
         .post('/api/v1/myinfo/report', data)
         .then(() => {
           alert('신고 사항이 접수되었습니다.');
         })
         .catch((error) => {
-          alert(error);
+          alert(error.response.data.message);
         });
       this.props.navigation.goBack(null);
+      }
     } catch (e) {
       alert('error' + e);
     }
-  };
-  chat = () => {
-    if (this.state.reportKind == '채팅') {
-      return (
-        <View style={styles.cat}>
-          <Text>채팅 이미지 포함 여부</Text>
-        </View>
-      );
-    } else {
-      return null;
-    }
-  };
-
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -96,7 +90,6 @@ class Report extends Component {
               onChangeText={(text) => this.setState({orderId: text})}
             />
           </View>
-          {this.chat()}
           <View style={styles.but}>
             <TouchableOpacity
               style={styles.butBack}
