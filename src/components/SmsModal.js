@@ -36,7 +36,7 @@ class SmsModal extends Component {
         this.setState({success: true, status: 2})
       })
       .catch((err) => {
-        alert('없는 번호입니다: ' + err.response.data.message);
+        alert(err.response.data.message);
       });
   }
 
@@ -52,7 +52,7 @@ class SmsModal extends Component {
         this.setState({success: 1, status: 2, Id:true})
       })
       .catch((err) => {
-        alert('인증이 실패했습니다.' + err.response.data.message);
+        alert(err.response.data.message);
       });
   }
 
@@ -69,7 +69,7 @@ class SmsModal extends Component {
         console.log(res.data.data.userId);
       })
       .catch((err) => {
-        alert('아이디가 없습니다.' + err.response.data.message);
+        alert(err.response.data.message);
       });
   }
 
@@ -103,7 +103,7 @@ class SmsModal extends Component {
             </View>
 
             {this.state.Id==true?(
-              <TouchableOpacity onPress={()=>this.getId()}>
+              <TouchableOpacity onPress={()=>this.getId()} >
                 <Text>아이디 찾기</Text>
               </TouchableOpacity>
             ):null}

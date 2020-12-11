@@ -14,7 +14,8 @@ class EmailModal extends Component {
       email: '',
       status:0,
       success: 0,
-      phone:''
+      num:'',
+      Id:false
     };
   }
   
@@ -26,35 +27,47 @@ class EmailModal extends Component {
     await axios
       .post('/api/v1/auth/find/email', data)
       .then(() => {
-        alert('인증 링크가 보내졌습니다.');
-        this.setState({success: 1, status: 1})
+        alert('인증 번호가 보내졌습니다.');
+        this.setState({success: 1, status: 1, Id:true})
         //this.getId();
       })
       .catch((err) => {
-        alert('없는 메일입니다: ' + err.message);
+        alert(err.response.data.message);
       });
   }
 
-  getId=async()=>{
-    const data={
-      status:this.state.status,
-      success:this.state.success,
-      email:this.state.email,
-      phone:this.state.phone
-    }
-    await axios.post('/api/v1/auth/findid',data)
-    .then((data)=>{
-      return(
-        <View>
-          <Text>Id is {data} </Text>
-        </View>
-      )
-      //alert('사용자의 비밀번호는 다음과 같습니다.' +data);
-    })
-    .catch((er)=>{
-      alert('관련 아이디가 없습니다.'+er);
-    })
+  getNum = async () => {
+    const data = {
+      email: this.state.email,
+      verify:this.state.num
+    };
+    await axios
+      .post('/api/v1/auth/find/emailVeri', data)
+      .then(() => {
+        alert('인증 되었습니다.');
+        this.setState({success: 1, status: 1})
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   }
+
+  getId = async () => {
+    const data = {
+      success:this.state.success,
+      email: this.state.email,
+    };
+    await axios
+      .post(`/api/v1/auth/findid?status=${this.state.status}`, data)
+      .then((res) => {
+        alert('사용자 아이디는 ' + res.data.data.userId+' 입니다.');
+        console.log(res.data.data.userId);
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
+  }
+
 
   sendModalstate = () => {
     this.setState({modalVisible: false})
@@ -75,12 +88,25 @@ class EmailModal extends Component {
           <View style={styles.modalView}>
             <Text style={styles.Main}>이메일 인증</Text>
             <View style={styles.email}>
-            <Text style={styles.text1}>이메일</Text>
+            <Text style={styles.text1}>이메일 주소</Text>
             <TextInput style={styles.inText} onChangeText={(text) => this.setState({email: text})} />
             <TouchableOpacity onPress={()=>this.sendEmail()} style={styles.but}>
+                <Text style={styles.butText}>인증번호 받기</Text>
+            </TouchableOpacity>
+            </View>
+
+            <View style={styles.email}>
+            <Text style={styles.text1}>인증번호</Text>
+            <TextInput style={styles.inText} onChangeText={(text) => this.setState({num: text})} />
+            <TouchableOpacity onPress={()=>this.getNum()} style={styles.but}>
                 <Text style={styles.butText}>인증하기</Text>
             </TouchableOpacity>
             </View>
+            {this.state.Id==true?(
+              <TouchableOpacity style={styles.lastBut} onPress={()=>this.getId()} >
+                <Text style={styles.lastText}>아이디 찾기</Text>
+              </TouchableOpacity>
+            ):null}
             <TouchableOpacity onPress={()=>this.sendModalstate()}>
                 <Text>닫기</Text>
             </TouchableOpacity>
@@ -138,5 +164,11 @@ const styles=StyleSheet.create({
     endBut:{
       backgroundColor:'#53565A',
         padding:5,
+    },
+    lastBut:{
+      borderRadius:10,
+    },
+    lastText:{
+
     }
 });
