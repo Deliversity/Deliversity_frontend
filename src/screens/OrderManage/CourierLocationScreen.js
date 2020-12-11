@@ -27,27 +27,27 @@ function CourierLocationScreen(props) {
   useInterval(async () => {
     let unmounted = false;
     //실제는 이걸 사용.
-    await axios
-      .get(`/api/v1/order/riderloc?orderId=${props.route.params.orderID}`)
-      .then((res) => {
-        setP2({
-          ...P2,
-          latitude: parseFloat(res.data.data.lat),
-          longitude: parseFloat(res.data.data.lng),
-        });
-        console.log('hi!');
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // await axios
+    //   .get(`/api/v1/order/riderloc?orderId=${props.route.params.orderID}`)
+    //   .then((res) => {
+    //     setP2({
+    //       ...P2,
+    //       latitude: parseFloat(res.data.data.lat),
+    //       longitude: parseFloat(res.data.data.lng),
+    //     });
+    //     console.log('hi!');
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
 
-    // 테스트용입니다. (30초 단위로 update)
-    // setP2({
-    //   ...P2,
-    //   latitude: P2.latitude + 0.00005,
-    //   longitude: P2.longitude+ 0.00001,
-    // });
-    // console.log('hi!');
+    //테스트용입니다. (30초 단위로 update)
+    setP2({
+      ...P2,
+      latitude: P2.latitude + 0.00005,
+      longitude: P2.longitude+ 0.00001,
+    });
+    console.log('hi!');
     return () => {
       unmounted = true;
     };
