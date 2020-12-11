@@ -13,7 +13,7 @@ class EmailModal extends Component {
       modalVisible: '',
       email: '',
       status:0,
-      success: false,
+      success: 0,
       phone:''
     };
   }
@@ -27,7 +27,7 @@ class EmailModal extends Component {
       .post('/api/v1/auth/find/email', data)
       .then(() => {
         alert('인증 링크가 보내졌습니다.');
-        this.setState({success: true, status: 1})
+        this.setState({success: 1, status: 1})
         //this.getId();
       })
       .catch((err) => {

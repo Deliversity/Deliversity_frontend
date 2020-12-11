@@ -19,8 +19,11 @@ class FindId extends Component {
 handler = (data) => {
   this.setState({email: data});
 };
+
+handler2=(data)=>{
+  this.setState({phone:data})
+}
     render() {
-      console.log(this.state.email);
         return(
             <View style={styles.container}>
               <View style={styles.View}>
@@ -30,11 +33,11 @@ handler = (data) => {
                 </View>
                 <EmailModal handler={this.handler} modal={this.state.email} ></EmailModal>
                 <View style={styles.View}>
-                  <TouchableOpacity style={styles.but} onPress>
+                  <TouchableOpacity style={styles.but} onPress={()=>this.setState({phone:true})}>
                     <Text style={styles.text}>휴대폰 인증</Text>
                   </TouchableOpacity>
                 </View>
-                <SmsModal modal={this.state.phone}></SmsModal>
+                <SmsModal handler2={this.handler2} modal={this.state.phone}></SmsModal>
             </View>
         );
     }

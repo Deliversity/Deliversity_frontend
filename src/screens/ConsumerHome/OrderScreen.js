@@ -98,7 +98,7 @@ class OrderScreen extends Component {
     try {
       const data = {
         storeName:
-          this.state.mark.category_group_name == undefined
+          this.state.mark.category_group_name == "기타"
             ? this.state.ex
             : this.state.mark.place_name,
         storeAddress: this.state.mark.address_name,
