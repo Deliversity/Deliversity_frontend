@@ -119,13 +119,13 @@ export default class App extends React.Component {
           topOffset: 20,
         });
       } else if (remoteMessage.data.type === 'Chat') {
-        if (navigationRef.current &&
-            navigationRef.current.getRootState() && 
-            navigationRef.current.getRootState().routes[0].state &&
-            navigationRef.current.getRootState().routes[0].state.routes[0].state &&
-            navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state&&
-            navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state.routes[1].params.room_id
-              == remoteMessage.data.roomId){}
+        if (
+        navigationRef.current &&
+        navigationRef.current.getRootState() && 
+        navigationRef.current.getRootState().routes[0].state &&
+        navigationRef.current.getRootState().routes[0].state.routes[0].state &&
+        navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state &&
+        navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state.routes[1].params.room_id==remoteMessage.data.roomId){}
         else{
           this.rChatDB(remoteMessage);
           Toast.show({
