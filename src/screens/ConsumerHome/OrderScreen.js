@@ -17,7 +17,7 @@ class OrderScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gender: false,
+      gender: 0,
       hotDeal: 0,
       orderType: '',
       hour: '',
@@ -103,7 +103,7 @@ class OrderScreen extends Component {
             : this.state.mark.place_name,
         storeAddress: this.state.mark.address_name,
         storeDetailAddress: '',
-        gender: this.state.gender==true?1:0,
+        gender: this.state.gender,
         hotDeal: this.state.hotDeal,
         expHour: this.state.hour,
         expMinute: this.state.min,
@@ -189,8 +189,8 @@ class OrderScreen extends Component {
             </View>
             <RadioButton
               value="gender"
-              status={this.state.gender === true ? 'checked' : 'unchecked'}
-              onPress={() => this.setState({gender: !this.state.gender})}
+              status={this.state.gender === 1 ? 'checked' : 'unchecked'}
+              onPress={() => this.setState({gender:this.state.gender==1?0 : 1})}
             />
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -202,7 +202,7 @@ class OrderScreen extends Component {
             </View>
             <RadioButton
               value="hotDeal"
-              status={this.state.hotDeal == 1 ? 'checked' : 'unchecked'}
+              status={this.state.hotDeal === 1 ? 'checked' : 'unchecked'}
               onPress={() => this.changeMoney()}
             />
           </View>
