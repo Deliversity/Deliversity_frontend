@@ -69,7 +69,7 @@ class Report extends Component {
               }>
               <Picker.Item label="선택하세요" value="선택하세요" />
               <Picker.Item label="채팅" value="채팅" />
-              <Picker.Item label="배송 물품" value="배송물품" />
+              <Picker.Item label="배달" value="배달" />
               <Picker.Item label="기타" value="기타" />
             </Picker>
           </View>

@@ -78,11 +78,11 @@ class Mapping extends Component {
       if (this.state.category == '기타') {
         Alert.alert(
           '',
-          'Marker?',
+          '이 위치를 선택하시겠습니까?',
           [
-            {text: 'Cancel'},
+            {text: '아니요'},
             {
-              text: 'OK',
+              text: '네',
               onPress: () => {
                 console.log('chagne);');
                 var p = this.state.markers;
