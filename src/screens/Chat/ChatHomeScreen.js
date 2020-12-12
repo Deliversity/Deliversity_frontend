@@ -157,10 +157,7 @@ class ChatHomeScreen extends Component {
         itemData={item}
         onPress={() =>
           this.props.navigation.navigate('Chat', {
-            room_id: item.room_id,
-            owner_id: item.owner_id,
-            guest_id: item.guest_id,
-            order_id: item.order_id,
+            room_id: item.room_id
           })
         }
         onPressDelete={() => {

@@ -20,21 +20,48 @@ ChatScreen.navigationOptions = {
   tabBarVisible: false,
 };
 let socket;
-let messages;
+let id;
 function ChatScreen(props) {
   //navigation.setOptions({tabBarVisible: false});
   let [messages, setMessages] = useState();
   let [avatar, setAvatar] = useState('logo');
+  let [ownerId,setOwnerId] = useState('')
   useEffect(() => {
     socket = io.connect('ws://deliversity.co.kr:81', {
       transports: ['websocket', 'polling'],
     });
     //이전 메시지 받아오기
-    props.currentRelation(
-      props.route.params.owner_id,
-      props.route.params.guest_id,
-      props.route.params.order_id,
-    );
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM riderRoom where room_id=?',
+        [props.route.params.room_id],
+        (tx, results) => {
+          if(results.rows.length >=1){
+            setOwnerId(results.rows.item(0).owner_id);
+            id=results.rows.item(0).owner_id;
+            props.currentRelation(
+              results.rows.item(0).owner_id,
+              results.rows.item(0).guest_id,
+              results.rows.item(0).order_id,
+            );
+          }
+          else{
+            tx.executeSql(
+              'SELECT * FROM consumerRoom where room_id=?',
+              [props.route.params.room_id],
+              (tx, results) => {
+                setOwnerId(results.rows.item(0).owner_id);
+                id=results.rows.item(0).owner_id;
+                props.currentRelation(
+                  results.rows.item(0).owner_id,
+                  results.rows.item(0).guest_id,
+                  results.rows.item(0).order_id,
+                );
+            })
+          }
+        })
+    });
+    
     socket.emit('cnt', props.route.params.room_id);
     console.log(props.route.params.room_id);
 
@@ -48,7 +75,6 @@ function ChatScreen(props) {
       setMessages((previous) => GiftedChat.append(previous, newMessaged));
       onSendDB(newMessage);
     });
-
     if (messages !== null) {
       db.transaction((tx) => {
         tx.executeSql(
@@ -141,6 +167,7 @@ function ChatScreen(props) {
   }
   function onSend(newMessage = []) {
     socket.emit('chat', newMessage);
+    console.log(ownerId)
     setMessages(GiftedChat.append(messages, newMessage));
     onSendDB(newMessage);
   }
@@ -185,7 +212,7 @@ function ChatScreen(props) {
     <GiftedChat
       messages={messages}
       user={{
-        _id: props.route.params.owner_id,
+        _id: ownerId,
         roomId: props.route.params.room_id,
       }}
       onSend={(newMessage) => onSend(newMessage)}
