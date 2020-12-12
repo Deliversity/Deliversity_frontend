@@ -20,6 +20,7 @@ const Stack = createStackNavigator();
 const store = configureStore();
 import Toast from 'react-native-toast-message';
 import SQLite from 'react-native-sqlite-storage';
+import {navigate,navigationRef} from './navigator';
 let db;
 db = SQLite.openDatabase({
   name: 'sqlite.db',
@@ -118,13 +119,22 @@ export default class App extends React.Component {
           topOffset: 20,
         });
       } else if (remoteMessage.data.type === 'Chat') {
-        this.rChatDB(remoteMessage);
-        Toast.show({
-          text1: remoteMessage.notification.title,
-          text2: remoteMessage.notification.body,
-          visibilityTime: 4000,
-          topOffset: 20,
-        });
+        if (navigationRef.current &&
+            navigationRef.current.getRootState() && 
+            navigationRef.current.getRootState().routes[0].state &&
+            navigationRef.current.getRootState().routes[0].state.routes[0].state &&
+            navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state&&
+            navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state.routes[1].params.room_id
+              == remoteMessage.data.roomId){}
+        else{
+          this.rChatDB(remoteMessage);
+          Toast.show({
+            text1: remoteMessage.notification.title,
+            text2: remoteMessage.notification.body,
+            visibilityTime: 4000,
+            topOffset: 20,
+          });
+        }
       }
       // Alert.alert('A new FCM message arrived!', remoteMessage.data.test);
 
@@ -140,11 +150,7 @@ export default class App extends React.Component {
       // this.props.navigation.navigate(remoteMessage.data.type);
       console.log(remoteMessage.data);
       console.log(navigator);
-
-      navigator &&
-        navigator.dispatch(
-          NavigationActions.navigate({routeName: remoteMessage.data.type}),
-        );
+      setTimeout(remoteMessage=>{navigate(remoteMessage.data.type,null)},1000);
     });
 
     messaging()
@@ -168,7 +174,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <Stack.Navigator>
             <Stack.Screen
               options={{headerShown: false}}
