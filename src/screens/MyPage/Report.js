@@ -1,15 +1,6 @@
 import React, {Component, useState} from 'react';
 import {View, TouchableOpacity, StyleSheet, Picker} from 'react-native';
-import {
-  Container,
-  Right,
-  Header,
-  Content,
-  Body,
-  Button,
-  Text,
-} from 'native-base';
-import {requestReport} from '../../store/actions/action';
+import {Text} from 'native-base';
 import {connect} from 'react-redux';
 import {TextInput} from 'react-native-paper';
 import axios from '../../axiosConfig';
@@ -21,39 +12,90 @@ class Report extends Component {
     super(props);
     this.state = {
       reportKind: '',
-      orderId: 0,
+      orderId: '',
       content: '',
       upload_chat: false,
+      user: this.props.user,
+      orderArray: [],
+      deliveryArray: [],
+      selectedOrderId: '',
     };
   }
+  componentDidMount(): void {
+    if (this.state.user === '배달원') {
+      this.onClickGetDelivery();
+    } else {
+      this.onClickGetOrder();
+    }
+  }
+
+  onClickGetOrder = async () => {
+    await axios
+      .get('/api/v1/order/orderList')
+      .then((res) => {
+        const orderList = res.data.data;
+        //console.log(orderList);
+        let helpArray = [];
+        for (var i in orderList) {
+          helpArray.push(orderList[i].id.toString());
+        }
+        this.setState({orderArray: helpArray});
+        console.log(this.state.orderArray);
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
+  onClickGetDelivery = async () => {
+    await axios
+      .get('/api/v1/order/deliverList')
+      .then((res) => {
+        const deliveryList = res.data.data;
+        let helpArray = [];
+        for (var i in deliveryList) {
+          helpArray.push(deliveryList[i].id.toString());
+        }
+        this.setState({deliveryArray: helpArray});
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  };
   sendReport = async () => {
     try {
+      console.log('test');
       const data = {
         reportKind: this.state.reportKind,
-        orderId: this.state.orderId,
+        orderId: parseInt(this.state.orderId),
         content: this.state.content,
         upload_chat: this.state.upload_chat,
       };
-      console.log(data.reportKind);
-      if(data.reportKind=="선택하세요" || data.reportKind==""){
+      console.log(data);
+      if (data.reportKind == '선택하세요' || data.reportKind == '') {
         alert('신고 분류를 선택해주세요.');
-      }
-      else{
-      await axios
-        .post('/api/v1/myinfo/report', data)
-        .then(() => {
-          alert('신고 사항이 접수되었습니다.');
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-      this.props.navigation.goBack(null);
+      } else {
+        await axios
+          .post('/api/v1/myinfo/report', data)
+          .then(() => {
+            alert('신고 사항이 접수되었습니다.');
+          })
+          .catch((error) => {
+            console.log(error);
+            alert('신고 접수가 실패 되었습니다.');
+          });
+        this.props.navigation.goBack(null);
       }
     } catch (e) {
-      alert('error' + e);
+      alert('신고 접수가 실패 되었습니다.');
     }
-  }
+  };
   render() {
+    var options = [];
+    {
+      this.state.user === '배달원'
+        ? (options = this.state.deliveryArray)
+        : (options = this.state.orderArray);
+    }
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -69,7 +111,7 @@ class Report extends Component {
               }>
               <Picker.Item label="선택하세요" value="선택하세요" />
               <Picker.Item label="채팅" value="채팅" />
-              <Picker.Item label="배송 물품" value="배송물품" />
+              <Picker.Item label="배달" value="배달" />
               <Picker.Item label="기타" value="기타" />
             </Picker>
           </View>
@@ -85,10 +127,28 @@ class Report extends Component {
           </View>
           <View style={styles.cat}>
             <Text>주문 아이디</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => this.setState({orderId: text})}
-            />
+            {this.state.user === '배달원' ? (
+              <Picker
+                selectedValue={this.state.orderId}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({orderId: itemValue})
+                }>
+                {options.map((item, index) => {
+                  return <Picker.Item label={item} value={item} key={index} />;
+                })}
+              </Picker>
+            ) : (
+              <Picker
+                mode="dropdown"
+                selectedValue={this.state.orderId}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({orderId: itemValue})
+                }>
+                {options.map((item, index) => {
+                  return <Picker.Item label={item} value={item} key={index} />;
+                })}
+              </Picker>
+            )}
           </View>
           <View style={styles.but}>
             <TouchableOpacity
@@ -168,7 +228,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-const mapDispatchToProps = (dispatch) => ({
-  requestReport: (data) => dispatch(requestReport(data)),
+const mapStateToProps = (state) => ({
+  user: state.authentication.user,
 });
-export default connect(null, mapDispatchToProps)(Report);
+export default connect(mapStateToProps, null)(Report);
