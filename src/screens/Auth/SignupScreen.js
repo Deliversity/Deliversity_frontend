@@ -24,12 +24,13 @@ class Signup extends Component {
       nickName: '',
       age: '',
       phone: '',
-      gender:'',
+      gender: '',
       modalVisible: false,
       idToken: this.props.route.params ? this.props.route.params.idToken : null,
       accessToken: this.props.route.params
         ? this.props.route.params.accessToken
         : null,
+      agree: false,
     };
   }
 
@@ -84,31 +85,35 @@ class Signup extends Component {
   };
 
   onClickSign = async () => {
-    try {
-      const data = {
-        id: this.state.id,
-        pw: this.state.pw,
-        name: this.state.name,
-        email: this.state.email,
-        nickName: this.state.nickName,
-        age: this.state.age,
-        phone: this.state.phone,
-        accessToken: this.state.accessToken,
-        idToken: this.state.idToken,
-        gender: this.state.gender == 'male' ? 1 : 2,
-      };
-      console.log(data);
-      await axios
-        .post('/api/v1/auth/signup', data)
-        .then((response) => {
-          alert(response.data.data.name + '님. 환영합니다.');
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-      this.props.navigation.goBack(null);
-    } catch (e) {
-      alert('error' + e);
+    if (this.state.agree === true) {
+      try {
+        const data = {
+          id: this.state.id,
+          pw: this.state.pw,
+          name: this.state.name,
+          email: this.state.email,
+          nickName: this.state.nickName,
+          age: this.state.age,
+          phone: this.state.phone,
+          accessToken: this.state.accessToken,
+          idToken: this.state.idToken,
+          gender: this.state.gender == 'male' ? 1 : 2,
+        };
+        console.log(data);
+        await axios
+          .post('/api/v1/auth/signup', data)
+          .then((response) => {
+            alert(response.data.data.name + '님. 환영합니다.');
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+        this.props.navigation.goBack(null);
+      } catch (e) {
+        alert('error' + e);
+      }
+    } else {
+      alert('이용약관에 동의해주세요!');
     }
   };
 
@@ -238,22 +243,21 @@ class Signup extends Component {
               onChangeText={(text) => this.setState({nickName: text})}
             />
           </View>
-
           <Text style={styles.text_footer}>Gender</Text>
           <View style={styles.action}>
-            <RadioButton value="male"
-            status={this.state.gender=='male'? 'checked' : 'unchecked'}
-            onPress={()=>this.setState({gender: "male"})}            
+            <RadioButton
+              value="male"
+              status={this.state.gender == 'male' ? 'checked' : 'unchecked'}
+              onPress={() => this.setState({gender: 'male'})}
             />
             <Text style={styles.text_opt}>male</Text>
-            <RadioButton value="female"
-            status={this.state.gender=='female'? 'checked' : 'unchecked'}
-            onPress={()=>this.setState({gender: "female"})}
+            <RadioButton
+              value="female"
+              status={this.state.gender == 'female' ? 'checked' : 'unchecked'}
+              onPress={() => this.setState({gender: 'female'})}
             />
             <Text style={styles.text_opt}>female</Text>
-
           </View>
-
           <Text style={styles.text_footer}>Age</Text>
           <View style={styles.action}>
             <TextInput
@@ -262,6 +266,27 @@ class Signup extends Component {
               value={this.state.age}
               onChangeText={(text) => this.setState({age: text})}
             />
+          </View>
+          <Text style={styles.text_footer}>이용약관</Text>
+          <Text
+            style={{
+              backgroundColor: 'lightgray',
+              marginTop: 5,
+              borderWidth: 3,
+              textAlign: 'center',
+              borderColor: '#ff7f50',
+              paddingVertical: 10,
+            }}>
+            이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에 모두
+            동의합니다.
+          </Text>
+          <View style={styles.action}>
+            <RadioButton
+              value="agree"
+              status={this.state.agree === true ? 'checked' : 'unchecked'}
+              onPress={() => this.setState({agree: true})}
+            />
+            <Text style={styles.text_opt}>동의</Text>
           </View>
         </View>
         <View style={styles.buttonArea}>

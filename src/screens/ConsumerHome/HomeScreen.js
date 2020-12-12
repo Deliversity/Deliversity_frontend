@@ -66,8 +66,8 @@ export default class App extends Component<Props> {
         </View>
         <View style={styles.header}>
           <Image
-            source={require('../../../assets/Deliver2.png')}
-            
+            source={require('../../../assets/deliversity3.png')}
+            style={{height: 90, width: 350}}
           />
         </View>
         <View style={styles.footer}>
