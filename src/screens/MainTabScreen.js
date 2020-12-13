@@ -34,6 +34,8 @@ import iamport from './MyPage/PGScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import QApage from './MyPage/QApage';
 import Report from './MyPage/Report';
+import QAbookScreen from './MyPage/QAbookScreen';
+import ReportBookScreen from './MyPage/ReportBookScreen';
 import FindAssign from './Auth/FindAssign';
 import {ActivityIndicator} from 'react-native-paper';
 const Stack = createStackNavigator();
@@ -72,7 +74,9 @@ function getTabBarVisibility(route) {
     routeName === 'DetailDelivery' ||
     routeName === 'PaymentBook' ||
     routeName === 'RefundBook' ||
-    routeName === 'CourierLocation'
+    routeName === 'CourierLocation' ||
+    routeName === 'QAbook' ||
+    routeName === 'ReportBook'
   ) {
     return false;
   }
@@ -426,6 +430,36 @@ function myPageStack() {
         }}
         name="RefundBook"
         component={RefundBookScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: '문의 내역',
+          headerStyle: {
+            backgroundColor: '#005687',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+            color: '#fff',
+          },
+        }}
+        name="QAbook"
+        component={QAbookScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: '신고 내역',
+          headerStyle: {
+            backgroundColor: '#B83A4B',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 16,
+            color: '#fff',
+          },
+        }}
+        name="ReportBook"
+        component={ReportBookScreen}
       />
     </Stack.Navigator>
   );
