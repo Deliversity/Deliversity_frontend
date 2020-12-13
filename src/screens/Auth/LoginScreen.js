@@ -90,7 +90,7 @@ class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text_header}>welcome!</Text>
+          <Text style={styles.text_header}>Deliversity</Text>
         </View>
         <View style={styles.footer}>
           <View style={styles.viewTop}>

@@ -277,8 +277,8 @@ class Signup extends Component {
               borderColor: '#ff7f50',
               paddingVertical: 10,
             }}>
-            이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에 모두
-            동의합니다.
+            {' '}딜리버시티 (이하 "딜리버시티"라 한다)를 이용함에 있어 개인 정보 수집 및 이용, 위치정보 이용약관에 모두 동의합니다.
+            {' '}개인정보는 수집.이용에 관한 동의일로부터"탈퇴시"까지 위 이용목적을 위하여 보유.이용됩니다.
           </Text>
           <View style={styles.action}>
             <RadioButton
