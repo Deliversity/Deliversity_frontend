@@ -292,11 +292,11 @@ class MyPageScreen extends Component {
             <View style={styles.box}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.imageTitle}>문의사항</Text>
+                <Text style={styles.imageTitle}>문의 접수 및 확인</Text>
                 <Button
                   transparent
                   onPress={() => {
-                    this.props.navigation.navigate('QApage');
+                    this.props.navigation.navigate('QAbook');
                   }}>
                   <Icon name="chevron-right" size={30} />
                 </Button>
@@ -305,11 +305,11 @@ class MyPageScreen extends Component {
             <View style={styles.box}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.imageTitle}>신고하기</Text>
+                <Text style={styles.imageTitle}>신고 접수 및 확인</Text>
                 <Button
                   transparent
                   onPress={() => {
-                    this.props.navigation.navigate('Report');
+                    this.props.navigation.navigate('ReportBook');
                   }}>
                   <Icon name="chevron-right" size={30} />
                 </Button>
