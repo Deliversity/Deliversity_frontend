@@ -1,16 +1,6 @@
 import React, {Component, useState} from 'react';
 import {View, TouchableOpacity, StyleSheet, Picker} from 'react-native';
-import {
-  Container,
-  Right,
-  Header,
-  Content,
-  Body,
-  Button,
-  Text,
-} from 'native-base';
-import {requestQna} from '../../store/actions/action';
-import {connect} from 'react-redux';
+import {Text} from 'native-base';
 import {TextInput} from 'react-native-paper';
 import axios from '../../axiosConfig';
 class QApage extends Component {
@@ -168,7 +158,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-const mapDispatchToProps = (dispatch) => ({
-  requestQna: (data) => dispatch(requestQna(data)),
-});
-export default connect(null, mapDispatchToProps)(QApage);
+export default QApage;

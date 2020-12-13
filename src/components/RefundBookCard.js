@@ -44,7 +44,7 @@ const paymentBookCard = ({itemData, onPress}) => {
             {itemData.accountName}님{'  '}
           </Text>
           <Text style={{fontSize: 15}}>
-            {itemData.bankKind}은행({itemData.accountNum})
+            {itemData.bankKind} ({itemData.accountNum})
           </Text>
         </View>
         {itemData.status == '0' && (
