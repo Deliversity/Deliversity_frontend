@@ -1,0 +1,401 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#3CB371",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Styled(Text)
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 20,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      포인트 환급
+    </Styled(Text)>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderTopLeftRadius": 30,
+        "borderTopRightRadius": 30,
+        "flex": 8,
+        "flexDirection": "column",
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <Styled(Text)>
+        은행 분류
+      </Styled(Text)>
+      <Picker
+        itemStyle={
+          Object {
+            "color": "red",
+          }
+        }
+        mode="dialog"
+        onValueChange={[Function]}
+        selectedValue="선택하세요"
+      >
+        <PickerItem
+          label="선택하세요"
+          value="선택하세요"
+        />
+        <PickerItem
+          label="KDB 산업은행"
+          value="KDB 산업은행"
+        />
+        <PickerItem
+          label="SC 제일은행"
+          value="SC 제일은행"
+        />
+        <PickerItem
+          label="전북은행"
+          value="전북은행"
+        />
+        <PickerItem
+          label="IBK 기업은행"
+          value="IBK 기업은행"
+        />
+        <PickerItem
+          label="하나씨티은행"
+          value="하나씨티은행"
+        />
+        <PickerItem
+          label="경남은행"
+          value="경남은행"
+        />
+        <PickerItem
+          label="KB 국민은행"
+          value="KB 국민은행"
+        />
+        <PickerItem
+          label="대구은행"
+          value="대구은행"
+        />
+        <PickerItem
+          label="하나은행"
+          value="하나은행"
+        />
+        <PickerItem
+          label="수협은행"
+          value="수협은행"
+        />
+        <PickerItem
+          label="부산은행"
+          value="부산은행"
+        />
+        <PickerItem
+          label="신한은행"
+          value="신한은행"
+        />
+        <PickerItem
+          label="NH 농협은행"
+          value="NH 농협은행"
+        />
+        <PickerItem
+          label="광주은행"
+          value="광주은행"
+        />
+        <PickerItem
+          label="케이뱅크"
+          value="케이뱅크"
+        />
+        <PickerItem
+          label="우리은행"
+          value="우리은행"
+        />
+        <PickerItem
+          label="제주은행"
+          value="제주은행"
+        />
+        <PickerItem
+          label="카카오뱅크"
+          value="카카오뱅크"
+        />
+        <PickerItem
+          label="오픈은행"
+          value="오픈은행"
+        />
+      </Picker>
+    </View>
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <View>
+        <Styled(Text)>
+          계좌 번호
+        </Styled(Text)>
+        <Component
+          allowFontScaling={true}
+          onChangeText={[Function]}
+          placeholder="'-'를 제외한 계좌번호를 입력해주세요"
+          rejectResponderTermination={true}
+          style={
+            Object {
+              "margin": 5,
+            }
+          }
+          underlineColorAndroid="#e9967a"
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "marginTop": 5,
+          }
+        }
+      >
+        <Styled(Text)>
+          성명
+        </Styled(Text)>
+        <Component
+          allowFontScaling={true}
+          onChangeText={[Function]}
+          placeholder="name"
+          rejectResponderTermination={true}
+          style={
+            Object {
+              "margin": 5,
+            }
+          }
+          underlineColorAndroid="#e9967a"
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "marginTop": 5,
+          }
+        }
+      >
+        <Styled(Text)>
+          환급 금액
+        </Styled(Text)>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <withTheme(RadioButton)
+            onPress={[Function]}
+            status="unchecked"
+            value="chargeNum"
+          />
+          <Styled(Text)
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 15,
+                "marginRight": 100,
+                "marginTop": 10,
+              }
+            }
+          >
+             
+            1 만원
+             
+          </Styled(Text)>
+        </View>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <withTheme(RadioButton)
+            onPress={[Function]}
+            status="unchecked"
+            value="chargeNum"
+          />
+          <Styled(Text)
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 15,
+                "marginRight": 100,
+                "marginTop": 10,
+              }
+            }
+          >
+             
+            3 만원
+             
+          </Styled(Text)>
+        </View>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <withTheme(RadioButton)
+            onPress={[Function]}
+            status="unchecked"
+            value="chargeNum"
+          />
+          <Styled(Text)
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 15,
+                "marginRight": 100,
+                "marginTop": 10,
+              }
+            }
+          >
+             
+            5 만원
+             
+          </Styled(Text)>
+        </View>
+        <View
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <withTheme(RadioButton)
+            onPress={[Function]}
+            status="unchecked"
+            value="chargeNum"
+          />
+          <Styled(Text)
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 15,
+                "marginRight": 15,
+                "marginTop": 10,
+              }
+            }
+          >
+             
+            기타
+          </Styled(Text)>
+          <Component
+            allowFontScaling={true}
+            onChangeText={[Function]}
+            placeholder="환급금액"
+            rejectResponderTermination={true}
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 15,
+                "marginTop": -5,
+              }
+            }
+            underlineColorAndroid="#e9967a"
+          />
+          <Styled(Text)
+            style={
+              Object {
+                "color": "black",
+                "fontSize": 15,
+                "marginTop": 10,
+              }
+            }
+          >
+             만원 
+          </Styled(Text)>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "marginTop": 10,
+          }
+        }
+      >
+        <ForwardRef
+          onPress={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#DCDCDC",
+              "flex": 1,
+              "margin": 3,
+              "padding": 4,
+            }
+          }
+        >
+          <Styled(Text)
+            style={
+              Object {
+                "color": "white",
+                "fontSize": 15,
+                "margin": 5,
+              }
+            }
+          >
+            돌아가기
+          </Styled(Text)>
+        </ForwardRef>
+        <ForwardRef
+          onPress={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#3CB371",
+              "flex": 1,
+              "margin": 3,
+              "padding": 4,
+            }
+          }
+        >
+          <Styled(Text)
+            style={
+              Object {
+                "color": "white",
+                "fontSize": 15,
+                "margin": 5,
+              }
+            }
+          >
+            작성완료
+          </Styled(Text)>
+        </ForwardRef>
+      </View>
+    </View>
+  </View>
+  <View />
+</View>
+`;

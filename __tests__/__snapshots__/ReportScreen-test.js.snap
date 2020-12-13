@@ -1,0 +1,327 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#B83A4B",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          },
+          Object {
+            "color": "#fff",
+            "fontSize": 20,
+            "fontWeight": "bold",
+          },
+        ]
+      }
+    >
+      신고하기
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderTopLeftRadius": 30,
+        "borderTopRightRadius": 30,
+        "flex": 8,
+        "flexDirection": "column",
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          }
+        }
+      >
+        신고 분류
+      </Text>
+      <AndroidDialogPicker
+        items={
+          Array [
+            Object {
+              "color": null,
+              "label": "선택하세요",
+            },
+            Object {
+              "color": null,
+              "label": "채팅",
+            },
+            Object {
+              "color": null,
+              "label": "배달",
+            },
+            Object {
+              "color": null,
+              "label": "기타",
+            },
+          ]
+        }
+        onSelect={[Function]}
+        selected={0}
+        style={
+          Object {
+            "height": 50,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          }
+        }
+      >
+        신고 내용
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgb(231, 231, 231)",
+              "borderTopLeftRadius": 4,
+              "borderTopRightRadius": 4,
+            },
+            Object {
+              "margin": 5,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "rgba(0, 0, 0, 0.26)",
+              "bottom": 0,
+              "height": 2,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "transform": Array [
+                Object {
+                  "scaleY": 0.5,
+                },
+              ],
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "minHeight": 64,
+              "paddingBottom": 0,
+              "paddingTop": 0,
+            }
+          }
+        >
+          <TextInput
+            allowFontScaling={true}
+            editable={true}
+            multiline={true}
+            numberOfLines={7}
+            onBlur={[Function]}
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            placeholder="자세한 신고사항을 입력해주세요"
+            placeholderTextColor="rgba(0, 0, 0, 0.54)"
+            rejectResponderTermination={true}
+            selectionColor="#6200ee"
+            style={
+              Array [
+                Object {
+                  "flexGrow": 1,
+                  "margin": 0,
+                  "textAlign": "left",
+                  "zIndex": 1,
+                },
+                Object {
+                  "paddingLeft": 12,
+                  "paddingRight": 12,
+                },
+                Object {},
+                Object {
+                  "paddingBottom": 8,
+                  "paddingTop": 8,
+                },
+                Object {
+                  "color": "#000000",
+                  "fontFamily": "sans-serif",
+                  "fontSize": 16,
+                  "fontWeight": undefined,
+                  "textAlignVertical": "top",
+                },
+                Array [
+                  Object {},
+                ],
+              ]
+            }
+            underlineColorAndroid="transparent"
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#000",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+          }
+        }
+      >
+        주문 아이디
+      </Text>
+      <AndroidDropdownPicker
+        items={Array []}
+        onSelect={[Function]}
+        selected={0}
+        style={
+          Object {
+            "height": 50,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#63666A",
+            "flex": 1,
+            "margin": 3,
+            "opacity": 1,
+            "padding": 4,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "color": "white",
+                "fontSize": 15,
+                "margin": 5,
+              },
+            ]
+          }
+        >
+          돌아가기
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#B83A4B",
+            "flex": 1,
+            "margin": 3,
+            "opacity": 1,
+            "padding": 4,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+              },
+              Object {
+                "color": "white",
+                "fontSize": 15,
+                "margin": 5,
+              },
+            ]
+          }
+        >
+          작성완료
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View />
+</View>
+`;

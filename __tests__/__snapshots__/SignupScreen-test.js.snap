@@ -440,6 +440,58 @@ exports[`[Temp] render renders without crashing 1`] = `
         }
       }
     >
+      Gender
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(RadioButton)
+        onPress={[Function]}
+        status="unchecked"
+        value="male"
+      />
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "flex": 0.5,
+            "fontSize": 15,
+          }
+        }
+      >
+        male
+      </Text>
+      <withTheme(RadioButton)
+        onPress={[Function]}
+        status="unchecked"
+        value="female"
+      />
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "flex": 0.5,
+            "fontSize": 15,
+          }
+        }
+      >
+        female
+      </Text>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
       Age
     </Text>
     <View
@@ -462,6 +514,59 @@ exports[`[Temp] render renders without crashing 1`] = `
         }
         value=""
       />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ff7f50",
+          "fontSize": 15,
+        }
+      }
+    >
+      이용약관
+    </Text>
+    <Text
+      style={
+        Object {
+          "backgroundColor": "lightgray",
+          "borderColor": "#ff7f50",
+          "borderWidth": 3,
+          "marginTop": 5,
+          "paddingVertical": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+       
+      딜리버시티 (이하 "딜리버시티"라 한다)를 이용함에 있어 개인 정보 수집 및 이용, 위치정보 수집에 모두 동의합니다.
+       
+      개인정보는 수집.이용에 관한 동의일로부터"탈퇴시"까지 보유.이용됩니다.
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginTop": 10,
+          "paddingBottom": 5,
+        }
+      }
+    >
+      <withTheme(RadioButton)
+        onPress={[Function]}
+        status="unchecked"
+        value="agree"
+      />
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "flex": 0.5,
+            "fontSize": 15,
+          }
+        }
+      >
+        동의
+      </Text>
     </View>
   </View>
   <View

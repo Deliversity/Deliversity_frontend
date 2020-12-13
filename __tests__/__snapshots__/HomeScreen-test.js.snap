@@ -134,27 +134,16 @@ exports[`[Temp] render renders without crashing 1`] = `
     <Image
       source={
         Object {
-          "testUri": "../../../assets/logo_D.png",
+          "testUri": "../../../assets/deliversity3.png",
         }
       }
       style={
         Object {
-          "height": 200,
-          "width": 200,
+          "height": 80,
+          "width": 330,
         }
       }
     />
-    <Text
-      style={
-        Object {
-          "color": "#fff",
-          "fontSize": 30,
-          "fontWeight": "bold",
-        }
-      }
-    >
-      Deliversity
-    </Text>
   </View>
   <View
     style={

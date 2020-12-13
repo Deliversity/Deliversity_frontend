@@ -20,7 +20,7 @@ const Stack = createStackNavigator();
 const store = configureStore();
 import Toast from 'react-native-toast-message';
 import SQLite from 'react-native-sqlite-storage';
-import {navigate,navigationRef} from './navigator';
+import {navigate, navigationRef} from './navigator';
 let db;
 db = SQLite.openDatabase({
   name: 'sqlite.db',
@@ -120,13 +120,19 @@ export default class App extends React.Component {
         });
       } else if (remoteMessage.data.type === 'Chat') {
         if (
-        navigationRef.current &&
-        navigationRef.current.getRootState() && 
-        navigationRef.current.getRootState().routes[0].state &&
-        navigationRef.current.getRootState().routes[0].state.routes[0].state &&
-        navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state &&
-        navigationRef.current.getRootState().routes[0].state.routes[0].state.routes[2].state.routes[1].params.room_id==remoteMessage.data.roomId){}
-        else{
+          navigationRef.current &&
+          navigationRef.current.getRootState() &&
+          navigationRef.current.getRootState().routes[0] &&
+          navigationRef.current.getRootState().routes[0].state.routes[0] &&
+          navigationRef.current.getRootState().routes[0].state.routes[0].state
+            .routes[2] &&
+          navigationRef.current.getRootState().routes[0].state.routes[0].state
+            .routes[2].state.routes[1] &&
+          navigationRef.current.getRootState().routes[0].state.routes[0].state
+            .routes[2].state.routes[1].params.room_id ==
+            remoteMessage.data.roomId
+        ) {
+        } else {
           this.rChatDB(remoteMessage);
           Toast.show({
             text1: remoteMessage.notification.title,
@@ -150,7 +156,9 @@ export default class App extends React.Component {
       // this.props.navigation.navigate(remoteMessage.data.type);
       console.log(remoteMessage.data);
       console.log(navigator);
-      setTimeout(remoteMessage=>{navigate(remoteMessage.data.type,null)},1000);
+      setTimeout((remoteMessage) => {
+        navigate(remoteMessage.data.type, null);
+      }, 1000);
     });
 
     messaging()
