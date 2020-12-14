@@ -20,7 +20,7 @@ const Stack = createStackNavigator();
 const store = configureStore();
 import Toast from 'react-native-toast-message';
 import SQLite from 'react-native-sqlite-storage';
-import {navigate,navigationRef} from './navigator';
+import {navigate, navigationRef} from './navigator';
 let db;
 db = SQLite.openDatabase({
   name: 'sqlite.db',
@@ -151,7 +151,9 @@ export default class App extends React.Component {
       // this.props.navigation.navigate(remoteMessage.data.type);
       console.log(remoteMessage.data);
       console.log(navigator);
-      setTimeout(remoteMessage=>{navigate(remoteMessage.data.type,null)},1000);
+      setTimeout((remoteMessage) => {
+        navigate(remoteMessage.data.type, null);
+      }, 1000);
     });
 
     messaging()

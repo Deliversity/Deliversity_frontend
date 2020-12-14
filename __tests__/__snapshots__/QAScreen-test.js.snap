@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#005687",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Styled(Text)
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 20,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      문의사항
+    </Styled(Text)>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderTopLeftRadius": 30,
+        "borderTopRightRadius": 30,
+        "flex": 8,
+        "flexDirection": "column",
+        "paddingHorizontal": 20,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <Styled(Text)>
+        상담 분류
+      </Styled(Text)>
+      <Picker
+        itemStyle={
+          Object {
+            "color": "red",
+          }
+        }
+        mode="dialog"
+        onValueChange={[Function]}
+        selectedValue="선택하세요"
+      >
+        <PickerItem
+          label="선택하세요"
+          value="선택하세요"
+        />
+        <PickerItem
+          label="오류 문제"
+          value="오류 문제"
+        />
+        <PickerItem
+          label="배달원 신청"
+          value="배달원 신청"
+        />
+        <PickerItem
+          label="가게 선택"
+          value="가게 선택"
+        />
+        <PickerItem
+          label="주문 관리"
+          value="주문 관리"
+        />
+        <PickerItem
+          label="결제"
+          value="결제"
+        />
+        <PickerItem
+          label="신고 관리"
+          value="신고 관리"
+        />
+        <PickerItem
+          label="기타"
+          value="기타"
+        />
+      </Picker>
+    </View>
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <View>
+        <Styled(Text)>
+          문의 내용
+        </Styled(Text)>
+        <withTheme(TextInput)
+          multiline={true}
+          numberOfLines={15}
+          onChangeText={[Function]}
+          placeholder="자세한 문의사항을 입력해주세요"
+          style={
+            Object {
+              "margin": 5,
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "marginTop": 10,
+          }
+        }
+      >
+        <ForwardRef
+          onPress={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#768692",
+              "flex": 1,
+              "margin": 3,
+              "padding": 4,
+            }
+          }
+        >
+          <Styled(Text)
+            style={
+              Object {
+                "color": "white",
+                "fontSize": 15,
+                "margin": 5,
+              }
+            }
+          >
+            돌아가기
+          </Styled(Text)>
+        </ForwardRef>
+        <ForwardRef
+          onPress={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#005687",
+              "flex": 1,
+              "margin": 3,
+              "padding": 4,
+            }
+          }
+        >
+          <Styled(Text)
+            style={
+              Object {
+                "color": "white",
+                "fontSize": 15,
+                "margin": 5,
+              }
+            }
+          >
+            작성완료
+          </Styled(Text)>
+        </ForwardRef>
+      </View>
+    </View>
+  </View>
+  <View />
+</View>
+`;

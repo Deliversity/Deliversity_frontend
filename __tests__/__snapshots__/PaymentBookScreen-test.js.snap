@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Temp] render renders without crashing 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "flex": 8,
+        "flexDirection": "column",
+        "paddingHorizontal": 15,
+        "paddingVertical": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+    >
+      <FlatList
+        data=""
+        disableVirtualization={false}
+        extraData={
+          Object {
+            "content": "",
+            "params": Object {},
+            "refreshing": true,
+          }
+        }
+        horizontal={false}
+        initialNumToRender={10}
+        keyExtractor={[Function]}
+        maxToRenderPerBatch={10}
+        numColumns={1}
+        onEndReachedThreshold={2}
+        refreshControl={
+          <RefreshControlMock
+            onRefresh={[Function]}
+            refreshing={true}
+          />
+        }
+        removeClippedSubviews={true}
+        renderItem={[Function]}
+        scrollEventThrottle={50}
+        updateCellsBatchingPeriod={50}
+        windowSize={21}
+      />
+    </View>
+  </View>
+  <View />
+</View>
+`;
